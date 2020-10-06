@@ -13,8 +13,8 @@
 import os
 import sys
 sys.path.insert(0, os.path.abspath('.'))
-
-from asf import __version__
+sys.path.insert(0, os.path.abspath('../'))
+__version__ = open('../asf/__version__.py').read().split()[-1]
 
 # -- Project information -----------------------------------------------------
 
@@ -36,7 +36,7 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.coverage',
               'sphinx.ext.napoleon'
 ]
-
+autodoc_mock_imports = ["pyscf"]
 html_logo = 'media/HQS.jpg'
 
 # Add any paths that contain templates here, relative to this directory.
