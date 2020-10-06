@@ -1,0 +1,164 @@
+Bootstrap: library
+From: ubuntu:20.04
+
+%labels
+    Author peter.pinski@quantumsimulations.de
+
+%help
+    PySCF with Block, all linked against MKL.
+    Jmol
+    Includes an installation of Miniconda3 with a few essential packages.
+    
+    MKL_DEBUG_CPU_TYPE=5 is set automatically on AMD CPUs with AVX2.
+
+%post
+    # Software versions etc.
+    MY_CONDA_INSTALLER="Miniconda3-latest-Linux-x86_64.sh"
+    MY_PYSCF_VERSION="v1.7.4"
+    MY_BOOST_SOURCE="https://dl.bintray.com/boostorg/release/1.73.0/source/boost_1_73_0.tar.bz2"
+    MY_BOOST="boost_1_73_0"
+    MY_BLOCK_VERSION="f95317b08043b7c531289576d59ad74a6d920741"
+    MY_LIBDFTD3_VERSION="a62330db940a4dc5b5bf699909b9ce6908609669"
+    export NUM_PROCS=1
+
+    # Get some essential software packages.
+    apt-get -y update
+    apt-get -y install software-properties-common
+    add-apt-repository universe
+    apt-get -y install jmol
+    apt-get -y install build-essential
+    apt-get -y install gfortran
+    apt-get -y install cmake
+    apt-get -y install git
+    apt-get -y install wget
+    
+    # This is where the installed software goes.
+    mkdir /install
+    
+    # Install anaconda.
+    cd /root
+    wget https://repo.anaconda.com/miniconda/${MY_CONDA_INSTALLER}
+    bash ${MY_CONDA_INSTALLER} -b -p /install/miniconda3
+    rm ${MY_CONDA_INSTALLER}
+
+    # The environment needs to be set correctly at startup.
+    . /install/miniconda3/etc/profile.d/conda.sh
+    conda activate base
+
+    # perform an update
+    conda update -y --all
+
+    # Install MKL with development files.
+    conda install -y mkl mkl-devel
+
+    # Install essential libraries for PySCF
+    conda install -y numpy scipy h5py
+
+    # Even the OpenMP version of Block needs mpirun. Why...
+    conda install -y openmpi mpi4py
+
+    # Further packages
+    conda install -y pandas
+
+    # Hack to use MKL painlessly:
+    # Create a separate directory which links to the library.
+    #
+    # We do NOT(!) want to put all anaconda libraries in the path, as they
+    # duplicate a lot of the Linux distribution, leading to conflicts.
+    #
+    # Also link the header files in a separate directory.
+    mkdir -p /install/mkl/include
+    ln -s /install/miniconda3/include/mkl* /install/mkl/include
+    mkdir -p /install/mkl/lib/intel64
+    ln -s /install/miniconda3/lib/libmkl_* /install/mkl/lib/intel64
+    export LD_LIBRARY_PATH=/install/mkl/lib/intel64:$LD_LIBRARY_PATH
+
+    # Now retrieve and install PySCF.
+    git clone https://github.com/pyscf/pyscf.git /install/pyscf
+    cd /install/pyscf
+    git checkout ${MY_PYSCF_VERSION}
+    mkdir pyscf/lib/build
+    cd pyscf/lib/build
+    cmake -DBLA_VENDOR=Intel10_64lp_seq ..
+    make
+    cd ..
+    rm -rf build
+    pip install -e /install/pyscf
+    export LD_LIBRARY_PATH=/install/pyscf/pyscf/lib/deps/lib:$LD_LIBRARY_PATH
+
+    # Some further packages
+    pip install ase pyberny geometric
+
+    # Compile libdftd3 and set up PySCF
+    cd /root
+    git clone https://github.com/cuanto/libdftd3.git
+    cd libdftd3
+    git checkout ${MY_LIBDFTD3_VERSION}
+    make lib
+    mkdir -p /install/libdftd3/lib
+    mv -v lib/libdftd3.so /install/libdftd3/lib
+    cd ..
+    rm -rf libdftd3
+    echo "DFTD3PATH = '/install/libdftd3/lib'" > /install/pyscf/pyscf/dftd3/settings.py
+
+    # Build a version of Boost that Block works with.
+    cd /root
+    wget ${MY_BOOST_SOURCE}
+    tar -jxvf ${MY_BOOST}.tar.bz2
+    rm ${MY_BOOST}.tar.bz2
+    cd ${MY_BOOST}
+    ./bootstrap.sh --with-toolset=gcc --prefix=/root/boost_lib --with-libraries=system,filesystem,serialization --without-icu
+    ./b2 link=static install
+    cd ..
+    rm -rf ${MY_BOOST}
+
+    # Install Block
+    cd /root
+    git clone https://github.com/sanshar/StackBlock.git 
+    cd StackBlock
+    git checkout ${MY_BLOCK_VERSION}
+    sed 's/-Werror//' -i Makefile
+    make -j ${NUM_PROCS} \
+         BOOSTINCLUDE=/root/boost_lib/include \
+         BOOSTLIB="-L/root/boost_lib/lib -lboost_system -lboost_filesystem -lboost_serialization -lrt" \
+         OPENMP=yes \
+         USE_MPI=no \
+         USE_MKL=yes \
+         MKLROOT=/install/mkl
+    mkdir /install/block
+    mv block.spin_adapted /install/block
+    cd ..
+    rm -rf StackBlock
+
+    # We no longer need the header files and static libraries for Boost.
+    rm -rv /root/boost_lib
+
+    # Settings for the Block-PySCF interface
+    DMRGSETTINGS="/install/pyscf/pyscf/dmrgscf/settings.py"
+    echo "import pyscf" > ${DMRGSETTINGS}
+    echo "BLOCKEXE = '/install/block/block.spin_adapted'" >> ${DMRGSETTINGS}
+    echo "BLOCKEXE_COMPRESS_NEVPT = '/install/block/block.spin_adapted'" >> ${DMRGSETTINGS}
+    echo "BLOCKSCRATCHDIR = pyscf.lib.param.TMPDIR" >> ${DMRGSETTINGS}
+    echo "MPIPREFIX = 'mpirun -np 1 --bind-to none'" >> ${DMRGSETTINGS}
+    echo "BLOCKVERSION = '1.5'" >> ${DMRGSETTINGS}
+
+%environment
+    # anaconda environment
+    . /install/miniconda3/etc/profile.d/conda.sh
+    conda activate base
+
+    # MKL path
+    export LD_LIBRARY_PATH=/install/mkl/lib/intel64:$LD_LIBRARY_PATH
+
+    # PySCF library path
+    export LD_LIBRARY_PATH=/install/pyscf/pyscf/lib/deps/lib:$LD_LIBRARY_PATH
+
+    # Do some magic to make MKL run efficiently on AMD CPUs.
+    # Note: this environment variable is not an official feature...
+    if grep vendor_id /proc/cpuinfo | grep -qw AuthenticAMD
+    then
+        if grep flags /proc/cpuinfo | grep -qw avx2
+        then
+            export MKL_DEBUG_CPU_TYPE=5
+        fi
+    fi

@@ -1,0 +1,35 @@
+BootStrap: localimage
+From: asf_base.sif
+
+%labels
+   MAINTAINER reza.shirazi@quantumsimulations.de, thilo.mast@quantumsimulations.de
+   VERSION 0.1
+
+%help
+    This is a singularity image of the Active Space Finder (ASF)
+
+%files
+    ../ /install/asf
+
+%post
+
+    # Install ASF
+    /install/miniconda3/bin/pip install -e /install/asf/
+
+%environment
+
+    . /install/miniconda3/etc/profile.d/conda.sh
+    conda activate base
+    export LD_LIBRARY_PATH=/install/pyscf/pyscf/lib/deps/lib:$LD_LIBRARY_PATH
+    export LD_LIBRARY_PATH=/install/mkl/lib/intel64:$LD_LIBRARY_PATH
+    export PATH=/install/dmrg:$PATH
+
+    # Do some magic to make MKL run efficiently on AMD CPUs.
+    # Note: this environment variable is not an official feature...
+    if grep vendor_id /proc/cpuinfo | grep -qw AuthenticAMD
+    then
+        if grep flags /proc/cpuinfo | grep -qw avx2
+        then
+            export MKL_DEBUG_CPU_TYPE=5
+        fi
+    fi
