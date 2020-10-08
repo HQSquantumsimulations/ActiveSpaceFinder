@@ -20,7 +20,7 @@ The :math:`Fe(OH_2)_4`\ molecule is then set up as a PySCF ``Mole`` object.
 
 .. literalinclude:: ../../examples/simple/fe.py
    :language: python
-   :lines: 5-35
+   :lines: 20-46
 
 Then use Pyscf to converge the meanfield.
 (\*.chk, stores molecular orbital coefficients, etc.).
@@ -28,13 +28,13 @@ It is recommended to assure convergence of mean field before further calculation
 
 .. literalinclude:: ../../examples/simple/fe.py
    :language: python
-   :lines: 36-39
+   :lines: 48-52
 
 The we simply input the mean field object into the :meth:`asf.asf.fas_no_guess` function.
 
 .. literalinclude:: ../../examples/simple/fe.py
    :language: python
-   :lines: 41-45
+   :lines: 54-57
 
 The function calculates the 'MP2' natural orbitals then selects an initial set of orbitals.
 With the selected orbitals a large DMRGCI calculations is performed. The orbital
@@ -89,7 +89,7 @@ we call AVAS to select an active space for us.
 
 .. literalinclude:: ../../examples/avas/c2.py
    :language: python
-   :lines: 28-30
+   :lines: 40-42
 
 AVAS will provide an active space of selected atomic orbital labels.
 You can view the molecular orbitals selected by AVAS using a utility function. This function
@@ -97,14 +97,14 @@ also creates a molden file which you can view using jmol or ...
 
 .. literalinclude:: ../../examples/avas/c2.py
    :language: python
-   :lines: 32-36
+   :lines: 44-48
 
 This active space pre-selection is used for final active space selection via
 ASFs :meth:`asf.asf.find_active_space` function:
 
 .. literalinclude:: ../../examples/avas/c2.py
    :language: python
-   :lines: 38-39
+   :lines: 50-51
 
 After the final DMRG calculation finished, ASF prints the suggested active space:
 
@@ -178,7 +178,7 @@ For this purpose you can use the :meth:`asf.asf.select_mos_occ`. For the details
 
 .. literalinclude:: ../../examples/advanced/fe_sym.py
    :language: python
-   :lines: 47-49
+   :lines: 59-61
 
 Now we set up an empty list and calculate the active space using the initial selection of natural orbitals, for
 each symmetry and spin state. Here we are interested in 3 degenerate quintet states and one sextet state.
@@ -188,19 +188,19 @@ sextet aqua irion ion is Th, but PySCF uses the D2 symmetry.
 
 .. literalinclude:: ../../examples/advanced/fe_sym.py
    :language: python
-   :lines: 52-74
+   :lines: 63-85
 
 Now We use the lists of the orbital indexes and combine them to a larger list.
 
 .. literalinclude:: ../../examples/advanced/fe_sym.py
    :language: python
-   :lines: 77-78
+   :lines: 88-89
 
 We can now Converge the CASSCF wave function.
 
 .. literalinclude:: ../../examples/advanced/fe_sym.py
    :language: python
-   :lines: 111-114
+   :lines: 93-125
 
 We can now see the energy differences. All the quintet states are degenerate and
 the sextet state:
@@ -227,7 +227,7 @@ plot these MOs with ASFs :meth:`asf.asf.visualize_mos` function via the followin
 
 .. literalinclude:: ../../examples/avas/c2.py
    :language: python
-   :lines: 36-36
+   :lines: 48-48
 
 By executing this command the four active molecular orbitals are plotted
 to separate *png* files.
@@ -260,7 +260,7 @@ UNOs can be calulate by calling the :meth:`asf.UNOs` function.
 
 .. literalinclude:: ../../examples/natorbs/c2.py
    :language: python
-   :lines: 18-20
+   :lines: 33-33
 
 4.2 Wrapper function
 ----------------------
@@ -269,7 +269,7 @@ The function will calculate the symmetric (if mol object's symmetry is set) natu
 
 .. literalinclude:: ../../examples/natorbs/c2.py
    :language: python
-   :lines: 22-32
+   :lines: 37-47
 
 4.3 Manual functions
 ----------------------
@@ -286,4 +286,4 @@ and compare the overlap of both set of orbitals.
 
 .. literalinclude:: ../../examples/natorbs/c2.py
    :language: python
-   :lines: 34-58
+   :lines: 49-73
