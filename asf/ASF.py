@@ -1110,7 +1110,10 @@ class asf:
                 print("Threshold selection info for root #", i)
                 print("HQS:", sum((dif - np.mean(dif)**2) / (len(dif) - 1)),
                       "avg:", np.average(dif), "STD:", np.std(dif))
-
+           if max(entropies[i]) < 0.13:
+                # Warn anyway
+                print('mas:', max(entropies[i]))
+                print("Warning! System is most probably single-reference")
             # Calculate all possible thresholds
             self.p_thresh.append({})
             self.p_thresh[i]['AVG'] = np.average(dif)
@@ -1175,9 +1178,6 @@ class asf:
             else:
                 if self.dbug:
                     print("Threshold set to", threshold, 'for root #', i)
-                if threshold <= 0.13:
-                    # Warn anyway
-                    print("Warning! System is most probably single-reference")
                 Th_list.append(threshold)
 
         return Th_list
@@ -1442,7 +1442,7 @@ class asf:
             print("Entropies in memory or entered manually now: ", self.entropies)
             print("Run DMRG: ", self.run_dmrg_flag)
             print("symmetry: ", symm)
-            print("Spin, Muliplicity: ", mol.spin, ',', mol.spin / 2 * (mol.spin / 2 + 1))
+            print("Spin, Multiplicity: ", mol.spin, ',', mol.spin + 1)
             print("")
 
         # If We don't resume do DMRG
