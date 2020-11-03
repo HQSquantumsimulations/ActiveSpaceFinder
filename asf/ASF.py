@@ -1110,7 +1110,7 @@ class asf:
                 print("Threshold selection info for root #", i)
                 print("HQS:", sum((dif - np.mean(dif)**2) / (len(dif) - 1)),
                       "avg:", np.average(dif), "STD:", np.std(dif))
-           if max(entropies[i]) < 0.13:
+            if max(entropies[i]) < 0.13:
                 # Warn anyway
                 print('mas:', max(entropies[i]))
                 print("Warning! System is most probably single-reference")
