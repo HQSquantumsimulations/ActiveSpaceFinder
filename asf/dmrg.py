@@ -1,49 +1,37 @@
-from typing import Union
+# Copyright © 2020-2021 HQS Quantum Simulations GmbH. All Rights Reserved.
 
-import numpy as np
+"""Active space finder functionality based on DMRG."""
 
+from typing import Union, Tuple
 from tempfile import TemporaryDirectory
+import numpy as np
 
 from pyscf.mcscf import CASCI
 from pyscf.dmrgscf import DMRGCI
 from pyscf.lib import num_threads
 from pyscf.lib.parameters import MAX_MEMORY, TMPDIR
-from pyscf.gto import Mole
 
-from asf.casci import ASFCI
+from .asf import ASFBase, inactive_orbital_lists
+from asf.utility import rdm1s_from_rdm12
 
 
-class ASFDMRG(ASFCI):
-    """
-    Sets up and performs DMRG-CASCI calculations for entropy-based active space selection.
-    """
+class ASFDMRG(ASFBase):
+    """Sets up and performs DMRG-CASCI calculations for entropy-based active space selection."""
 
-    def __init__(self,
-                 mol: Mole,
-                 mo_coeff: np.ndarray,
-                 nel: int = None,
-                 norb: int = None) -> None:
+    def __init__(self, *args, **kwargs) -> None:
         """
-        Sets initial parameters for a DMRG-CASCI calculation with a specific number of
-        electrons and orbitals. Without giving a number of electrons and orbitals,
-        it initializes a DMRG-full-CI calculation.
+        Initializes the object. Refer to the ASFBase class for details.
 
         Args:
-            mol: molecular information
-            mo_coeff: spin-restricted molecular orbital coefficients
-            nel: number of electrons in the initial orbital space
-            norb: number of orbitals in the initial space
+            *args: positional arguments
+            **kwargs: keyword arguments
         """
-        super().__init__(mol, mo_coeff, nel, norb)
+        super().__init__(*args, **kwargs)
+        self.casci: Union[CASCI, None] = None
         self.tmpdir: Union[TemporaryDirectory, None] = None
 
-    def runCI(self, *args, **kwargs):
-        """
-        Disabled with DMRG.
-        """
-        raise NotImplementedError('The runDMRG method should be used.')
-
     def runDMRG(self,
+                nroots: int = 1,
                 maxM: int = 500,
                 tol: float = 1.0e-6,
                 **kwargs) -> None:
@@ -51,9 +39,13 @@ class ASFDMRG(ASFCI):
         Run the DMRG-(CAS)CI calculation for subsequent orbital selection.
 
         Args:
+            nroots: number of electronic state to calculate
             maxM: bond dimension
             tol: tolerance
             **kwargs: all other arguments used in the DMRGCI class
+
+        Raises:
+            ValueError: bad arguments
         """
         casci = CASCI(self.mol, self.norb, self.nel)
 
@@ -62,7 +54,11 @@ class ASFDMRG(ASFCI):
         memory = MAX_MEMORY * 0.001
         casci.fcisolver = \
             DMRGCI(mol=self.mol, maxM=maxM, tol=tol, num_thrds=num_thrds, memory=memory)
-        casci.fcisolver.spin = self.mol.spin
+        casci.fcisolver.nroots = nroots
+
+        # Setting an arbitrary spin does not work due to PySCF bug.
+        # Correct spin from self.mol is used, anyway.
+        # casci.fcisolver.spin = self.mol.spin
 
         for key, value in kwargs.items():
             setattr(casci.fcisolver, key, value)
@@ -71,19 +67,29 @@ class ASFDMRG(ASFCI):
         # a temporary directory and tie its lifetime to that of the ASFDMRG instance.
         # It is removed automatically once the ASFDMRG instance is garbage collected.
         if 'scratchDirectory' not in kwargs:
-            tmpdir = TemporaryDirectory(dir=TMPDIR)
-            casci.fcisolver.scratchDirectory = tmpdir.name
-            self.tmpdir = tmpdir
+            if kwargs.get('restart', False):
+                # If the restart feature is used, a temporary directory needs to exist on disk.
+                if self.tmpdir is None:
+                    raise ValueError('Requested restart feature without previous DMRG results.')
+            else:
+                # In a normal run, create the temporary directory.
+                self.tmpdir = TemporaryDirectory(dir=TMPDIR)
+            casci.fcisolver.scratchDirectory = self.tmpdir.name
 
         # Run the actual DMRG calculation.
-        if self.mo_list is None:
-            casci_mos = self.mo_coeff
-            self.mo_list = list(range(casci.ncore, casci.ncore + casci.ncas))
-        else:
-            casci_mos = casci.sort_mo(caslst=self.mo_list, mo_coeff=self.mo_coeff, base=0)
-        casci.kernel(mo_coeff=casci_mos)
+        mo_sorted = casci.sort_mo(caslst=self.mo_list, mo_coeff=self.mo_coeff, base=0)
+        casci.kernel(mo_coeff=mo_sorted)
 
         self.casci = casci
+
+    def calculate(self, *args, **kwargs) -> None:
+        """Wrapper for the runDMRG method.
+
+        Args:
+            *args: positional arguments for self.runDMRG(...)
+            **kwargs: keyword arguments for self.runDMRG(...)
+        """
+        self.runDMRG(*args, **kwargs)
 
     def getOrbDens(self, root: int = 0) -> np.ndarray:
         """
@@ -95,36 +101,78 @@ class ASFDMRG(ASFCI):
         Returns:
             The one-orbital density for all orbitals as an N x 4 numpy array.
             Order of the columns is empty, spin-up, spin-down, doubly occupied.
+
+        Raises:
+            Exception: various errors
         """
-        assert(self.casci is not None)
+        if self.casci is None:
+            raise Exception('DMRG calculation must be performed first to calculate the density.')
+        if root < 0 or root >= self.casci.fcisolver.nroots:
+            raise Exception('Invalid root requested.')
 
         ncore = self.casci.ncore
         ncas = self.casci.ncas
         nmo = self.casci.mo_coeff.shape[1]
 
-        # We need to obtain the RDMs somewhat differently from normal CASCI because of the way
-        # that the interface of PySCF to Block is currently written.
+        # Only spin-free RDMs are provided by Block. Get the 1-RDM and 2-RDM.
+        rdm1, rdm2 = DMRGCI.make_rdm12(self.casci.fcisolver, root, self.norb, self.nel)
         # alpha and beta 1-RDMs in the active space
-        rdm1a, rdm1b = DMRGCI.make_rdm1s(self.casci.fcisolver, root, self.norb, self.nel)
-        # spin-free 2-RDM in the active space
-        _, rdm2 = DMRGCI.make_rdm12(self.casci.fcisolver, root, self.norb, self.nel)
+        # workaround for the PySCF interface bug
+        rdm1a, rdm1b = self._calc_rdm1s(root, (rdm1, rdm2))
 
-        assert(rdm1a.shape == (ncas, ncas))
-        assert(rdm1b.shape == (ncas, ncas))
-        assert(rdm2.shape == (ncas, ncas, ncas, ncas))
+        if not (rdm1a.shape == (ncas, ncas)):
+            raise Exception('bad dimensions')
+        if not (rdm1b.shape == (ncas, ncas)):
+            raise Exception('bad dimensions')
+        if not (rdm2.shape == (ncas, ncas, ncas, ncas)):
+            raise Exception('bad dimensions')
 
+        # PySCF orders orbitals as core, active, virtual. -> Map them back onto the original
+        # ordering.
+        act_list = self.mo_list
+        core_list, virt_list = inactive_orbital_lists(ncore, nmo, act_list)
+
+        # one-orbital density
         orbdens = np.zeros((nmo, 4))
-
         # for the sake of completeness, set one-orbital densities outside the active space.
-        orbdens[:ncore, 3] = 1.0
-        orbdens[(ncore + ncas):, 0] = 1.0
+        orbdens[core_list, 3] = 1.0
+        orbdens[virt_list, 0] = 1.0
 
         # the relevant part: one-orbital density inside the active space
         for i in range(ncas):
             rdm2s = 0.5 * rdm2[i, i, i, i]
-            orbdens[ncore + i, 0] = 1.0 - rdm1a[i, i] - rdm1b[i, i] + rdm2s
-            orbdens[ncore + i, 1] = rdm1a[i, i] - rdm2s
-            orbdens[ncore + i, 2] = rdm1b[i, i] - rdm2s
-            orbdens[ncore + i, 3] = rdm2s
+            orbdens[act_list[i], 0] = 1.0 - rdm1a[i, i] - rdm1b[i, i] + rdm2s
+            orbdens[act_list[i], 1] = rdm1a[i, i] - rdm2s
+            orbdens[act_list[i], 2] = rdm1b[i, i] - rdm2s
+            orbdens[act_list[i], 3] = rdm2s
 
         return orbdens
+
+    def _calc_rdm1s(self,
+                    root: int = 0,
+                    rdm12: Tuple[np.ndarray, np.ndarray] = None) \
+            -> Tuple[np.ndarray, np.ndarray]:
+        """
+        Calculate the spin components of the 1-RDM in the active space.
+
+        Workaround for a bug in the PySCF interface to Block.
+
+        Args:
+            root:   state to calculate the density for
+            rdm12:  (optionally), tuple containing the 1-RDM and 2-RDM
+
+        Returns:
+            alpha-1-RDM, beta-1-RDM
+
+        Raises:
+            ValueError: bad input
+        """
+        if self.casci is None:
+            raise ValueError('DMRG-CI object not present.')
+        if rdm12 is None:
+            rdm1, rdm2 = DMRGCI.make_rdm12(self.casci.fcisolver, root, self.norb, self.nel)
+        else:
+            rdm1, rdm2 = rdm12
+        # fcisolver.spin is not set properly in the Block interface
+        S = self.mol.spin * 0.5
+        return rdm1s_from_rdm12(self.nel, S, rdm1, rdm2)

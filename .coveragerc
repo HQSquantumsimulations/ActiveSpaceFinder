@@ -1,0 +1,4 @@
+[run]
+  omit = asf/__init__.py
+         asf/__version__.py
+
