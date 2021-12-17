@@ -42,6 +42,8 @@ extensions = ['sphinx.ext.autodoc',
 
 html_logo = 'media/HQS.jpg'
 
+autodoc_mock_imports = ["pyscf"]
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
