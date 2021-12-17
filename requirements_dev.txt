@@ -1,0 +1,14 @@
+pydocstyle
+flake8
+flake8-docstrings
+flake8-bugbear
+flake8-bandit
+flake8-annotations
+mypy
+pytest
+pytest-cov
+sphinx >= 1.4
+nbsphinx
+pygments
+recommonmark
+sphinx_rtd_theme

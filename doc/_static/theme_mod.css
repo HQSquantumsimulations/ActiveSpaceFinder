@@ -1,0 +1,49 @@
+@import url("theme.css");
+
+
+.wy-nav-content-wrap {
+    background-color: #B4B4B4;
+}
+.wy-nav-side {
+    background-color: #4D4D4D;
+}
+
+.wy-nav-content {
+    max-width: 75%;
+    background-color: white
+}
+
+/* .caption-text {
+    color: #D97815
+}
+
+.caption{
+    font-style: normal;
+    text-align: right;
+} */
+
+.wy-table .caption .caption-text{
+    font-style: normal;
+    text-align: right;
+}
+
+.rst-content .note .admonition-title {
+    background: #D97815
+}
+
+.rst-content .admonition{
+    background: #E2EBFA
+}
+
+
+h1 {
+    color: #D97815
+}
+h2 {
+    color: #D97815
+}
+h3 {
+    color: #D97815
+}
+
+

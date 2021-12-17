@@ -4,7 +4,7 @@ from pyscf.mp import MP2
 from pyscf.lib import logger
 from pyscf.tools import molden
 
-from asf import ASFDMRG, MP2NaturalOrbitals, selectNaturalOccupations
+from asf import ASFDMRG
 
 ################################################################################
 # Singlet oxygen example
