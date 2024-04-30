@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search with fallback mode &mdash; Active Space Finder 0.0.1.dev1+gf80312e documentation</title>
+  <title>Search with fallback mode &mdash; Active Space Finder 0.0.1.dev1+g9678070 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=5d4d2704"></script>
+        <script src="../../_static/documentation_options.js?v=d481880b"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -43,7 +43,7 @@
               <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0.1.dev1+gf80312e
+                0.0.1.dev1+g9678070
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -211,11 +211,11 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 <div class="output_area docutils container">
 <div class="highlight"><pre>
 -&gt; Initiating a UHF calculation.
-converged SCF energy = -1717.17935339353  &lt;S^2&gt; = 8.7538697  2S+1 = 6.0012898
+converged SCF energy = -1717.17935339353  &lt;S^2&gt; = 8.7538698  2S+1 = 6.0012898
 &lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
 -&gt; The calculated SCF solution is converged and stable.
 -&gt; Selected an initial space of 29 electrons and 30 orbitals.
-CASCI E = -1717.36161089092  E(CI) = -138.313433808307  S^2 = 8.7500000
+CASCI E = -1717.36180694799  E(CI) = -138.313628647858  S^2 = 8.7500000
 </pre></div></div>
 </div>
 <p>Inspecting the single-orbital densities (w) and single-orbital entropy (S) for the initial space, we notice that <em>all</em> orbitals display very low entropies. For comparison, the default entropy threshold applied by <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> is ca. 0.139 and the minimal threshold applied to select the reasonable set of spaces is 0.07. We can therefore expect that at least one of the three criteria mentioned above is not met and the collection of reasonable spaces is empty.</p>
@@ -235,33 +235,33 @@ CASCI E = -1717.36161089092  E(CI) = -138.313433808307  S^2 = 8.7500000
  MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
  27   0.000   0.004   0.004   0.992   0.053  initial
  28   0.001   0.005   0.005   0.990   0.066  initial
- 29   0.001   0.005   0.004   0.990   0.065  initial
- 30   0.001   0.004   0.004   0.991   0.061  initial
- 31   0.002   0.004   0.004   0.990   0.064  initial
+ 29   0.001   0.004   0.004   0.991   0.061  initial
+ 30   0.001   0.005   0.004   0.990   0.065  initial
+ 31   0.002   0.004   0.004   0.990   0.065  initial
  32   0.002   0.004   0.004   0.990   0.064  initial
  33   0.002   0.004   0.004   0.989   0.070  initial
- 34   0.001   0.005   0.004   0.990   0.065  initial
- 35   0.001   0.005   0.005   0.989   0.073  initial
- 36   0.001   0.004   0.004   0.990   0.063  initial
- 37   0.001   0.005   0.004   0.990   0.064  initial
- 38   0.001   0.005   0.004   0.990   0.065  initial
+ 34   0.001   0.005   0.005   0.989   0.073  initial
+ 35   0.001   0.004   0.004   0.990   0.063  initial
+ 36   0.001   0.005   0.004   0.990   0.065  initial
+ 37   0.001   0.005   0.005   0.989   0.069  initial
+ 38   0.001   0.004   0.004   0.991   0.060  initial
  39   0.001   0.998   0.000   0.001   0.015  initial
  40   0.001   0.998   0.000   0.001   0.016  initial
  41   0.000   1.000   0.000   0.000   0.001  initial
  42   0.000   1.000   0.000   0.000   0.001  initial
  43   0.000   1.000   0.000   0.000   0.001  initial
  44   0.988   0.006   0.005   0.001   0.078  initial
- 45   0.991   0.004   0.004   0.001   0.059  initial
- 46   0.991   0.004   0.004   0.001   0.061  initial
+ 45   0.991   0.004   0.004   0.001   0.061  initial
+ 46   0.991   0.004   0.004   0.001   0.059  initial
  47   0.991   0.004   0.004   0.001   0.061  initial
  48   0.990   0.004   0.004   0.002   0.068  initial
  49   0.990   0.004   0.004   0.002   0.064  initial
  50   0.990   0.004   0.004   0.002   0.064  initial
- 51   0.991   0.004   0.004   0.001   0.060  initial
- 52   0.991   0.004   0.004   0.001   0.062  initial
- 53   0.990   0.004   0.004   0.001   0.062  initial
- 54   0.991   0.004   0.004   0.001   0.057  initial
- 55   0.992   0.004   0.004   0.000   0.052  initial
+ 51   0.991   0.004   0.004   0.001   0.062  initial
+ 52   0.991   0.004   0.004   0.001   0.060  initial
+ 53   0.990   0.004   0.004   0.001   0.063  initial
+ 54   0.992   0.004   0.004   0.001   0.054  initial
+ 55   0.992   0.004   0.004   0.001   0.055  initial
  56   0.996   0.002   0.002   0.000   0.030  initial
 
 </pre></div></div>
@@ -308,11 +308,11 @@ Active spaces matching criteria 1) - 3) including minimal space:
 {(5, 5): [MOListInfo(mo_list=[39, 40, 41, 42, 43],
                      nel=5,
                      minimal=True,
-                     pairinfo_sum=-9.69010593283844e-05,
-                     max_increment=0.0004678434534209215,
-                     min_decrement=-0.0002846260406485008,
-                     min_entropy=0.0007884133232102324,
-                     min_edge_sum=5.025235342444982e-05)]}
+                     pairinfo_sum=-9.565507858210262e-05,
+                     max_increment=0.000494492867929512,
+                     min_decrement=-0.0002840592442738441,
+                     min_entropy=0.0007308660074997644,
+                     min_edge_sum=4.5000830318023385e-05)]}
 </pre></div></div>
 </div>
 </section>
@@ -478,7 +478,7 @@ converged SCF energy = -75.3251000879719  &lt;S^2&gt; = 0.75481361  2S+1 = 2.004
 &lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
 -&gt; The calculated SCF solution is converged and stable.
 Selected an initial space of 7 electrons and 8 orbitals.
-CASCI E = -75.4134819010619  E(CI) = -19.6073402951632  S^2 = 0.7500000
+CASCI E = -75.4134819010618  E(CI) = -19.6073402951632  S^2 = 0.7500000
 </pre></div></div>
 </div>
 <p>From the single-orbital densities and single-orbital entropy associated with the initial space, we notice that no entropy is above the default threshold (0.139) but most entropies are above the minimal entropy threshold used to select the sensible spaces.</p>
@@ -550,19 +550,19 @@ CASCI E = -75.4134819010619  E(CI) = -19.6073402951632  S^2 = 0.7500000
 {(3, 3): [MOListInfo(mo_list=[3, 4, 5],
                      nel=3,
                      minimal=False,
-                     pairinfo_sum=0.04960518421157419,
-                     max_increment=0.011610096386299902,
-                     min_decrement=0.056755251498211326,
-                     min_entropy=0.11114300331611073,
-                     min_edge_sum=0.025155391886767763)],
+                     pairinfo_sum=0.049605184211575885,
+                     max_increment=0.01161009638629941,
+                     min_decrement=0.05675525149821308,
+                     min_entropy=0.11114300331610714,
+                     min_edge_sum=0.02515539188676561)],
  (5, 5): [MOListInfo(mo_list=[2, 3, 4, 5, 6],
                      nel=5,
                      minimal=False,
-                     pairinfo_sum=0.0823853187055353,
-                     max_increment=0.011971120285746317,
-                     min_decrement=0.033731576276171106,
-                     min_entropy=0.08664494471001893,
-                     min_edge_sum=0.01645363059619189)]}
+                     pairinfo_sum=0.08238531870553104,
+                     max_increment=0.011971120285745818,
+                     min_decrement=0.033731576276165326,
+                     min_entropy=0.08664494471001857,
+                     min_edge_sum=0.016453630596191884)]}
 </pre></div></div>
 </div>
 <p>Since this fallback option selects a space below the threshold where the lowest entropy of any MO is largest (as opposed to maximizing the pair information above the threshold), we obtain the (3, 3) space.</p>
