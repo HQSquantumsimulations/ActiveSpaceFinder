@@ -38,6 +38,7 @@ doc = [
     "nbsphinx",
     "sphinx",
     "sphinx_rtd_theme",
+    "ipykernel",
 ]
 
 [build-system]

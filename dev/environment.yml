@@ -1,0 +1,12 @@
+name: asfbase
+channels:
+  - conda-forge
+dependencies:
+  - gcc
+  - openmpi
+  - cmake
+  - libblas=*=*mkl
+  - mkl=2021
+  - numpy
+  - scipy<1.11
+  - pandoc

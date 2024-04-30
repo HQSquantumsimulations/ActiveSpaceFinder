@@ -82,6 +82,9 @@ directory.
 
 ## Documentation
 
+Please [click here](https://hqsquantumsimulations.github.io/ActiveSpaceFinder) for the
+Active Space Finder documentation.
+
 Sphinx documentation of the package is contained in the `doc` folder. It can be built
 after checking out the repository with the following steps. The documentation integrates Jupyter
 notebooks that require [Jmol](https://jmol.sourceforge.net/) to create orbital plots. Building the

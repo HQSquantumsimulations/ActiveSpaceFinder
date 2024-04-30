@@ -1,0 +1,52 @@
+name: Build and Deploy Documentation
+
+on:
+  workflow_dispatch:
+  release:
+    types: [created]
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  publish_documentation:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        shell: bash -l {0}
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: conda-incubator/setup-miniconda@v3
+        with:
+            auto-update-conda: true
+            environment-file: dev/environment.yml
+            activate-environment: asf_docenv
+            miniforge-variant: Mambaforge
+            use-mamba: true
+            miniforge-version: latest
+            python-version: 3.11
+      - name: Conda Info
+        run: |
+          conda info
+          conda list
+      - name: Install Jmol
+        run: sudo apt-get -y install jmol
+      - name: Install dependencies
+        run: |
+          python -m pip install .
+          python -m pip install .[doc]
+      - name: Initialize DMRG-SCF settings
+        run: bash ./init_dmrgscf_settings.sh
+      - name: Build docs
+        run: |
+          cd doc
+          python -m sphinx -T -E -b html . _build/html
+          cd ..
+      - name: Publish docs
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: doc/_build/html
