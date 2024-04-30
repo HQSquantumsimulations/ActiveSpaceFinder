@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple functions for ground and excited states &mdash; Active Space Finder 0.0.1.dev1+g2823229 documentation</title>
+  <title>Simple functions for ground and excited states &mdash; Active Space Finder 0.0.1.dev1+gf80312e documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=e5d11f32"></script>
+        <script src="../../_static/documentation_options.js?v=5d4d2704"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -43,7 +43,7 @@
               <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0.1.dev1+g2823229
+                0.0.1.dev1+gf80312e
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -286,7 +286,7 @@ find_from_scf(mf: pyscf.scf.hf.SCF, max_norb: Optional[int] = None, min_norb: Op
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-&lt;pyscf.gto.mole.Mole at 0x7f344612f990&gt;
+&lt;pyscf.gto.mole.Mole at 0x7f38c3a58210&gt;
 </pre></div></div>
 </div>
 <p>All that is required now for an active space selection is one function call:</p>
@@ -327,7 +327,7 @@ Running calculation
 spin = 2, number of roots = 1
 total number of roots calculated = 1
 
-CASCI E = -149.643455131947  E(CI) = -47.2494800504940  S^2 = 2.0000000
+CASCI E = -149.643455131937  E(CI) = -47.2494800504835  S^2 = 2.0000000
 
 Orbital selection for state 0:
 
@@ -412,8 +412,8 @@ ActiveSpace: 8 electrons in 6 orbitals
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CASSCF energy = -149.570669531984
-CASCI E = -149.570669531984  E(CI) = -21.8747870452867  S^2 = 2.0000000
+CASSCF energy = -149.570669531981
+CASCI E = -149.570669531981  E(CI) = -21.8747880780783  S^2 = 2.0000000
 </pre></div></div>
 </div>
 <p>A CASSCF calculation converging in a small number of iterations is often a good sign. In general, it is advisable to inspect converged CASSCF orbitals visually in order to verify that they indeed form the expected active space. In our case, that would mean comparing them to the guess orbitals determined by the active space finder.</p>
@@ -432,7 +432,7 @@ CASCI E = -149.570669531984  E(CI) = -21.8747870452867  S^2 = 2.0000000
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-0.9962126740642826
+0.9962126531697665
 </pre></div></div>
 </div>
 <p>The functions <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> / <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> can also be employed to find active spaces for state-averaged CASSCF calculations of multiple electronic states. This functionality is relatively simple, determining active spaces for each electronic state in isolation, and then forming the union of the MO sets. States can be specified in one of two ways:</p>
@@ -480,20 +480,20 @@ total number of roots calculated = 3
 
 WARN: Mulitple states found in CASCI solver. First state is used to compute the Fock matrix and natural orbitals in active space.
 
-CASCI state   0  E = -149.599227711467  E(CI) = -47.2052526300134  S^2 = 0.0000000
-CASCI state   1  E = -149.599227710058  E(CI) = -47.2052526286045  S^2 = 0.0000000
-CASCI state   2  E = -149.577342730908  E(CI) = -47.1833676494550  S^2 = 0.0000000
+CASCI state   0  E = -149.599227710306  E(CI) = -47.2052526288525  S^2 = 0.0000000
+CASCI state   1  E = -149.599227710216  E(CI) = -47.2052526287627  S^2 = 0.0000000
+CASCI state   2  E = -149.577342732755  E(CI) = -47.1833676513018  S^2 = 0.0000000
 
 Orbital selection for state 0:
 
  MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
   2   0.000   0.001   0.001   0.997   0.025
   3   0.001   0.003   0.003   0.994   0.045
-  4   0.005   0.023   0.023   0.948   0.253    a
-  5   0.005   0.023   0.023   0.948   0.253    a
+  4   0.017   0.011   0.011   0.960   0.211    a
+  5   0.017   0.011   0.011   0.960   0.211    a
   6   0.007   0.012   0.012   0.969   0.170    a
-  7   0.004   0.473   0.473   0.050   0.880    a
-  8   0.004   0.473   0.473   0.050   0.880    a
+  7   0.020   0.457   0.457   0.066   0.973    a
+  8   0.020   0.457   0.457   0.066   0.973    a
   9   0.968   0.012   0.012   0.008   0.176    a
  10   0.990   0.004   0.004   0.001   0.063
  11   0.990   0.004   0.004   0.001   0.063
@@ -505,11 +505,11 @@ Orbital selection for state 1:
  MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
   2   0.000   0.001   0.001   0.997   0.025
   3   0.001   0.003   0.003   0.994   0.045
-  4   0.017   0.011   0.011   0.960   0.210    a
-  5   0.017   0.011   0.011   0.960   0.210    a
+  4   0.005   0.023   0.023   0.948   0.253    a
+  5   0.005   0.023   0.023   0.948   0.253    a
   6   0.007   0.012   0.012   0.969   0.170    a
-  7   0.467   0.010   0.010   0.514   0.787    a
-  8   0.467   0.010   0.010   0.514   0.787    a
+  7   0.451   0.026   0.026   0.498   0.893    a
+  8   0.451   0.026   0.026   0.498   0.893    a
   9   0.968   0.012   0.012   0.008   0.176    a
  10   0.991   0.004   0.004   0.001   0.062
  11   0.991   0.004   0.004   0.001   0.062
@@ -539,7 +539,7 @@ Running calculation
 spin = 2, number of roots = 1
 total number of roots calculated = 1
 
-CASCI E = -149.643455130941  E(CI) = -47.2494800494875  S^2 = 2.0000000
+CASCI E = -149.643455131937  E(CI) = -47.2494800504839  S^2 = 2.0000000
 
 Orbital selection for state 0:
 
@@ -591,14 +591,14 @@ Active space selection finished
 </div>
 <div class="output_area docutils container">
 <div class="highlight"><pre>
-CASSCF energy = -149.538540696945
-CASCI E = -149.538540696945  E(CI) = -21.9089595615138  S^2 = 0.5000000
-CASCI state-averaged energy = -149.538540696945
+CASSCF energy = -149.538540696947
+CASCI E = -149.538540696947  E(CI) = -21.9089583282408  S^2 = 0.5000000
+CASCI state-averaged energy = -149.538540696947
 CASCI energy for each state
-  State 0 weight 0.25  E = -149.570469318598 S^2 = 2.0000000
-  State 1 weight 0.25  E = -149.537342839298 S^2 = 0.0000000
-  State 2 weight 0.25  E = -149.537342839283 S^2 = 0.0000000
-  State 3 weight 0.25  E = -149.509007790601 S^2 = 0.0000000
+  State 0 weight 0.25  E = -149.570469316411 S^2 = 2.0000000
+  State 1 weight 0.25  E = -149.537342838948 S^2 = 0.0000000
+  State 2 weight 0.25  E = -149.537342838932 S^2 = 0.0000000
+  State 3 weight 0.25  E = -149.509007793498 S^2 = 0.0000000
 </pre></div></div>
 </div>
 <p>The main parameter controlling the size of the selected space is the entropy threshold, controlled via the parameter <code class="docutils literal notranslate"><span class="pre">entropy_threshold</span></code> of the <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> functions.</p>
@@ -755,7 +755,7 @@ Running calculation
 spin = 2, requested root = 0
 total number of roots calculated = 1
 
-CASCI E = -149.643455130937  E(CI) = -47.2494800494843  S^2 = 2.0000000
+CASCI E = -149.643455131928  E(CI) = -47.2494800504750  S^2 = 2.0000000
 
 Orbital selection for state 0:
 
@@ -827,7 +827,7 @@ Running calculation
 spin = 2, requested root = 0
 total number of roots calculated = 1
 
-CASCI E = -149.643455131964  E(CI) = -47.2494800505111  S^2 = 2.0000000
+CASCI E = -149.643455131968  E(CI) = -47.2494800505148  S^2 = 2.0000000
 
 Orbital selection for state 0:
 
