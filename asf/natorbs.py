@@ -1,32 +1,31 @@
-# Copyright © 2020-2021 HQS Quantum Simulations GmbH. All Rights Reserved.
+# Copyright © 2020-2022 HQS Quantum Simulations GmbH. All Rights Reserved.
 
 """Functions to calculate different types of natural orbitals."""
 
-from typing import Tuple, Union, Sequence
+from typing import Optional, Sequence, Union
 
 import numpy as np
 from numpy.linalg import multi_dot
-from scipy.linalg import eigh
-
-from pyscf.scf import UHF
-from pyscf.mp.mp2 import RMP2 as RMP2Class
-from pyscf.mp.ump2 import UMP2 as UMP2Class
+from pyscf import symm
 from pyscf.cc.ccsd import CCSD as RCCSDClass
 from pyscf.cc.uccsd import UCCSD as UCCSDClass
 from pyscf.gto import Mole
-from pyscf import symm
+from pyscf.mp.mp2 import RMP2 as RMP2Class
+from pyscf.mp.ump2 import UMP2 as UMP2Class
+from pyscf.scf.uhf import UHF as UHFClass
+from scipy.linalg import eigh
 
-from asf.asf import overlapSquareRoots, iround
+from .molmath import overlap_square_roots
+from .utility import iround
 
 # Default eigenvalue cutoff to remove linear dependencies.
-Sthresh_default = 1.0e-8
+DEFAULT_STHRESH = 1.0e-8
 
 
-def restrictedNaturalOrbitals(rdm1mo: np.ndarray,
-                              mo_coeff: np.ndarray,
-                              mol: Mole = None) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates natural orbitals in a basis of spin-restricted MOs.
+def restricted_natural_orbitals(
+    rdm1mo: np.ndarray, mo_coeff: np.ndarray, mol: Optional[Mole] = None
+) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates natural orbitals from a density matrix in a basis of spin-restricted MOs.
 
     Args:
         rdm1mo:     one-particle reduced density matrix in MO basis
@@ -51,12 +50,13 @@ def restrictedNaturalOrbitals(rdm1mo: np.ndarray,
     return natocc, natorb
 
 
-def unrestrictedNaturalOrbitals(rdm1mo: Tuple[np.ndarray, np.ndarray],
-                                mo_coeff: Tuple[np.ndarray, np.ndarray],
-                                S: np.ndarray,
-                                mol: Mole = None) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates natural orbitals in a basis of spin-unrestricted MOs.
+def unrestricted_natural_orbitals(
+    rdm1mo: tuple[np.ndarray, np.ndarray],
+    mo_coeff: tuple[np.ndarray, np.ndarray],
+    S: np.ndarray,
+    mol: Optional[Mole] = None,
+) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates natural orbitals from a density matrix in a basis of spin-unrestricted MOs.
 
     Args:
         rdm1mo:     one-particle reduced density matrix in MO basis
@@ -76,15 +76,58 @@ def unrestrictedNaturalOrbitals(rdm1mo: Tuple[np.ndarray, np.ndarray],
     rdm1 = rdm1a + multi_dot([Sab, rdm1b, Sab.T])
 
     # Diagonalize the total density in alpha orbital basis.
-    return restrictedNaturalOrbitals(rdm1, mos_a, mol)
+    return restricted_natural_orbitals(rdm1, mos_a, mol)
 
 
-def AOnaturalOrbitals(rdm1ao: np.ndarray,
-                      S: np.ndarray,
-                      Sthresh: float = Sthresh_default) -> \
-        Tuple[np.ndarray, np.ndarray]:
+def natural_spin_orbitals(
+    rdm1mo: Union[np.ndarray, tuple[np.ndarray, np.ndarray]],
+    mo_coeff: Union[np.ndarray, tuple[np.ndarray, np.ndarray]],
+) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates natural spin orbitals from a density matrix in a basis of spin-unrestricted MOs.
+
+    Args:
+        rdm1mo:     one-particle reduced density matrix in MO basis, alpha and beta parts
+        mo_coeff:   molecular orbital coefficients for alpha and beta orbitals
+
+    Returns:
+        Tuple with (natural spin occupation numbers (a, b), natural spin orbitals (a, b))
+
+    Raises:
+        ValueError: Invalid input.
     """
-    Calculates natural orbitals for a density matrix in AO basis.
+    # Sanity checking of the MO coefficients.
+    mo_coeff = np.array(mo_coeff)
+    if mo_coeff.ndim != 3 or mo_coeff.shape[0] != 2:
+        raise ValueError("mo_coeff must consist of two N(AO) x N(MO) matrices.")
+
+    # number of atomic basis functions
+    nao = mo_coeff.shape[1]
+    # number of MOs
+    nmo = mo_coeff.shape[2]
+
+    # Sanitization of the 1-RDM.
+    rdm1mo = np.array(rdm1mo)
+    if rdm1mo.shape != (2, nmo, nmo):
+        raise ValueError("rdm1mo must consist of two N(MO) x N(MO) matrices")
+
+    # Natural spin occupation numbers: alpha and beta.
+    nsocc = np.zeros((2, nmo))
+    # Natural spin orbital coefficients: alpha and beta.
+    nsorb = np.zeros((2, nao, nmo))
+
+    # Diagonalize the density matrix and order the natural spin orbitals by descending eigenvalues.
+    for s in (0, 1):
+        eigval, eigvec = eigh(rdm1mo[s])
+        nsocc[s] = np.flip(eigval)
+        nsorb[s] = np.dot(mo_coeff[s], np.fliplr(eigvec))
+
+    return nsocc, nsorb
+
+
+def ao_natural_orbitals(
+    rdm1ao: np.ndarray, S: np.ndarray, Sthresh: float = DEFAULT_STHRESH
+) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates natural orbitals for a density matrix in AO basis.
 
     Args:
         rdm1ao:     one-particle reduced density matrix in AO basis
@@ -94,7 +137,7 @@ def AOnaturalOrbitals(rdm1ao: np.ndarray,
     Returns:
         natural occupation numbers, natural orbitals
     """
-    S12, Sminus12 = overlapSquareRoots(S, Sthresh)
+    S12, Sminus12 = overlap_square_roots(S, Sthresh)
 
     # density matrix in the symmetrically orthogonalized basis
     rdm1orth = multi_dot([S12, rdm1ao, S12])
@@ -108,9 +151,8 @@ def AOnaturalOrbitals(rdm1ao: np.ndarray,
     return natocc, natorb
 
 
-def UHFNaturalOrbitals(mf: UHF) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates the natural orbitals for a converged UHF-type object.
+def uhf_natural_orbitals(mf: UHFClass) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates the natural orbitals for a converged UHF-type object.
 
     If symmetry is enabled in mf.mol, the natural orbitals will be symmetry-adapted.
 
@@ -122,13 +164,11 @@ def UHFNaturalOrbitals(mf: UHF) -> Tuple[np.ndarray, np.ndarray]:
     """
     rdm1mo = np.diag(mf.mo_occ[0]), np.diag(mf.mo_occ[1])
     S = mf.get_ovlp()
-    return unrestrictedNaturalOrbitals(rdm1mo, mf.mo_coeff, S, mf.mol)
+    return unrestricted_natural_orbitals(rdm1mo, mf.mo_coeff, S, mf.mol)
 
 
-def MP2NaturalOrbitals(pt: Union[RMP2Class, UMP2Class]) -> \
-        Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates MP2 natural orbitals.
+def mp2_natural_orbitals(pt: Union[RMP2Class, UMP2Class]) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates MP2 natural orbitals.
 
     Attempts to identify restricted/unrestricted basis automatically.
     If symmetry is enabled, the natural orbitals will be symmetry-adapted.
@@ -141,31 +181,13 @@ def MP2NaturalOrbitals(pt: Union[RMP2Class, UMP2Class]) -> \
     """
     mo_coeff = pt.mo_coeff
     if isinstance(mo_coeff, np.ndarray) and (mo_coeff.ndim == 2):
-        return RMP2NaturalOrbitals(pt)
+        return rmp2_natural_orbitals(pt)
     else:
-        return UMP2NaturalOrbitals(pt)
+        return ump2_natural_orbitals(pt)
 
 
-def RMP2NaturalOrbitals(pt: RMP2Class) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates restricted MP2 natural orbitals.
-
-    If symmetry is enabled, the natural orbitals will be symmetry-adapted.
-
-    Args:
-        pt:         An MP2 object.
-
-    Returns:
-        natural occupation numbers, natural orbitals
-    """
-    rdm1 = pt.make_rdm1(ao_repr=False)
-    mo_coeff = pt.mo_coeff
-    return restrictedNaturalOrbitals(rdm1, mo_coeff, pt.mol)
-
-
-def UMP2NaturalOrbitals(pt: UMP2Class) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates unrestricted MP2 natural orbitals.
+def rmp2_natural_orbitals(pt: RMP2Class) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates restricted MP2 natural orbitals.
 
     If symmetry is enabled, the natural orbitals will be symmetry-adapted.
 
@@ -177,14 +199,28 @@ def UMP2NaturalOrbitals(pt: UMP2Class) -> Tuple[np.ndarray, np.ndarray]:
     """
     rdm1 = pt.make_rdm1(ao_repr=False)
     mo_coeff = pt.mo_coeff
-    S = pt.mol.intor_symmetric('int1e_ovlp')
-    return unrestrictedNaturalOrbitals(rdm1, mo_coeff, S, pt.mol)
+    return restricted_natural_orbitals(rdm1, mo_coeff, pt.mol)
 
 
-def CCSDNaturalOrbitals(cc: Union[RCCSDClass, UCCSDClass]) -> \
-        Tuple[np.ndarray, np.ndarray]:
+def ump2_natural_orbitals(pt: UMP2Class) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates unrestricted MP2 natural orbitals.
+
+    If symmetry is enabled, the natural orbitals will be symmetry-adapted.
+
+    Args:
+        pt:         An MP2 object.
+
+    Returns:
+        natural occupation numbers, natural orbitals
     """
-    Calculates CCSD natural orbitals.
+    rdm1 = pt.make_rdm1(ao_repr=False)
+    mo_coeff = pt.mo_coeff
+    S = pt.mol.intor_symmetric("int1e_ovlp")
+    return unrestricted_natural_orbitals(rdm1, mo_coeff, S, pt.mol)
+
+
+def ccsd_natural_orbitals(cc: Union[RCCSDClass, UCCSDClass]) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates CCSD natural orbitals.
 
     If symmetry is enabled, the natural orbitals will be symmetry-adapted.
 
@@ -194,27 +230,11 @@ def CCSDNaturalOrbitals(cc: Union[RCCSDClass, UCCSDClass]) -> \
     Returns:
         natural occupation numbers, natural orbitals
     """
-    return MP2NaturalOrbitals(cc)
+    return mp2_natural_orbitals(cc)
 
 
-def RCCSDNaturalOrbitals(cc: RCCSDClass) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates spin-restricted CCSD natural orbitals.
-
-    If symmetry is enabled, the natural orbitals will be symmetry-adapted.
-
-    Args:
-        cc:         A CCSD object.
-
-    Returns:
-        natural occupation numbers, natural orbitals
-    """
-    return RMP2NaturalOrbitals(cc)
-
-
-def UCCSDNaturalOrbitals(cc: UCCSDClass) -> Tuple[np.ndarray, np.ndarray]:
-    """
-    Calculates spin-unrestricted CCSD natural orbitals.
+def rccsd_natural_orbitals(cc: RCCSDClass) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates spin-restricted CCSD natural orbitals.
 
     If symmetry is enabled, the natural orbitals will be symmetry-adapted.
 
@@ -224,13 +244,27 @@ def UCCSDNaturalOrbitals(cc: UCCSDClass) -> Tuple[np.ndarray, np.ndarray]:
     Returns:
         natural occupation numbers, natural orbitals
     """
-    return UMP2NaturalOrbitals(cc)
+    return rmp2_natural_orbitals(cc)
 
 
-def countActiveElectrons(mo_occ: Union[Sequence[float], np.ndarray],
-                         mo_list: Union[Sequence[int], np.ndarray]) -> int:
+def uccsd_natural_orbitals(cc: UCCSDClass) -> tuple[np.ndarray, np.ndarray]:
+    """Calculates spin-unrestricted CCSD natural orbitals.
+
+    If symmetry is enabled, the natural orbitals will be symmetry-adapted.
+
+    Args:
+        cc:         A CCSD object.
+
+    Returns:
+        natural occupation numbers, natural orbitals
     """
-    Counts the number of active electrons based on occupation numbers.
+    return ump2_natural_orbitals(cc)
+
+
+def count_active_electrons(
+    mo_occ: Union[Sequence[float], np.ndarray], mo_list: Union[Sequence[int], np.ndarray]
+) -> int:
+    """Counts the number of active electrons based on occupation numbers.
 
     It is assumed that the occupation numbers outside the active space round to 2 or 0.
 
@@ -256,7 +290,7 @@ def countActiveElectrons(mo_occ: Union[Sequence[float], np.ndarray],
         if i not in mo_list:
             iocc = iround(occ)
             if iocc not in (0, 2):
-                raise Exception('Occupation number outside mo_list does not round to 2 or 0.')
+                raise Exception("Occupation number outside mo_list does not round to 2 or 0.")
             elif iocc == 2:
                 number_docc += 1
 
@@ -265,13 +299,14 @@ def countActiveElectrons(mo_occ: Union[Sequence[float], np.ndarray],
     return nel
 
 
-def selectNaturalOccupations(natocc: np.ndarray,
-                             lower: float = 0.02,
-                             upper: float = 1.98,
-                             max_orb: int = None,
-                             min_orb: int = None) -> Tuple[int, np.ndarray]:
-    """
-    Selects natural orbitals based on their eigenvalues between a lower and an upper boundary.
+def select_natural_occupations(
+    natocc: np.ndarray,
+    lower: float = 0.02,
+    upper: float = 1.98,
+    max_orb: Optional[int] = None,
+    min_orb: Optional[int] = None,
+) -> tuple[int, list[int]]:
+    """Selects natural orbitals based on their eigenvalues between a lower and an upper boundary.
 
     If a maximal number of orbitals is provided, this function will truncate the orbital list.
     Orbitals with the highest occupation numbers will be removed first if the space is more than
@@ -295,12 +330,12 @@ def selectNaturalOccupations(natocc: np.ndarray,
         Exception: various errors
     """
     if natocc.ndim != 1:
-        raise Exception('natocc must be a 1-D array')
+        raise Exception("natocc must be a 1-D array")
     if lower > upper:
-        raise Exception('Lower threshold must be smaller than the upper threshold.')
+        raise Exception("Lower threshold must be smaller than the upper threshold.")
     if min_orb is not None and max_orb is not None:
         if min_orb > max_orb:
-            raise Exception('Minimal number must be smaller than maximal number.')
+            raise Exception("Minimal number must be smaller than maximal number.")
 
     # order the natural occupation numbers, and store their original order
     sort_order = np.argsort(natocc)
@@ -309,9 +344,9 @@ def selectNaturalOccupations(natocc: np.ndarray,
 
     # Partition the sorted list and count the active electrons.
     # Include occupations >= lower and <= upper, hence the 'side' argument.
-    act_start = natocc_sorted.searchsorted(lower, side='left')
-    act_end = natocc_sorted.searchsorted(upper, side='right')
-    nel = countActiveElectrons(natocc_sorted, np.arange(act_start, act_end))
+    act_start = natocc_sorted.searchsorted(lower, side="left")
+    act_end = natocc_sorted.searchsorted(upper, side="right")
+    nel = count_active_electrons(natocc_sorted, np.arange(act_start, act_end))
 
     # If a minimum number of orbitals was provided, extend the orbital window if necessary.
     if min_orb is not None:
@@ -332,8 +367,8 @@ def selectNaturalOccupations(natocc: np.ndarray,
             elif act_start == 0 and act_end == N:
                 break
             else:
-                raise Exception('unknown error')
-            nel = countActiveElectrons(natocc_sorted, np.arange(act_start, act_end))
+                raise Exception("unknown error")
+            nel = count_active_electrons(natocc_sorted, np.arange(act_start, act_end))
 
     # If a maximum number of orbitals was provided, make the orbital window smaller if necessary.
     if max_orb is not None:
@@ -343,8 +378,61 @@ def selectNaturalOccupations(natocc: np.ndarray,
                 act_start += 1
             else:
                 act_end -= 1
-            nel = countActiveElectrons(natocc_sorted, np.arange(act_start, act_end))
+            nel = count_active_electrons(natocc_sorted, np.arange(act_start, act_end))
 
     # Map back to the original orbital list and sort the indices.
-    mo_list = np.sort(sort_order[np.arange(act_start, act_end)])
+    mo_list = np.sort(sort_order[np.arange(act_start, act_end)]).astype(int).tolist()
     return nel, mo_list
+
+
+def extend_orbital_space(
+    mo_list: Sequence[int],
+    mo_occ: Sequence[float],
+    Kmat: np.ndarray,
+    docc_thresh: float = 1.5,
+    unocc_thresh: float = 0.5,
+) -> tuple[int, list[int]]:
+    """Extend a set of active orbitals with correlation partners based on exchange integrals.
+
+    Args:
+        mo_list: initial list of active orbitals
+        mo_occ: list of molecular orbital occupation numbers
+        Kmat: matrix of exchange integrals, K_pq = (pq|pq)
+        docc_thresh: occupation numbers above this threshold are considered doubly occupied
+        unocc_thresh: occupation numbers below this threshold are considered unoccupied
+
+    Returns:
+        new number of electrons, extended list of orbitals
+
+    Raises:
+        Exception: input error
+    """
+    # Assumption: all orbitals that are not mostly doubly occupied or empty
+    # are already in mo_list. Refuse to proceed if this assumption is violated.
+    for i, occ in enumerate(mo_occ):
+        if i not in mo_list:
+            if (occ < docc_thresh) and (occ > unocc_thresh):
+                raise Exception("Orbital with fractional occupation number outside mo_list.")
+
+    mos_extended = list(mo_list)
+    for i in mo_list:
+        # Find the orbital index k which has the largest exchange integral with orbital i,
+        # under the condition that the occupations are complementary.
+        k = -1
+        for k in np.flip(np.argsort(Kmat[i, :])):
+            if k == i:
+                continue
+            elif (mo_occ[i] >= docc_thresh) and (mo_occ[k] < docc_thresh):
+                break
+            elif (mo_occ[i] <= unocc_thresh) and (mo_occ[k] > unocc_thresh):
+                break
+            elif (mo_occ[i] > unocc_thresh) and (mo_occ[i] < docc_thresh):
+                break
+
+        # orbital k has been determined as the partner orbital for i
+        if k not in mos_extended:
+            mos_extended.append(k)
+
+    mos_extended.sort()
+    nel = count_active_electrons(mo_occ, mos_extended)
+    return nel, mos_extended

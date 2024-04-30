@@ -1,0 +1,27 @@
+# For the installation and usage of pre-commit, please consult the documentation at 
+# https://pre-commit.com/#install
+repos:
+  - repo: local
+    hooks:
+      - id: ruff
+        name: ruff
+        language: system
+        entry: ruff
+        types_or: [python, pyi]
+        require_serial: true
+
+      - id: black
+        name: black
+        language: system
+        entry: black
+        args: [--check]
+        types_or: [python, pyi]
+        require_serial: true
+
+      - id: mypy
+        name: mypy
+        language: system
+        entry: mypy
+        args: [--config-file=pyproject.toml]
+        types_or: [python, pyi]
+        require_serial: true

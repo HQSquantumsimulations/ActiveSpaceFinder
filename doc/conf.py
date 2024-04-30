@@ -1,75 +1,48 @@
 # Configuration file for the Sphinx documentation builder.
 #
-# This file only contains a selection of the most common options. For a full
-# list see the documentation:
+# For the full list of built-in configuration values, see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Path setup --------------------------------------------------------------
-
-# If extensions (or modules to document with autodoc) are in another directory,
-# add these directories to sys.path here. If the directory is relative to the
-# documentation root, use os.path.abspath to make it absolute, like shown here.
-#
-import os
-import sys
-
-path = os.path.dirname(os.path.abspath(__file__))
-
-__version__ = None
-with open(os.path.join(path, '../asf/__version__.py')) as version_file:
-    exec(version_file.read())
-
 # -- Project information -----------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#project-information
 
-project = 'ASF'
-copyright = '2020-2021, HQS quantum simulations'
-author = 'HQS quantum simulations'
+from importlib.metadata import version
 
-# The full version, including alpha/beta/rc tags
-release = __version__
-version = __version__
-
+project = "Active Space Finder"
+copyright = "Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved."
+author = "HQS Quantum Simulations GmbH"
+release = version("active-space-finder")
+version = release
 
 # -- General configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#general-configuration
 
-master_doc = 'index'
+extensions = ["sphinx.ext.autodoc", "sphinx.ext.coverage", "sphinx.ext.napoleon", "nbsphinx"]
 
-# Add any Sphinx extension module names here, as strings. They can be
-# extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
-# ones.
-extensions = ['sphinx.ext.autodoc',
-              'sphinx.ext.coverage',
-              'sphinx.ext.napoleon'
-]
+templates_path = ["_templates"]
+exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
-html_logo = 'media/HQS.jpg'
+# -- Extension configuration ---------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/extensions/index.html
+
+# autodoc
+autodoc_member_order = "alphabetical"
+"""Specifies how automatically documented members are sorted: 'alphabetical' (default),
+'groupwise', bysource'."""
 
 autodoc_mock_imports = ["pyscf"]
+"""A list of modules to prevent import errors from halting the building process when some external
+dependencies are not importable at build time."""
 
-# Add any paths that contain templates here, relative to this directory.
-templates_path = ['_templates']
-
-# List of patterns, relative to source directory, that match files and
-# directories to ignore when looking for source files.
-# This pattern also affects html_static_path and html_extra_path.
-exclude_patterns = ['_build', 'Thumbs.db', '.DS_Store']
-
+# nbsphinx
+nbsphinx_execute = "always"
+"""Explicitly dis-/enabling notebook execution. Possible options: 'always', 'auto', 'never'."""
 
 # -- Options for HTML output -------------------------------------------------
+# https://www.sphinx-doc.org/en/master/usage/configuration.html#options-for-html-output
 
-# The theme to use for HTML and HTML Help pages.  See the documentation for
-# a list of builtin themes.
-#
-html_theme = 'sphinx_rtd_theme'
-html_theme_options = {
-    'style_nav_header_background': 'white',
-    'analytics_id': 'UA-XXXXXXX-1'
-}
-
-# Add any paths that contain custom static files (such as style sheets) here,
-# relative to this directory. They are copied after the builtin static files,
-# so a file named "default.css" will overwrite the builtin "default.css".
-html_static_path = ['_static']
-html_css_files = [
-    'theme_mod.css',
-]
+html_css_files = ["theme_mod.css"]
+html_logo = "media/HQS.jpg"
+html_static_path = ["_static"]
+html_theme = "sphinx_rtd_theme"
+html_theme_options = {"style_nav_header_background": "white"}

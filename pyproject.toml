@@ -1,0 +1,141 @@
+[project]
+name = "active-space-finder"
+license = { file = "LICENSE" }
+authors = [
+    { name = "HQS Quantum Simulations GmbH", email = "info@quantumsimulations.de" },
+]
+maintainers = [
+    { name = "Peter Pinski", email = "info@quantumsimulations.de" },
+    { name = "Alexander Zech", email = "info@quantumsimulations.de" },
+]
+readme = "README.md"
+requires-python = ">=3.9"
+dynamic = ["version"]
+dependencies = [
+    "block2",
+    "matplotlib",
+    "networkx",
+    "numpy",
+    "pyscf",
+    "pyscf-dmrgscf @ git+https://github.com/pyscf/dmrgscf",
+    "scipy",
+    "typing-extensions",
+]
+
+[project.urls]
+Repository = "https://github.com/HQSquantumsimulations/ActiveSpaceFinder.git"
+
+[project.optional-dependencies]
+tests = ["coverage", "pytest"]
+dev = [
+    "bandit[toml]",
+    "black",
+    "mypy",
+    "pre-commit",
+    "ruff",
+]
+doc = [
+    "nbsphinx",
+    "sphinx",
+    "sphinx_rtd_theme",
+]
+
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+include = ["asf*"]
+
+[tool.setuptools_scm]
+version_scheme = "python-simplified-semver"
+version_file = "asf/__version__.py"
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.mypy]
+ignore_missing_imports = true
+pretty = true
+follow_imports = "silent"
+
+[tool.bandit]
+
+[tool.black]
+line-length = 99
+target-version = ["py39", "py310", "py311"]
+
+[tool.coverage.run]
+branch = true
+omit = ["tests/*", "*test*.py", "asf/__init__.py", "asf/__version__.py"]
+source = ["asf"]
+
+[tool.coverage.paths]
+source = ["asf", "src", "**/site-packages"]
+
+[tool.ruff]
+line-length = 99        # same as black
+target-version = "py39"
+show-fixes = true
+show-source = true
+# activate the following checks
+select = [
+    "A",   # builtins
+    "ANN", # annotations
+    "ARG", # unused arguments
+    "B",   # bugbear
+    "C",   # comprehensions
+    "C90", # mccabe complexity
+    "D",   # pydocstyle
+    "E",   # pycodestyle
+    "ERA", # remove commented out code
+    "F",   # pyflakes
+    "ISC", # implicit string concatenation
+    "NPY", # numpy
+    "PL",  # pylint
+    "RUF", # ruff
+    "S",   # bandit
+    "TCH", # type checking
+    "W",   # Warnings
+]
+# ignore specific violations
+ignore = [
+    "D202",   # No blank lines allowed after function docstring
+    "D203",   # 1 blank line required before class docstring
+    "ANN002",
+    "ANN003",
+    "ANN101",
+    "ANN102",
+    "ANN401",
+    "PLR",
+    "S301",
+    # "S403",  # not implemented in ruff (yet?!)
+    # "S404",  # not implemented in ruff (yet?!)
+]
+# Allow autofix for all enabled rules (when `--fix`) is provided.
+fixable = [
+    "A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W",
+    "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT",
+    "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI",
+    "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"
+]
+unfixable = []
+# exclude the following patterns from linting
+exclude = [
+    ".git",
+    "__pycache__",
+    "doc/conf.py",
+    "old",
+    "build",
+    "dist",
+    "test_*",
+]
+
+[tool.ruff.mccabe]
+max-complexity = 20 # 5 higher than sonarqube
+
+[tool.ruff.pydocstyle]
+convention = "google"
+
+[tool.ruff.per-file-ignores]
+"__init__.py" = ["F401"]

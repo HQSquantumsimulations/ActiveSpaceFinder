@@ -1,226 +1,166 @@
-from pyscf.gto import Mole
-from pyscf import scf
-import pytest
+# Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved.
 import numpy as np
+import pytest
+from pyscf import scf
 
 from asf import wrapper
+from asf.asfbase import merge_active_spaces
+from asf.preselection import MP2NatorbPreselection
+
+from .fixtures.molecules import create_mol
 
 
 def test_merge_active_spaces_closedshell():
-    from asf.wrapper import merge_active_spaces
+    nitrogen = create_mol("nitrogen")
+    same_space = ((6, [4, 5, 6, 7, 8, 9]),) * 3
+    subset = (same_space[0], (4, [5, 6, 7, 8]), same_space[0])
+    complement = ((2, [6, 7]), (4, [4, 5, 8, 9]), same_space[0])
+    overlapping = (
+        (6, [4, 5, 6, 7, 8, 9, 10, 11]),
+        (8, [2, 3, 5, 6, 7, 8]),
+        (10, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11]),
+    )
+    right_empty = ((2, [6, 7]), (0, []), (2, [6, 7]))
+    left_empty = ((0, []), (4, [4, 5, 8, 9]), (4, [4, 5, 8, 9]))
+    all_empty = ((0, []), (0, []), (0, []))
+    test_spaces = [same_space, subset, complement, overlapping, right_empty, left_empty, all_empty]
 
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.build()
-
-    test_spaces = [((6, [4, 5, 6, 7, 8, 9]),
-                    (6, [4, 5, 6, 7, 8, 9]),
-                    (6, [4, 5, 6, 7, 8, 9])),
-
-                   ((6, [4, 5, 6, 7, 8, 9]),
-                    (4, [   5, 6, 7, 8,  ]),
-                    (6, [4, 5, 6, 7, 8, 9])),
-
-                   ((2, [      6, 7,      ]),
-                    (4, [4, 5,       8, 9]),
-                    (6, [4, 5, 6, 7, 8, 9])),
-
-                   (( 6, [      4, 5, 6, 7, 8, 9, 10, 11]),
-                    ( 8, [2, 3,    5, 6, 7, 8           ]),
-                    (10, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11])),
-                    
-                   ((2, [6, 7]),
-                    (0, [    ]),
-                    (2, [6, 7])),
-
-                   ((0, [          ]),
-                    (4, [4, 5, 8, 9]),
-                    (4, [4, 5, 8, 9])),
-                    
-                   ((0, []), (0, []), (0, []))]
-
-    for ((nel1, mo_list1), (nel2, mo_list2), (nel_ref, mo_list_ref)) in test_spaces:
-        nel, mo_list = merge_active_spaces(mol, nel1, mo_list1, nel2, mo_list2)
+    for (nel1, mo_list1), (nel2, mo_list2), (nel_ref, mo_list_ref) in test_spaces:
+        nel, mo_list = merge_active_spaces(nitrogen, nel1, mo_list1, nel2, mo_list2)
         assert nel == nel_ref
         assert mo_list == mo_list_ref
 
 
 def test_merge_active_spaces_openshell():
-    from asf.wrapper import merge_active_spaces
+    mol = create_mol("OH_radical")
 
-    mol = Mole()
-    mol.atom = [('O', [0.0, 0.0, -0.49]), ('H', [0.0, 0.0, 0.49])]
-    mol.basis = 'def2-SVP'
-    mol.spin = 1
-    mol.charge = 0
-    mol.build()
+    same_space = ((7, [1, 2, 3, 4, 5]),) * 3
+    subset = ((5, [2, 3, 4, 5]), same_space[0], same_space[0])
+    subset_small = ((1, [4]), (3, [3, 4, 5]), (3, [3, 4, 5]))
+    overlapping = ((5, [2, 3, 4]), (3, [3, 4, 5, 6]), (5, [2, 3, 4, 5, 6]))
+    test_spaces = [same_space, subset, subset_small, overlapping]
 
-    test_spaces = [((7, [1, 2, 3, 4, 5]),
-                    (7, [1, 2, 3, 4, 5]),
-                    (7, [1, 2, 3, 4, 5])),
-
-                   ((5, [   2, 3, 4, 5]),
-                    (7, [1, 2, 3, 4, 5]),
-                    (7, [1, 2, 3, 4, 5])),
-
-                   ((1, [   4   ]),
-                    (3, [3, 4, 5]),
-                    (3, [3, 4, 5])),
-
-                   ((5, [2, 3, 4      ]),
-                    (3, [   3, 4, 5, 6]),
-                    (5, [2, 3, 4, 5, 6]))]
-
-    for ((nel1, mo_list1), (nel2, mo_list2), (nel_ref, mo_list_ref)) in test_spaces:
+    for (nel1, mo_list1), (nel2, mo_list2), (nel_ref, mo_list_ref) in test_spaces:
         nel, mo_list = merge_active_spaces(mol, nel1, mo_list1, nel2, mo_list2)
         assert nel == nel_ref
         assert mo_list == mo_list_ref
 
 
 def test_merge_active_spaces_exceptions():
-    from asf.wrapper import merge_active_spaces
+    nitrogen = create_mol("nitrogen")
+    bad_spaces = [
+        ((5, [4, 5, 6, 7, 8, 9]), (6, [4, 5, 6, 7, 8, 9])),
+        ((6, [4, 5, 6, 7, 8, 9]), (4, [4, 5, 6, 7, 8, 9])),
+        ((2, [6, 7]), (4, [8, 9, 10, 11])),
+        ((2, []), (2, [5, 7])),
+        ((0, []), (2, [])),
+    ]
 
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.build()
-
-    bad_spaces = [((5, [4, 5, 6, 7, 8, 9]),
-                   (6, [4, 5, 6, 7, 8, 9])),
-
-                  ((6, [4, 5, 6, 7, 8, 9]),
-                   (4, [4, 5, 6, 7, 8, 9])),
-
-                  ((2, [6, 7,             ]),
-                   (4, [      8, 9, 10, 11])),
-
-                  ((2, []),
-                   (2, [5, 7])),
-
-                  ((0, []),
-                   (2, []))]
-
-    for ((nel1, mo_list1), (nel2, mo_list2)) in bad_spaces:
+    for (nel1, mo_list1), (nel2, mo_list2) in bad_spaces:
         with pytest.raises(ValueError):
-            merge_active_spaces(mol, nel1, mo_list1, nel2, mo_list2)
+            merge_active_spaces(nitrogen, nel1, mo_list1, nel2, mo_list2)
 
 
-def test_mp2_from_scf():
-    from asf.wrapper import mp2_from_scf
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.build()
-    mf = scf.RHF(mol)
-    mf.kernel()
-
-    nel, mo_list, natorb  = mp2_from_scf(mf)
-    assert nel == 10 
-    assert np.array_equal(mo_list, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-
-
-    mf = scf.RHF(mol)
-    mf.kernel()
-    nel, mo_list, natorb  = mp2_from_scf(mf)
-
-    assert nel == 10 
-    assert np.array_equal(mo_list, [2, 3, 4, 5, 6, 7, 8, 9, 10, 11])
-
-
-def test_reorder_mos():
-    from asf.wrapper import reorder_mos
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.build()
-    mf = scf.RHF(mol)
-    mf.kernel()
+def test_reorder_mos(nitrogen_RHF):
+    mf = nitrogen_RHF
+    nitrogen = nitrogen_RHF.mol
     mo_list = [2, 5, 6, 7, 8, 9, 10, 11]
 
-    a, b = reorder_mos(mol, 6, mo_list, mf.mo_coeff)
-    a == [4, 5, 6, 7, 8, 9, 10, 11]
+    a, b = wrapper.reorder_mos(nitrogen, 6, mo_list, mf.mo_coeff)
+    assert a == [4, 5, 6, 7, 8, 9, 10, 11]
     assert np.array_equal(b[:, 4], mf.mo_coeff[:, 2])
 
 
 def test_loghead():
-    from asf.wrapper import loghead
-    loghead('Calculating MP2 natural orbitals', 4)
+    wrapper.loghead("Calculating MP2 natural orbitals", verbose=True)
 
 
-def test_runasf_from_scf():
-    from asf.wrapper import runasf_from_scf
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.build()
-    mf = scf.RHF(mol)
-    mf.kernel()
-    nel, mo_idx, mo = runasf_from_scf(mf)
-    assert nel == 4
-    assert mo_idx == [5, 6, 7, 8]
+def test_sized_space_from_scf(nitrogen_RHF):
+    space = wrapper.sized_space_from_scf(nitrogen_RHF, size=(4, 4))
+    assert space.nel == 4
+    assert space.mo_list == [5, 6, 7, 8]
 
 
-def test_runasf_from_scf_openshell():
-    from asf.wrapper import runasf_from_scf
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, 0.58)), ('O', (0.0, 0.0, -0.58))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 1
-    mol.build()
+def test_sized_space_from_scf_excited(nitrogen_RHF):
+    space = wrapper.sized_space_from_scf(nitrogen_RHF, size=(4, 4), state=(0, 1))
+    assert space.nel == 4
+    assert space.mo_list == [5, 6, 7, 8]
 
+
+def test_sized_space_from_scf_triplet(nitrogen_RHF):
+    space = wrapper.sized_space_from_scf(nitrogen_RHF, size=(4, 4), state=(2, 0))
+    assert space.nel == 4
+    assert space.mo_list == [5, 6, 7, 8]
+
+
+def test_sized_space_from_scf_openshell():
+    mol = create_mol("nitric_oxide")
     mf = scf.UHF(mol)
     mf.kernel()
 
-    nel, mo_idx, _ = runasf_from_scf(mf, entropy_threshold=0.10)
-    assert nel == 7
-    assert mo_idx == [4, 5, 6, 7, 8, 9]
+    space = wrapper.sized_space_from_scf(mf, size=(7, 6))
+    assert space.nel == 7
+    assert space.mo_list == [4, 5, 6, 7, 8, 9]
 
-def test_do_ci():
-    from asf.wrapper import do_ci, mp2_from_scf
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.verbose = 4
-    mol.build()
-    mf = scf.UHF(mol)
+
+def test_create_asf_switched():
+    nitrogen = create_mol("nitrogen")
+    mf = scf.UHF(nitrogen)
     mf.kernel()
-    nel, mo_list, natorb  = mp2_from_scf(mf)
+    dmrg_settings = {"maxM": 151}
+
+    pre = MP2NatorbPreselection(mf)
+    space = pre.select()
     # For DMRG
-    dmrgci = do_ci(mol, spin=2, molist_mp2= mo_list, natorb_mp2= natorb,
-                  nel_mp2= nel, maxM=151, switch_dmrg=4)
+    dmrgci = wrapper.create_asf_switched_cisolver(
+        nitrogen, initial_space=space, spin=2, switch_dmrg=4, dmrg_kwargs=dmrg_settings
+    )
+    dmrgci.calculate()
     # check spins
     assert dmrgci.casci.nelecas[0] - dmrgci.casci.nelecas[1] == 2
 
-    casci = do_ci(mol, spin=2, molist_mp2= mo_list, natorb_mp2= natorb,
-                  nel_mp2= nel, switch_dmrg=12)
+    casci = wrapper.create_asf_switched_cisolver(
+        nitrogen, initial_space=space, spin=2, switch_dmrg=12
+    )
+    casci.calculate()
 
     # nelecas does not change in casci calculations even by asking for different spin
     assert casci.casci.fcisolver.spin == 2
-    # Compare CASCI DMRGCI energies
-    assert abs(dmrgci.casci.e_tot - casci.casci.e_tot) < 1e-7
+    # Compare CASCI DMRGCI energies (DMRG converged to 1e-6 tolerance by default)
+    assert abs(dmrgci.casci.e_tot - casci.casci.e_tot) < 1e-5
 
-def test_runasf_from_mole():
-    from asf.wrapper import runasf_from_mole
-    mol = Mole()
-    mol.atom = [('N', (0.0, 0.0, -0.55)), ('N', (0.0, 0.0, 0.55))]
-    mol.basis = 'def2-SVP'
-    mol.charge = 0
-    mol.spin = 0
-    mol.build()
-    nel, mo_idx, mo = runasf_from_mole(mol)
-    assert nel == 4
-    assert mo_idx == [5, 6, 7, 8]
+
+def test_sized_space_from_mol():
+    nitrogen = create_mol("nitrogen")
+    space = wrapper.sized_space_from_mol(nitrogen, size=(4, 4))
+    assert space.nel == 4
+    assert space.mo_list == [5, 6, 7, 8]
+
+
+def test_find_from_scf(formaldehyde_UHF):
+    space = wrapper.find_from_scf(
+        formaldehyde_UHF, min_norb=4, max_norb=12, entropy_threshold=0.01
+    )
+
+    assert space.norb >= 4
+    assert space.norb <= 12
+
+
+def test_find_from_scf_excited(nitrogen_RHF):
+    space = wrapper.find_from_scf(nitrogen_RHF, max_norb=10, states=[(2, 2)])
+    assert space.norb <= 10
+    assert space.mo_list == [5, 6, 7, 8]
+
+
+def test_find_from_scf_multispin(nitrogen_RHF):
+    space = wrapper.find_from_scf(nitrogen_RHF, max_norb=10, states=[(0, 1), (2, 1)])
+    assert space.norb <= 10
+    assert space.mo_list == [5, 6, 7, 8]
+
+
+def test_find_from_mol():
+    formaldehyde = create_mol("formaldehyde", spin=2)
+    space = wrapper.find_from_mol(formaldehyde, min_norb=4, max_norb=12, entropy_threshold=0.01)
+
+    assert space.norb >= 4
+    assert space.norb <= 12
