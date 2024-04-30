@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Background &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_mod.css?v=76ade2d8" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=dead5247"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Examples" href="examples.html" />
+    <link rel="prev" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            Active Space Finder
+              <img src="_static/HQS.jpg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.1.dev1+gc2b82c8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#orbital-pre-selection">Orbital pre-selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#active-space-selection-with-dmrg">Active space selection with DMRG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#using-the-active-space-finder">Using the Active Space Finder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#further-remarks">Further remarks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Code documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Active Space Finder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Background</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/background.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="background">
+<h1>Background<a class="headerlink" href="#background" title="Link to this heading"></a></h1>
+<section id="overview">
+<h2>Overview<a class="headerlink" href="#overview" title="Link to this heading"></a></h2>
+<p>This section provides an overview of the principles underlying active space selection with this
+software package, but it does not attempt a detailed explanation; this will be reserved for a
+forthcoming publication.</p>
+<p>The most important part of a selection performed with the ASF involves a DMRG calculation. It is
+performed with low-accuracy settings that afford a low computational cost. These results are not
+suited for quantitative studies, but they contain sufficient qualitative information for an
+active space selection. In this regard, our approach is somewhat similar to the procedure described
+by Stein and Reiher. <a class="footnote-reference brackets" href="#id7" id="id1" role="doc-noteref"><span class="fn-bracket">[</span>1<span class="fn-bracket">]</span></a> Otherwise, the procedure employs different principles.</p>
+</section>
+<section id="orbital-pre-selection">
+<h2>Orbital pre-selection<a class="headerlink" href="#orbital-pre-selection" title="Link to this heading"></a></h2>
+<p>Since the cost of a DMRG calculation increases very steeply with the number of orbitals, an initial
+active space needs to be determined in a first step. We normally employ Møller-Plesset perturbation
+theory for this purpose. The ASF integrates two variants:</p>
+<ul class="simple">
+<li><p>Pre-selection with MP2 natural orbitals and their associated occupation numbers. This employs
+largely PySCF functionality via the
+<a class="reference external" href="https://pyscf.org/user/mp.html#density-fitted-mp2-df-mp2">DF-MP2 method</a>.</p></li>
+<li><p>Pre-selection using Møller-Plesset pair information implemented in the ASF. Compared with MP2
+natural orbitals, this is a more selective method as it is better at identifying correlation
+partners, but it is also more expensive.</p></li>
+</ul>
+<p>Hence, the trade-off between the two pre-selection alternatives is either a less expensive
+calculation, but a potentially larger active space for DMRG (MP2 natural orbitals); or a more
+expensive screening step (perturbative pair information), but potentially a more compact space for
+the DMRG calculation.</p>
+<p>In either case, Hartree-Fock orbitals need to be determined first. For an open-shell system, the
+only option is unrestricted Hartree-Fock (UHF). Restricted Hartree-Fock (RHF) or UHF can be used
+for closed-shell systems, but we recommend to <em>always</em> use UHF: the symmetry breaking in strongly
+or even moderately correlated system helps with active space selection. We provide a convenience
+function in the ASF that employs the stability analysis implemented in PySCF to drive UHF
+calculations towards a broken-symmetry solution.</p>
+</section>
+<section id="active-space-selection-with-dmrg">
+<h2>Active space selection with DMRG<a class="headerlink" href="#active-space-selection-with-dmrg" title="Link to this heading"></a></h2>
+<p>The central part of the selection procedure in the ASF is “pair information” representing the
+correlation between orbital pairs. It is represented by the two-electron cumulant - the difference
+between the two-electron reduced density matrix
+(<span class="math notranslate nohighlight">\(d_{pqrs} = \langle\Psi|\hat{a}^{\dagger}_{p}\hat{a}^{\dagger}_{r}\hat{a}^{}_{s}\hat{a}^{}_{q}|\Psi\rangle\)</span>)
+and the antisymmetrized product of the one-electron reduced density matrix elements
+(<span class="math notranslate nohighlight">\(D_{pq} = \langle\Psi|\hat{a}^{\dagger}_{p}\hat{a}^{}_{q}|\Psi\rangle\)</span>):</p>
+<div class="math notranslate nohighlight">
+\[\Lambda_{pqrs} = \langle \hat{a}^{\dagger}_{p}\hat{a}^{\dagger}_{r}\hat{a}^{}_{s}\hat{a}^{}_{q}\rangle
+               - \langle \hat{a}^{\dagger}_{p}\hat{a}^{}_{q}\rangle\langle\hat{a}^{\dagger}_{r}\hat{a}^{}_{s}\rangle
+               + \langle \hat{a}^{\dagger}_{p}\hat{a}^{}_{s}\rangle\langle\hat{a}^{\dagger}_{r}\hat{a}^{}_{q}\rangle\]</div>
+<p>This quantity is well-established in the literature to quantify the strength of electron
+correlation. <a class="footnote-reference brackets" href="#id8" id="id2" role="doc-noteref"><span class="fn-bracket">[</span>2<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id9" id="id3" role="doc-noteref"><span class="fn-bracket">[</span>3<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id10" id="id4" role="doc-noteref"><span class="fn-bracket">[</span>4<span class="fn-bracket">]</span></a> In particular, we use the semi-diagonal elements, summed over the
+spin components of spatial orbitals:</p>
+<div class="math notranslate nohighlight">
+\[\Lambda_{ppqq} + \Lambda_{pp\bar{q}\bar{q}} + \Lambda_{\bar{p}\bar{p}qq}
++ \Lambda_{\bar{p}\bar{p}\bar{q}\bar{q}}\]</div>
+<p>This results in a simple, yet effective quantification of the correlation strength between orbital
+pairs. In the ASF it is usually derived from a DMRG calculation with low-accuracy settings, though
+it is also possible to run a conventional CASCI calculation; indeed, for small initial spaces CASCI
+is the default choice.</p>
+<p>The ASF implements a procedure to analyze this resulting pair information, using it to identify
+subsets of correlated orbitals. Indeed, strengths of the current implementation of the ASF include
+its ability to determine correlation partner orbitals; and its ability to determine multiple active
+spaces of varying sizes for a single geometry.</p>
+<p>An important auxiliary quantity in the ASF is the single-orbital entropy. It is computed for each
+spatial orbital separately. Entropies quantify the degree of entanglement for each orbital <em>p</em> as:</p>
+<div class="math notranslate nohighlight">
+\[S_{p} = - \sum_{\tau}^{-,\uparrow,\downarrow,\uparrow\downarrow} w_{p, \tau} \ln w_{p, \tau}\]</div>
+<p>Here, <span class="math notranslate nohighlight">\(w_{p, \tau}\)</span> corresponds to the expectation value that a spatial orbital has a
+specific type of occupation: vacant (<span class="math notranslate nohighlight">\(-\)</span>), with a spin up electron only (<span class="math notranslate nohighlight">\(\uparrow\)</span>),
+with a spin down electron only (<span class="math notranslate nohighlight">\(\downarrow\)</span>), and doubly occupied (<span class="math notranslate nohighlight">\(\uparrow\downarrow\)</span>).
+These are calculated as the diagonal elements of the one-orbital density matrix <a class="footnote-reference brackets" href="#id11" id="id5" role="doc-noteref"><span class="fn-bracket">[</span>5<span class="fn-bracket">]</span></a> <a class="footnote-reference brackets" href="#id12" id="id6" role="doc-noteref"><span class="fn-bracket">[</span>6<span class="fn-bracket">]</span></a>
+(a different quantity than the one-electron density matrix), with values:</p>
+<div class="math notranslate nohighlight">
+\[\begin{split}w_{p, -} &amp;= 1 - D_{pp} - D_{\bar{p}\bar{p}} + d_{pp\bar{p}\bar{p}}\\
+w_{p, \uparrow} &amp;= D_{pp} - d_{pp\bar{p}\bar{p}}\\
+w_{p, \downarrow} &amp;= D_{\bar{p}\bar{p}} - d_{pp\bar{p}\bar{p}}\\
+w_{p, \uparrow\downarrow} &amp;= d_{pp\bar{p}\bar{p}}\end{split}\]</div>
+<p>We employ the entropy as an additional important measure for the overall correlation of a specific
+orbital.</p>
+</section>
+<section id="using-the-active-space-finder">
+<h2>Using the Active Space Finder<a class="headerlink" href="#using-the-active-space-finder" title="Link to this heading"></a></h2>
+<p>To get started using the active space finder, we recommend to follow, execute and modify the
+Jupyter notebooks provided with the code. The most straightforward way to use the ASF is to employ
+one of the wrapper functions provided. They implement the following functionalities:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> perform a complete active space selection starting either
+from a molecule definition, or from a converged Hartree-Fock solution. Inside the function, an
+orbital pre-selection, the CI or DMRG calculation and the analysis thereof are performed. These
+functions provide some rudimentary functionality to determine active spaces for multiple
+electronic states.</p></li>
+<li><p>If you know the size of the desired active space, you can also use the functions
+<code class="docutils literal notranslate"><span class="pre">sized_space_from_mol</span></code> or <code class="docutils literal notranslate"><span class="pre">sized_space_from_scf</span></code>. Internally, they determine multiple suitable
+active spaces. If one of them matches the desired size, it is returned; otherwise, an exception
+is raised.</p></li>
+</ul>
+<p>Note that it is <em>always</em> necessary to use the MO coefficients returned by the ASF in conjunction
+with the selected space. Using an MO list returned by the ASF and applying it to orbitals
+determined directly in an SCF calculation, or in any other way than directly through the
+appropriate functionality of the ASF, is meaningless.</p>
+<p>More advanced features of the ASF can also be accessed with just a few lines of code by using
+the underlying classes of the ASF directly. Generally, this will include the following steps:</p>
+<ol class="arabic simple">
+<li><p>An SCF calculation, most conveniently performed with <code class="docutils literal notranslate"><span class="pre">stable_scf</span></code>.</p></li>
+<li><p>Initiating orbital screening through the <code class="docutils literal notranslate"><span class="pre">MP2NatorbPreselection</span></code> or <code class="docutils literal notranslate"><span class="pre">MP2PairinfoPreselection</span></code>
+classes.</p></li>
+<li><p>Carrying out the calculation using the <code class="docutils literal notranslate"><span class="pre">ASFDMRG</span></code> or <code class="docutils literal notranslate"><span class="pre">ASFCI</span></code> classes.</p></li>
+</ol>
+<p>A particularly powerful way to work with the ASF is to use the <code class="docutils literal notranslate"><span class="pre">find_many</span></code> method, which returns
+a collection of potentially multiple sensible active spaces determined for a molecule. Out of these
+suggestions, you can select an appropriate one yourself - something that is highly recommended
+when performing active space calculations.</p>
+</section>
+<section id="further-remarks">
+<h2>Further remarks<a class="headerlink" href="#further-remarks" title="Link to this heading"></a></h2>
+<p>While the ASF is often a useful tool that greatly simplifies multi-reference calculations, please
+be aware of the following difficulties in active space selection:</p>
+<ul class="simple">
+<li><p>Selecting orbitals, especially beyond a highly entangled, minimal active space, is not a
+trivial task.</p></li>
+<li><p>Single-orbital entropies are influenced to some degree by the selection of the initial orbital
+space. In particular, the important, entangled partner orbitals need to be included
+in the DMRG calculation.</p></li>
+<li><p>Too small bond dimensions in the DMRG calculation can lead to wrong results.</p></li>
+</ul>
+<p>CASSCF or CASCI treat the correlation in a subset of the most important orbitals exactly. However,
+they neglect all the remaining electron correlation in the system, which includes the inactive
+orbitals. Therefore, CASSCF results tend to be rather of a qualitative than quantitative nature.
+To obtain accurate numbers that can be compared to experiment, it is usually necessary to
+use a multi-reference method that includes dynamic correlation, for example NEVPT2 or CASPT2.
+The choice of an active space may, to some extent, depend on the specifics of the dynamic
+correlation method. For example, spin state energetics calculated with perturbative methods,
+such as NEVPT2 or CASPT2, may be improved by using larger active spaces than would be necessary
+for a minimal description, thereby also including some dynamic correlation energy in the active
+space.</p>
+<p class="rubric">References</p>
+<aside class="footnote-list brackets">
+<aside class="footnote brackets" id="id7" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id1">1</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="3">
+<li><p>Stein, M. Reiher, <em>J. Chem. Theory Comput. 12</em>, 1760-1771 (<strong>2016</strong>), <a class="reference external" href="https://doi.org/10.1021/acs.jctc.6b00156">doi:10.1021/acs.jctc.6b00156</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id8" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id2">2</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="12">
+<li><p>Kong, E. Valeev, <em>J. Chem. Phys. 134</em>, 214109 (<strong>2011</strong>), <a class="reference external" href="https://doi.org/10.1063/1.3596948">doi:10.1063/1.3596948</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id9" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id3">3</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="13">
+<li><p>Hanauer, A. Köhn, <em>Chem. Phys. 401</em>, 50-61 (<strong>2012</strong>), <a class="reference external" href="https://doi.org/10.1016/j.chemphys.2011.09.024">doi:10.1016/j.chemphys.2011.09.024</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id10" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id4">4</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="15">
+<li><p>Werba, A. Raeber, K. Head-Marsden, D. A. Mazziotti, <em>Phys. Chem. Chem. Phys. 21</em>, 23900-23905 (<strong>2019</strong>), <a class="reference external" href="https://doi.org/10.1039/C9CP03361K">doi:10.1039/C9CP03361K</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id11" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id5">5</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="11">
+<li><p>Boguslawski, P. Tecmer, Ö. Legeza, M. Reiher, <em>J. Phys. Chem. Lett. 21</em>, 3129-3135 (<strong>2012</strong>), <a class="reference external" href="https://doi.org/10.1021/jz301319v">doi:10.1021/jz301319v</a>, <a class="reference external" href="https://arxiv.org/abs/1208.6586">arxiv:1208.6586</a></p></li>
+</ol>
+</aside>
+<aside class="footnote brackets" id="id12" role="doc-footnote">
+<span class="label"><span class="fn-bracket">[</span><a role="doc-backlink" href="#id6">6</a><span class="fn-bracket">]</span></span>
+<ol class="upperalpha simple" start="11">
+<li><p>Boguslawski, P. Tecmer, <em>Int. J. Quantum Chem. 115</em>, 1289-1295 (<strong>2015</strong>), <a class="reference external" href="https://doi.org/10.1002/qua.24832">doi:10.1002/qua.24832</a></p></li>
+</ol>
+</aside>
+</aside>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="examples.html" class="btn btn-neutral float-right" title="Examples" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

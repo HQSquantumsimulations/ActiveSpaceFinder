@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Active Space Finder Software &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="_static/theme_mod.css?v=76ade2d8" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="_static/jquery.js?v=5d32c60e"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="_static/documentation_options.js?v=dead5247"></script>
+        <script src="_static/doctools.js?v=9a2dae69"></script>
+        <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Installation" href="installation.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            Active Space Finder
+              <img src="_static/HQS.jpg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.1.dev1+gc2b82c8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a></li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a></li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Code documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">Active Space Finder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Active Space Finder Software</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="_sources/index.rst.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="active-space-finder-software">
+<h1>Active Space Finder Software<a class="headerlink" href="#active-space-finder-software" title="Link to this heading"></a></h1>
+<p>The Active Space Finder (ASF) is a set of functions for the (semi-)automatic selection of active
+spaces in molecules to be employed with complete active space methods such as CASSCF.
+Choosing an appropriate set of active orbitals can be a complicated task, which
+requires a significant amount of expertise. We have set out to develop a tool to make such
+calculations easier and more accessible to both expert and non-expert users.</p>
+<p>Employing early-stage quantum devices in the so-called Noisy Intermediate-Scale Quantum (NISQ)
+era for applications in quantum chemistry requires the majority of problems to be reduced to their
+most important degrees of freedom. The ASF sets out to determine those parts of a molecular system
+that need to be treated at the most advanced quantum mechanical level.</p>
+<p>The source code is available from: <a class="reference external" href="https://github.com/HQSquantumsimulations/ActiveSpaceFinder">https://github.com/HQSquantumsimulations/ActiveSpaceFinder</a> .
+The ASF package is developed at
+<a class="reference external" href="https://quantumsimulations.de/">HQS Quantum Simulations</a>, and it is released under the
+<a class="reference external" href="https://www.apache.org/licenses/LICENSE-2.0.txt">Apache 2.0 license</a>.</p>
+<p>ASF is developed with the principles of automation, flexibility and ease of development in mind.
+Coding standards are ensured through the application of <a class="reference external" href="https://black.readthedocs.io/en/stable/">black</a>, <a class="reference external" href="https://docs.astral.sh/ruff/">ruff</a>, and <a class="reference external" href="https://mypy.readthedocs.io/en/stable/">mypy</a>.</p>
+<p>The easiest way to use the ASF is by calling one of a few wrapper functions, which executes a generic procedure
+to determine the active space with minimal requirements for user intervention. More advanced users
+can design their own selection procedure with the individual components provided by the ASF
+package.</p>
+<section id="features">
+<h2>Features<a class="headerlink" href="#features" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p>Active space selection using fast, approximate DMRG calculations.</p></li>
+<li><p>The active space selection procedure identifies correlation partner orbitals.</p></li>
+<li><p>Simple and easy-to-use wrapper functions for ground and excited states.</p></li>
+<li><p>Advanced features to suggest multiple active spaces for a single geometry.</p></li>
+<li><p>Perturbative screening methods to identify an orbital subset for the DMRG calculation.</p></li>
+<li><p>Visualization functionality.</p></li>
+</ul>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#requirements">Requirements</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#installation-from-source">Installation from source</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="background.html">Background</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="background.html#overview">Overview</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#orbital-pre-selection">Orbital pre-selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#active-space-selection-with-dmrg">Active space selection with DMRG</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#using-the-active-space-finder">Using the Active Space Finder</a></li>
+<li class="toctree-l2"><a class="reference internal" href="background.html#further-remarks">Further remarks</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="examples.html">Examples</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/oxygen/oxygen.html">Simple functions for ground and excited states</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/oxygen/oxygen.html#Example:-the-electronic-states-of-molecular-oxygen">Example: the electronic states of molecular oxygen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/pbenzyne/pbenzyne.html">Suggest multiple active spaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/pbenzyne/pbenzyne.html#Example:-the-para-benzyne-diradical">Example: the <em>para</em>-benzyne diradical</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="notebooks/open_shell/open_shell.html">Search with fallback mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/open_shell/open_shell.html#Example-1:-Hexaaqua-Iron(III)-cation">Example 1: Hexaaqua-Iron(III) cation</a></li>
+<li class="toctree-l3"><a class="reference internal" href="notebooks/open_shell/open_shell.html#Example-2:-Hydroxyl-radical">Example 2: Hydroxyl radical</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="modules.html">Code documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#asf.ASFDMRG"><code class="docutils literal notranslate"><span class="pre">ASFDMRG</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.calculate"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.cumulant_4idx"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.cumulant_4idx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.diagonal_cumulant"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.diagonal_cumulant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.entropy_selection"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.entropy_selection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.find_many"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.find_many()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.find_one_entropy"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.find_one_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.find_one_generic"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.find_one_generic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.find_one_sized"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.find_one_sized()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.from_active_space"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.from_active_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.from_preselection"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.from_preselection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.one_orbital_density"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.one_orbital_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.one_orbital_entropy"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.one_orbital_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.rdm1s"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.rdm1s()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.rdm2"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.rdm2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFDMRG.unfiltered_pairinfo_spaces"><code class="docutils literal notranslate"><span class="pre">ASFDMRG.unfiltered_pairinfo_spaces()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#asf.ASFCI"><code class="docutils literal notranslate"><span class="pre">ASFCI</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.calculate"><code class="docutils literal notranslate"><span class="pre">ASFCI.calculate()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.cumulant_4idx"><code class="docutils literal notranslate"><span class="pre">ASFCI.cumulant_4idx()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.diagonal_cumulant"><code class="docutils literal notranslate"><span class="pre">ASFCI.diagonal_cumulant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.entropy_selection"><code class="docutils literal notranslate"><span class="pre">ASFCI.entropy_selection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.find_many"><code class="docutils literal notranslate"><span class="pre">ASFCI.find_many()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.find_one_entropy"><code class="docutils literal notranslate"><span class="pre">ASFCI.find_one_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.find_one_generic"><code class="docutils literal notranslate"><span class="pre">ASFCI.find_one_generic()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.find_one_sized"><code class="docutils literal notranslate"><span class="pre">ASFCI.find_one_sized()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.from_active_space"><code class="docutils literal notranslate"><span class="pre">ASFCI.from_active_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.from_preselection"><code class="docutils literal notranslate"><span class="pre">ASFCI.from_preselection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.one_orbital_density"><code class="docutils literal notranslate"><span class="pre">ASFCI.one_orbital_density()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.one_orbital_entropy"><code class="docutils literal notranslate"><span class="pre">ASFCI.one_orbital_entropy()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.rdm1s"><code class="docutils literal notranslate"><span class="pre">ASFCI.rdm1s()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.rdm2"><code class="docutils literal notranslate"><span class="pre">ASFCI.rdm2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.ASFCI.unfiltered_pairinfo_spaces"><code class="docutils literal notranslate"><span class="pre">ASFCI.unfiltered_pairinfo_spaces()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#asf-asfbase"><code class="docutils literal notranslate"><span class="pre">asf.asfbase</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.ASFBase"><code class="docutils literal notranslate"><span class="pre">ASFBase</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.ActiveSpace"><code class="docutils literal notranslate"><span class="pre">ActiveSpace</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.Preselection"><code class="docutils literal notranslate"><span class="pre">Preselection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.all_orbital_selections"><code class="docutils literal notranslate"><span class="pre">all_orbital_selections()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.calc_ncore"><code class="docutils literal notranslate"><span class="pre">calc_ncore()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.entropy_selection"><code class="docutils literal notranslate"><span class="pre">entropy_selection()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.inactive_orbital_lists"><code class="docutils literal notranslate"><span class="pre">inactive_orbital_lists()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.merge_active_spaces"><code class="docutils literal notranslate"><span class="pre">merge_active_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.asfbase.print_mo_table"><code class="docutils literal notranslate"><span class="pre">print_mo_table()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#asf-filters"><code class="docutils literal notranslate"><span class="pre">asf.filters</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.ActiveSpaceSelectionError"><code class="docutils literal notranslate"><span class="pre">ActiveSpaceSelectionError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.FilterFunction"><code class="docutils literal notranslate"><span class="pre">FilterFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.SelectorFunction"><code class="docutils literal notranslate"><span class="pre">SelectorFunction</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.apply_filters"><code class="docutils literal notranslate"><span class="pre">apply_filters()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.apply_selector"><code class="docutils literal notranslate"><span class="pre">apply_selector()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.filter_entropy_above_thresh"><code class="docutils literal notranslate"><span class="pre">filter_entropy_above_thresh()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.filter_increments"><code class="docutils literal notranslate"><span class="pre">filter_increments()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.filter_nel_strict"><code class="docutils literal notranslate"><span class="pre">filter_nel_strict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.filter_node_weight_isclose"><code class="docutils literal notranslate"><span class="pre">filter_node_weight_isclose()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.filter_norb_strict"><code class="docutils literal notranslate"><span class="pre">filter_norb_strict()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.find_sensible"><code class="docutils literal notranslate"><span class="pre">find_sensible()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.screen_node_weights"><code class="docutils literal notranslate"><span class="pre">screen_node_weights()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.select_max_pairinfo_sum"><code class="docutils literal notranslate"><span class="pre">select_max_pairinfo_sum()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.select_min_entropy_diff"><code class="docutils literal notranslate"><span class="pre">select_min_entropy_diff()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.filters.select_pairinfo_with_entropy"><code class="docutils literal notranslate"><span class="pre">select_pairinfo_with_entropy()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.molmath"><code class="docutils literal notranslate"><span class="pre">asf.molmath</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.molmath.corresponding_orbitals"><code class="docutils literal notranslate"><span class="pre">corresponding_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.molmath.overlap_square_roots"><code class="docutils literal notranslate"><span class="pre">overlap_square_roots()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.mp2density_conventional"><code class="docutils literal notranslate"><span class="pre">asf.mp2density_conventional</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm1_rmp2"><code class="docutils literal notranslate"><span class="pre">make_rdm1_rmp2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm1_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm1_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_0th_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_0th_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_1st_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_1st_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_2nd_separable_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_2nd_separable_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_contractions_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_contractions_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_rmp2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_rmp2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_tprod_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_tprod_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.mp2density_conventional.make_rdm2_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2_ump2()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.natorbs"><code class="docutils literal notranslate"><span class="pre">asf.natorbs</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.ao_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">ao_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.ccsd_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">ccsd_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.count_active_electrons"><code class="docutils literal notranslate"><span class="pre">count_active_electrons()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.extend_orbital_space"><code class="docutils literal notranslate"><span class="pre">extend_orbital_space()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.mp2_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">mp2_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.natural_spin_orbitals"><code class="docutils literal notranslate"><span class="pre">natural_spin_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.rccsd_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">rccsd_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.restricted_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">restricted_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.rmp2_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">rmp2_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.select_natural_occupations"><code class="docutils literal notranslate"><span class="pre">select_natural_occupations()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.uccsd_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">uccsd_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.uhf_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">uhf_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.ump2_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">ump2_natural_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.natorbs.unrestricted_natural_orbitals"><code class="docutils literal notranslate"><span class="pre">unrestricted_natural_orbitals()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#asf-pairinfo"><code class="docutils literal notranslate"><span class="pre">asf.pairinfo</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.pairinfo.MOListInfo"><code class="docutils literal notranslate"><span class="pre">MOListInfo</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.pairinfo.PairInfoAnalyzer"><code class="docutils literal notranslate"><span class="pre">PairInfoAnalyzer</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.pairinfo.group_active_spaces"><code class="docutils literal notranslate"><span class="pre">group_active_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.pairinfo.less_or_equal"><code class="docutils literal notranslate"><span class="pre">less_or_equal()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.pairinfo.map_spaces_to_full"><code class="docutils literal notranslate"><span class="pre">map_spaces_to_full()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.preselection"><code class="docutils literal notranslate"><span class="pre">asf.preselection</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.preselection.MP2NatorbPreselection"><code class="docutils literal notranslate"><span class="pre">MP2NatorbPreselection</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.preselection.MP2PairinfoPreselection"><code class="docutils literal notranslate"><span class="pre">MP2PairinfoPreselection</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.rimp2_pairinfo"><code class="docutils literal notranslate"><span class="pre">asf.rimp2_pairinfo</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.UHF_corresponding_orbitals"><code class="docutils literal notranslate"><span class="pre">UHF_corresponding_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.corresponding_orbital_subspaces"><code class="docutils literal notranslate"><span class="pre">corresponding_orbital_subspaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.diag_cumulant_ump2"><code class="docutils literal notranslate"><span class="pre">diag_cumulant_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.make_rdm1_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm1_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.make_rdm2diag_0th_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2diag_0th_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.make_rdm2diag_oooo_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2diag_oooo_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.make_rdm2diag_oovv_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2diag_oovv_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.make_rdm2diag_separable_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2diag_separable_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.make_rdm2diag_vvvv_ump2"><code class="docutils literal notranslate"><span class="pre">make_rdm2diag_vvvv_ump2()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.overlap_blocks"><code class="docutils literal notranslate"><span class="pre">overlap_blocks()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.space_with_threshold"><code class="docutils literal notranslate"><span class="pre">space_with_threshold()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.rimp2_pairinfo.ur_to_re_pairwise"><code class="docutils literal notranslate"><span class="pre">ur_to_re_pairwise()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.scf"><code class="docutils literal notranslate"><span class="pre">asf.scf</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.scf.DEFAULT_MAX_RESTARTS"><code class="docutils literal notranslate"><span class="pre">DEFAULT_MAX_RESTARTS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.scf.DEFAULT_SCF_SETTINGS"><code class="docutils literal notranslate"><span class="pre">DEFAULT_SCF_SETTINGS</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.scf.SCFError"><code class="docutils literal notranslate"><span class="pre">SCFError</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.scf.SCFtype"><code class="docutils literal notranslate"><span class="pre">SCFtype</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.scf.stable_scf"><code class="docutils literal notranslate"><span class="pre">stable_scf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#asf-utility"><code class="docutils literal notranslate"><span class="pre">asf.utility</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.ENTROPY_ZERO_CUTOFF"><code class="docutils literal notranslate"><span class="pre">ENTROPY_ZERO_CUTOFF</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.calculate_entropy_s1"><code class="docutils literal notranslate"><span class="pre">calculate_entropy_s1()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.compare_active_spaces"><code class="docutils literal notranslate"><span class="pre">compare_active_spaces()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.corresponding_orbitals"><code class="docutils literal notranslate"><span class="pre">corresponding_orbitals()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.iround"><code class="docutils literal notranslate"><span class="pre">iround()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.orbdens_from_rdm"><code class="docutils literal notranslate"><span class="pre">orbdens_from_rdm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.pictures_Jmol"><code class="docutils literal notranslate"><span class="pre">pictures_Jmol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.rdm1s_from_rdm12"><code class="docutils literal notranslate"><span class="pre">rdm1s_from_rdm12()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.show_mos_grid"><code class="docutils literal notranslate"><span class="pre">show_mos_grid()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.tempname"><code class="docutils literal notranslate"><span class="pre">tempname()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.transform_dm"><code class="docutils literal notranslate"><span class="pre">transform_dm()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.utility.write_jmol_script"><code class="docutils literal notranslate"><span class="pre">write_jmol_script()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.visualization"><code class="docutils literal notranslate"><span class="pre">asf.visualization</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.visualization.draw_diagonal_cumulant"><code class="docutils literal notranslate"><span class="pre">draw_diagonal_cumulant()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.visualization.draw_overlap_active"><code class="docutils literal notranslate"><span class="pre">draw_overlap_active()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.visualization.draw_overlap_with_unrestricted"><code class="docutils literal notranslate"><span class="pre">draw_overlap_with_unrestricted()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.visualization.draw_pair_information"><code class="docutils literal notranslate"><span class="pre">draw_pair_information()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.visualization.draw_pair_information_uhf"><code class="docutils literal notranslate"><span class="pre">draw_pair_information_uhf()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="modules.html#module-asf.wrapper"><code class="docutils literal notranslate"><span class="pre">asf.wrapper</span></code></a><ul>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.wrapper.create_asf_switched_cisolver"><code class="docutils literal notranslate"><span class="pre">create_asf_switched_cisolver()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.wrapper.find_from_mol"><code class="docutils literal notranslate"><span class="pre">find_from_mol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.wrapper.find_from_scf"><code class="docutils literal notranslate"><span class="pre">find_from_scf()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.wrapper.reorder_mos"><code class="docutils literal notranslate"><span class="pre">reorder_mos()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.wrapper.sized_space_from_mol"><code class="docutils literal notranslate"><span class="pre">sized_space_from_mol()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="modules.html#asf.wrapper.sized_space_from_scf"><code class="docutils literal notranslate"><span class="pre">sized_space_from_scf()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h1>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="installation.html" class="btn btn-neutral float-right" title="Installation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

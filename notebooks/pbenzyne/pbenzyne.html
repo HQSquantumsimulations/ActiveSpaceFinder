@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Suggest multiple active spaces &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_mod.css?v=76ade2d8" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=dead5247"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Search with fallback mode" href="../open_shell/open_shell.html" />
+    <link rel="prev" title="Simple functions for ground and excited states" href="../oxygen/oxygen.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Active Space Finder
+              <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.1.dev1+gc2b82c8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background.html">Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../oxygen/oxygen.html">Simple functions for ground and excited states</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Suggest multiple active spaces</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Example:-the-para-benzyne-diradical">Example: the <em>para</em>-benzyne diradical</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#1.-Define-the-molecule-as-a-PySCF-object">1. Define the molecule as a PySCF object</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.-Perform-a-UHF-calculation">2. Perform a UHF calculation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#3.-Determine-an-initial-active-space">3. Determine an initial active space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#4.-Run-multi-reference-single-point-calculation">4. Run multi-reference single point calculation</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#5.-Find-active-spaces">5. Find active spaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#6.-Inspect-suggested-active-spaces">6. Inspect suggested active spaces</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../open_shell/open_shell.html">Search with fallback mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Code documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Active Space Finder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Suggest multiple active spaces</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/pbenzyne/pbenzyne.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Suggest-multiple-active-spaces">
+<h1>Suggest multiple active spaces<a class="headerlink" href="#Suggest-multiple-active-spaces" title="Link to this heading"></a></h1>
+<section id="Example:-the-para-benzyne-diradical">
+<h2>Example: the <em>para</em>-benzyne diradical<a class="headerlink" href="#Example:-the-para-benzyne-diradical" title="Link to this heading"></a></h2>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress PySCF warning...</span>
+<span class="kn">import</span> <span class="nn">pyscf</span>
+<span class="n">pyscf</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">B3LYP_WITH_VWN5</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pyscf.gto</span> <span class="kn">import</span> <span class="n">Mole</span>
+<span class="kn">from</span> <span class="nn">pyscf.lib</span> <span class="kn">import</span> <span class="n">logger</span>
+<span class="kn">from</span> <span class="nn">asf</span> <span class="kn">import</span> <span class="n">ASFDMRG</span>
+<span class="kn">from</span> <span class="nn">asf.visualization</span> <span class="kn">import</span> <span class="n">draw_pair_information</span>
+<span class="kn">from</span> <span class="nn">asf.preselection</span> <span class="kn">import</span> <span class="n">MP2NatorbPreselection</span><span class="p">,</span> <span class="n">MP2PairinfoPreselection</span>
+<span class="kn">from</span> <span class="nn">asf.scf</span> <span class="kn">import</span> <span class="n">stable_scf</span>
+<span class="kn">from</span> <span class="nn">asf.utility</span> <span class="kn">import</span> <span class="n">pictures_Jmol</span><span class="p">,</span> <span class="n">show_mos_grid</span>
+</pre></div>
+</div>
+</div>
+<section id="1.-Define-the-molecule-as-a-PySCF-object">
+<h3>1. Define the molecule as a PySCF object<a class="headerlink" href="#1.-Define-the-molecule-as-a-PySCF-object" title="Link to this heading"></a></h3>
+<p>In the ASF package, molecular systems are represented as PySCF <code class="docutils literal notranslate"><span class="pre">Mole</span></code> objects. The first step is therefore to initialize the example molecule as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Mole</span><span class="p">(</span>
+    <span class="n">atom</span><span class="o">=</span><span class="s2">&quot;pbenzyne.xyz&quot;</span><span class="p">,</span>
+    <span class="n">spin</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s2">&quot;def2-SVP&quot;</span><span class="p">,</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="n">logger</span><span class="o">.</span><span class="n">NOTE</span><span class="p">,</span>  <span class="c1"># a less talkative option, to suppress printing of SCF iterations, etc.</span>
+<span class="p">)</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.-Perform-a-UHF-calculation">
+<h3>2. Perform a UHF calculation<a class="headerlink" href="#2.-Perform-a-UHF-calculation" title="Link to this heading"></a></h3>
+<p>This is intentional even for singlet states, as a broken-symmetry solution helps with active space selection. The function <code class="docutils literal notranslate"><span class="pre">stable_scf</span></code> incorporates checks for convergence and stability of the solution. SCF calculations are restarted if an unconverged or unstable solution is encountered. The stability analysis often helps with nudging the orbitals towards a broken-symmetry solution, but it does not always work out.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span> <span class="o">=</span> <span class="n">stable_scf</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Side note: the ASF package contains wrapper that perfom some of the steps outlined below (semi-)automatically in one function:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">asf.wrapper.sized_space_from_mol</span></code> - determines an optimal active space of given size starting from a <code class="docutils literal notranslate"><span class="pre">Mole</span></code> object,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">asf.wrapper.sized_space_from_scf</span></code> - determines an optimal active space of given size starting from an SCF solution,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">asf.wrapper.find_from_mol</span></code> - selects an active space based on a minimum entropy threshold starting from a <code class="docutils literal notranslate"><span class="pre">Mole</span></code> object, and</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">asf.wrapper.find_from_scf</span></code> - selects an active space based on a minimum entropy threshold starting from an SCF solution.</p></li>
+</ul>
+<p>The <code class="docutils literal notranslate"><span class="pre">find_from_...</span></code> wrapper variants also support a limiting window for the active space size via <code class="docutils literal notranslate"><span class="pre">min_norb</span></code> and <code class="docutils literal notranslate"><span class="pre">max_norb</span></code> arguments.</p>
+</section>
+<section id="3.-Determine-an-initial-active-space">
+<h3>3. Determine an initial active space<a class="headerlink" href="#3.-Determine-an-initial-active-space" title="Link to this heading"></a></h3>
+<p>This step concerns the definition of a subset of the MO space in which the final active space should be determined. While not mandatory, such a preselection step is recommended for larger systems. The ASF package implements two procedures to select an initial space:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">asf.preselection.MP2PairinfoPreselection</span></code> - based on pair information from Møller-Plesset perturbation theory</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">asf.preselection.MP2NatorbPreselection</span></code> - based on MP2 natural occupation numbers</p></li>
+</ul>
+<p>Custom preselection approaches may be implemented by deriving from <code class="docutils literal notranslate"><span class="pre">asf.asfbase.Preselection</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If set to True, determine the initial active space using pair information derived from</span>
+<span class="c1"># Moller-Plesset theory (more complicated procedure).</span>
+<span class="n">use_mp_pairinfo</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">if</span> <span class="n">use_mp_pairinfo</span><span class="p">:</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">MP2PairinfoPreselection</span><span class="p">(</span><span class="n">mf</span><span class="p">)</span>
+    <span class="n">active_space_pt</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+<span class="c1"># Otherwise, just use MP2 natural orbitals with a specific cutoff.</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="n">pre</span> <span class="o">=</span> <span class="n">MP2NatorbPreselection</span><span class="p">(</span><span class="n">mf</span><span class="p">,</span> <span class="n">lower</span><span class="o">=</span><span class="mf">0.02</span><span class="p">,</span> <span class="n">upper</span><span class="o">=</span><span class="mf">1.98</span><span class="p">)</span>
+    <span class="n">active_space_pt</span> <span class="o">=</span> <span class="n">pre</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">active_space_pt</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="4.-Run-multi-reference-single-point-calculation">
+<h3>4. Run multi-reference single point calculation<a class="headerlink" href="#4.-Run-multi-reference-single-point-calculation" title="Link to this heading"></a></h3>
+<p><code class="docutils literal notranslate"><span class="pre">ASFCI</span></code> / <code class="docutils literal notranslate"><span class="pre">ASFDMRG</span></code> are two important low-level interface classes for the functionality of the ASF to perform single-point calculations. Here, a DMRG calculation is set up using the initial active space previously determined.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span> <span class="o">=</span> <span class="n">ASFDMRG</span><span class="p">(</span>
+    <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+    <span class="n">nel</span><span class="o">=</span><span class="n">active_space_pt</span><span class="o">.</span><span class="n">nel</span><span class="p">,</span>
+    <span class="n">mo_list</span><span class="o">=</span><span class="n">active_space_pt</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span>
+    <span class="n">mo_coeff</span><span class="o">=</span><span class="n">active_space_pt</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span>
+    <span class="n">maxM</span><span class="o">=</span><span class="mi">250</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>At this point, the DMRG interface is initialized including the default calculation settings. For a more extensive control of the FCI solver settings both <code class="docutils literal notranslate"><span class="pre">ASFDMRG</span></code> and <code class="docutils literal notranslate"><span class="pre">ASFCI</span></code> accept the <code class="docutils literal notranslate"><span class="pre">fcisolver_kwargs</span></code> argument (see available keys for <a class="reference external" href="https://block2.readthedocs.io/en/latest/user/dmrg-scf.html">DMRG</a> and <a class="reference external" href="https://pyscf.org/pyscf_api_docs/pyscf.mcscf.html#pyscf.mcscf.casci.CASBase">CASCI</a>). To start the single-point calculation, the <code class="docutils literal notranslate"><span class="pre">calculate</span></code> method must be called which is
+implemented by all of the ASF interfaces.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sf</span><span class="o">.</span><span class="n">calculate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="5.-Find-active-spaces">
+<h3>5. Find active spaces<a class="headerlink" href="#5.-Find-active-spaces" title="Link to this heading"></a></h3>
+<p>With the finished single-point calculation finished, the determination of viable active spaces is available. The active space search relies on metrics such as single-orbital entropies and pair information from the diagonal of the two-body cumulant. The ASF interfaces provide several methods to determine active spaces:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">find_many()</span></code> determining <em>multiple</em> reasonable active spaces sorted by number of active electrons and number of active orbitals.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">find_one_sized()</span></code> which yields <em>one</em> active space matching a given number of active orbitals and/or a given number of active electrons.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">find_one_entropy()</span></code> which yields <em>one</em> active space that has a minimal single-orbital entropy above a threshold that can be changed by the user (<strong>recommended</strong>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">find_one_generic()</span></code> which also yields <em>one</em> active space, but requires the user to define the selection criteria.</p></li>
+</ul>
+<p>This interactive example focuses on the usage of <code class="docutils literal notranslate"><span class="pre">find_many()</span></code>. See other tutorials for how <code class="docutils literal notranslate"><span class="pre">find_one_sized</span></code> or <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> can be employed. Internally, <code class="docutils literal notranslate"><span class="pre">find_many()</span></code> first determines a large number of candidate spaces (via <code class="docutils literal notranslate"><span class="pre">unfiltered_pairinfo_spaces()</span></code>) and then applies up to three selection criteria to select spaces most likely to converge to a reasonable solution.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">active_spaces</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_many</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>The resulting output is a dictionary whereby each value is a list of active space suggestions matching the number of electrons and number of orbitals in the key. Each item in the suggestion list is a <code class="docutils literal notranslate"><span class="pre">MOListInfo</span></code> dataclass containing the list of MO indices and additional metrics used for the selection procedure. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">{</span>
+    <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">):</span> <span class="p">[</span>
+        <span class="n">MOListInfo</span><span class="p">(</span>
+            <span class="n">mo_list</span><span class="o">=</span><span class="p">[</span><span class="mi">19</span><span class="p">,</span> <span class="mi">20</span><span class="p">],</span>
+            <span class="n">nel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="n">minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">pairinfo_sum</span><span class="o">=</span><span class="mf">0.6640700019980257</span><span class="p">,</span>
+            <span class="n">max_increment</span><span class="o">=</span><span class="mf">0.0150994051180795</span><span class="p">,</span>
+            <span class="n">min_decrement</span><span class="o">=</span><span class="mf">0.9691123584300709</span><span class="p">,</span>
+            <span class="n">min_entropy</span><span class="o">=</span><span class="mf">0.6783514316563286</span><span class="p">,</span>
+            <span class="n">min_edge_sum</span><span class="o">=</span><span class="mf">0.34325572898426215</span><span class="p">,</span>
+        <span class="p">)</span>
+    <span class="p">],</span>
+    <span class="o">...</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</section>
+<section id="6.-Inspect-suggested-active-spaces">
+<h3>6. Inspect suggested active spaces<a class="headerlink" href="#6.-Inspect-suggested-active-spaces" title="Link to this heading"></a></h3>
+<section id="Molecular-orbital-indices">
+<h4>Molecular orbital indices<a class="headerlink" href="#Molecular-orbital-indices" title="Link to this heading"></a></h4>
+<p>To get an overview of the suggested active spaces, we print active space groups (in <code class="docutils literal notranslate"><span class="pre">(N,</span> <span class="pre">M)</span></code> notation) and the associated MO index lists. Note that the indices refer to the MO coefficient matrix <code class="docutils literal notranslate"><span class="pre">sf.mo_coeff</span></code> (and therefore also <code class="docutils literal notranslate"><span class="pre">active_space_pt.mo_coeff</span></code>).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">nel</span><span class="p">,</span> <span class="n">nmo</span> <span class="ow">in</span> <span class="n">active_spaces</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">mo_info</span> <span class="ow">in</span> <span class="n">active_spaces</span><span class="p">[(</span><span class="n">nel</span><span class="p">,</span> <span class="n">nmo</span><span class="p">)]:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(</span><span class="si">{</span><span class="n">nel</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">nmo</span><span class="si">}</span><span class="s2">): </span><span class="si">{</span><span class="n">mo_info</span><span class="o">.</span><span class="n">mo_list</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Molecular-orbital-visualization">
+<h4>Molecular orbital visualization<a class="headerlink" href="#Molecular-orbital-visualization" title="Link to this heading"></a></h4>
+<p>The suggested active MOs can be easily visualized by tools such as Jmol. The ASF package provides a utility function <code class="docutils literal notranslate"><span class="pre">pictures_Jmol</span></code> that creates a temporary molden file and writes the MO plots to the current working directory. To save a molden file for interactive inspection of the molecular orbitals, use:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pyscf.tools</span> <span class="kn">import</span> <span class="n">molden</span>
+<span class="n">molden</span><span class="o">.</span><span class="n">from_mo</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="s1">&#39;mos.molden&#39;</span><span class="p">,</span> <span class="n">mo_coeff</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Once <code class="docutils literal notranslate"><span class="pre">pictures_Jmol</span></code> has run, there should be several images named <code class="docutils literal notranslate"><span class="pre">mo_[index].png</span></code> in the current directory. The function <code class="docutils literal notranslate"><span class="pre">show_mos_grid</span></code> from the <code class="docutils literal notranslate"><span class="pre">utility</span></code> module arranges the orbital images in a grid. The MO index lists seen in the previous step can also be passed to only show the MOs of the active space of interest. <strong>Note:</strong> MO indices in Jmol are indexed from <em>one</em>, not from zero. Thus, the annotation from Jmol is disabled and <code class="docutils literal notranslate"><span class="pre">show_mos_grid</span></code> annotates each orbital image with the
+MO index that is consistent with the ASF (0-indexed).</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If plots have been generated in a previous run of the Notebook, they will be reused here.</span>
+<span class="c1"># Set redo_plots = True, if new orbital images should be created regardless of existing files.</span>
+<span class="n">redo_plots</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="c1"># Select for which active space molecular orbitals should be shown:</span>
+<span class="n">space_of_interest</span> <span class="o">=</span> <span class="n">active_spaces</span><span class="p">[(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">12</span><span class="p">)][</span><span class="mi">0</span><span class="p">]</span>
+
+<span class="k">def</span> <span class="nf">mo_images</span><span class="p">(</span><span class="n">name_glob</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mo_*.png&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the list of all MO images in this directory.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">name_glob</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="n">redo_plots</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">mo_images</span><span class="p">():</span>
+    <span class="n">pictures_Jmol</span><span class="p">(</span><span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span> <span class="n">mo_coeff</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">mo_index_title</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+
+<span class="n">show_mos_grid</span><span class="p">(</span><span class="n">mo_images</span><span class="p">(),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">space_of_interest</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="Pairinfo">
+<h4>Pairinfo<a class="headerlink" href="#Pairinfo" title="Link to this heading"></a></h4>
+<p>The ASF package also provides methods to visualize pair information which is a key metric in the active space search. Below, <code class="docutils literal notranslate"><span class="pre">draw_pair_information()</span></code> is employed to plot a graph of the pair information from the DMRG calculation. Note that the sign of the cumulant is inverted, so that the most energy-lowering interactions correspond to the largest pair information. In the resulting graph plot, the molecular orbitals are represented as nodes and the pair information as edges. Edges
+corresponding to energy-lowering interactions are colored red, while energy-raising interactions are shown in blue (cf. <a class="reference external" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html#diverging">‘seismic’</a> color map). By default the color of the nodes indicates the summed pair information per orbital using a sequential color map (<a class="reference external" href="https://matplotlib.org/stable/users/explain/colors/colormaps.html#diverging">‘RdPu’</a>), however any per-orbital-quantity, such as single-orbital entropies, can
+be passed instead via the <code class="docutils literal notranslate"><span class="pre">orbital_info</span></code> argument.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pairinfo</span> <span class="o">=</span> <span class="o">-</span><span class="n">sf</span><span class="o">.</span><span class="n">diagonal_cumulant</span><span class="p">(</span><span class="n">full_space</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="n">draw_pair_information</span><span class="p">(</span><span class="n">pair_info</span><span class="o">=</span><span class="n">pairinfo</span><span class="p">,</span> <span class="n">orbital_labels</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../oxygen/oxygen.html" class="btn btn-neutral float-left" title="Simple functions for ground and excited states" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../open_shell/open_shell.html" class="btn btn-neutral float-right" title="Search with fallback mode" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

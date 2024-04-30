@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Simple functions for ground and excited states &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_mod.css?v=76ade2d8" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=dead5247"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Suggest multiple active spaces" href="../pbenzyne/pbenzyne.html" />
+    <link rel="prev" title="Examples" href="../../examples.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Active Space Finder
+              <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.1.dev1+gc2b82c8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background.html">Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../examples.html">Examples</a><ul class="current">
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Simple functions for ground and excited states</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Example:-the-electronic-states-of-molecular-oxygen">Example: the electronic states of molecular oxygen</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../pbenzyne/pbenzyne.html">Suggest multiple active spaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../open_shell/open_shell.html">Search with fallback mode</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Code documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Active Space Finder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Simple functions for ground and excited states</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/oxygen/oxygen.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Simple-functions-for-ground-and-excited-states">
+<h1>Simple functions for ground and excited states<a class="headerlink" href="#Simple-functions-for-ground-and-excited-states" title="Link to this heading"></a></h1>
+<section id="Example:-the-electronic-states-of-molecular-oxygen">
+<h2>Example: the electronic states of molecular oxygen<a class="headerlink" href="#Example:-the-electronic-states-of-molecular-oxygen" title="Link to this heading"></a></h2>
+<p>This example notebook shows how to determine active spaces for the triplet ground state of oxygen, and its lowest excited singlet states. An emphasis is placed on simple wrapper functions to determine active spaces directly from a molecule definition.</p>
+<p>The following learning points are covered:</p>
+<ul class="simple">
+<li><p>Selecting an active space using a simple wrapper function.</p></li>
+<li><p>Selecting an active space using a wrapper function for multiple electronic states.</p></li>
+<li><p>Using the selected active space in CASSCF calculations, including an example with state averaging.</p></li>
+<li><p>Using suitable wrapper functions to choose active spaces of a specific size defined by the user.</p></li>
+</ul>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress PySCF warning...</span>
+<span class="kn">import</span> <span class="nn">pyscf</span>
+<span class="n">pyscf</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">B3LYP_WITH_VWN5</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+
+<span class="c1"># The Mole class is used to define molecular information in PySCF.</span>
+<span class="kn">from</span> <span class="nn">pyscf.gto</span> <span class="kn">import</span> <span class="n">Mole</span>
+
+<span class="c1"># logger contains definitions of verbosity levels for PySCF.</span>
+<span class="kn">from</span> <span class="nn">pyscf.lib</span> <span class="kn">import</span> <span class="n">logger</span>
+
+<span class="c1"># Functionality for (state-averaged) CASSCF.</span>
+<span class="kn">from</span> <span class="nn">pyscf.mcscf</span> <span class="kn">import</span> <span class="n">CASSCF</span><span class="p">,</span> <span class="n">state_average_mix</span>
+<span class="kn">from</span> <span class="nn">pyscf.fci.direct_spin1</span> <span class="kn">import</span> <span class="n">FCISolver</span>
+<span class="kn">from</span> <span class="nn">pyscf.fci.addons</span> <span class="kn">import</span> <span class="n">fix_spin</span>
+
+<span class="c1"># Wrapper functions to perform selection for variable and fixed active space sizes</span>
+<span class="kn">from</span> <span class="nn">asf.wrapper</span> <span class="kn">import</span> <span class="n">find_from_mol</span><span class="p">,</span> <span class="n">find_from_scf</span><span class="p">,</span> <span class="n">sized_space_from_mol</span><span class="p">,</span> <span class="n">sized_space_from_scf</span>
+
+<span class="c1"># Various utility functions...</span>
+<span class="kn">from</span> <span class="nn">asf.utility</span> <span class="kn">import</span> <span class="n">compare_active_spaces</span><span class="p">,</span> <span class="n">show_mos_grid</span><span class="p">,</span> <span class="n">pictures_Jmol</span>
+</pre></div>
+</div>
+</div>
+<p>There are two variants of the wrapper function to find general active spaces: <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code>. The former accepts a <code class="docutils literal notranslate"><span class="pre">Mole</span></code> objects containing a molecular definition and performs the entire active space selection, including an SCF calculation. It is usually performed as a UHF calculation even if the molecule does not have any unpaired electrons. Stability analysis is used to help the UHF calculation converge to a broken-symmetry solution, which helps with the initial
+active space selection. It is also possible to start from a converged RHF or UHF solution directly using <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code>, which carries out the same steps as <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> with the exception of the SCF calculation itself.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">find_from_mol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">find_from_scf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>We start with a molecule definition of oxygen in its (triplet) ground state.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Mole</span><span class="p">()</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">atom</span> <span class="o">=</span> <span class="s2">&quot;O2.xyz&quot;</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">basis</span> <span class="o">=</span> <span class="s2">&quot;def2-SVP&quot;</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">charge</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">spin</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="c1"># Set mol.verbose = logger.INFO to enable printing of SCF iterations and further output.</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">verbose</span> <span class="o">=</span> <span class="n">logger</span><span class="o">.</span><span class="n">NOTE</span>
+<span class="n">mol</span><span class="o">.</span><span class="n">build</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>All that is required now for an active space selection is one function call:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">active_space</span> <span class="o">=</span> <span class="n">find_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The returned object contains the number of active MOs and electrons, the matrix of MO coeffients and a list of active orbital indices referring to the aforementioned matrix.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">active_space</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Below, we plot the active orbitals that were found.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pictures_Jmol</span><span class="p">(</span>
+    <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span> <span class="n">mo_coeff</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">mo_index_title</span><span class="o">=</span><span class="s2">&quot; &quot;</span>
+<span class="p">)</span>
+<span class="n">mo_images</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dd</span> <span class="k">for</span> <span class="n">dd</span> <span class="ow">in</span> <span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="s2">&quot;mo_*.png&quot;</span><span class="p">))</span>
+<span class="n">show_mos_grid</span><span class="p">(</span><span class="n">mo_images</span><span class="p">,</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+<span class="c1"># clean up files</span>
+<span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">mo_images</span><span class="p">:</span>
+    <span class="n">Path</span><span class="o">.</span><span class="n">unlink</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The selected active space can be used to set up a CASSCF calculation. Note that it is important to use the orbitals returned by the ASF in the object <code class="docutils literal notranslate"><span class="pre">active_space</span></code> - not the orbitals obtained from SCF or elsewhere!</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">CASSCF</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">ncas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">norb</span><span class="p">,</span> <span class="n">nelecas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">nel</span><span class="p">)</span>
+<span class="c1"># Before carrying out the CASSCF calculation, the orbital coefficient matrix columns need to be</span>
+<span class="c1"># ordered as core - active - virtual from left to right.</span>
+<span class="c1"># Take care - by default, sort_mo assumes that the MO list starts indexing from one, not from zero.</span>
+<span class="n">mo_guess</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">sort_mo</span><span class="p">(</span><span class="n">active_space</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">active_space</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">mo_coeff</span><span class="o">=</span><span class="n">mo_guess</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>A CASSCF calculation converging in a small number of iterations is often a good sign. In general, it is advisable to inspect converged CASSCF orbitals visually in order to verify that they indeed form the expected active space. In our case, that would mean comparing them to the guess orbitals determined by the active space finder.</p>
+<p>Here, however, we will employ a simple numerical criterion by performing a singular value decomposition of the overlap matrix between the guess and the converged active orbitals. The following function reports the smallest singular value - if it is close to one, that is a good sign. A value close to zero indicates that an orbital may have rotated out, while intermediate values indicate some degree of mixing.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compare_active_spaces</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">active_space</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span> <span class="n">active_space</span><span class="o">.</span><span class="n">mo_list</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The functions <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> / <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> can also be employed to find active spaces for state-averaged CASSCF calculations of multiple electronic states. This functionality is relatively simple, determining active spaces for each electronic state in isolation, and then forming the union of the MO sets. States can be specified in one of two ways:</p>
+<ol class="arabic simple">
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">states:</span> <span class="pre">int</span></code>. in that case, the active space will be determined for a number <code class="docutils literal notranslate"><span class="pre">states</span></code> of states with the multiplicity inferred from the Mole or SCF object.</p></li>
+<li><p>Using <code class="docutils literal notranslate"><span class="pre">states:</span> <span class="pre">list[tuple[int,</span> <span class="pre">int]]</span></code>. the first integer in each tuple specifies the number of electrons (<code class="docutils literal notranslate"><span class="pre">spin</span></code> in PySCF conventions), the second integer the number of electronic states of that spin. In this case, the union is formed over the active spaces for all states of all spin multiplicities requested. Below this will be demonstrated for one triplet and three singlet states of oxygen:</p></li>
+</ol>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">active_space</span> <span class="o">=</span> <span class="n">find_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
+</pre></div>
+</div>
+</div>
+<p>The recommended active space is the same as for triplet oxygen; note that the table printed by the wrapper can be inspected for the orbital occupations in each state.</p>
+<p>Below, a state-averaged CASSCF calculation is performed with four states: the triplet, the two doubly degenerate lowest singlet states, and the third singlet state.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">CASSCF</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">ncas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">norb</span><span class="p">,</span> <span class="n">nelecas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">nel</span><span class="p">)</span>
+<span class="c1"># The solvers for each spin need to be set up individually.</span>
+<span class="c1"># See PySCF examples for state averages and state average mixes.</span>
+<span class="n">solver_t</span> <span class="o">=</span> <span class="n">FCISolver</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="n">solver_t</span><span class="o">.</span><span class="n">spin</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">solver_s</span> <span class="o">=</span> <span class="n">FCISolver</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="n">solver_s</span><span class="o">.</span><span class="n">spin</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">solver_s</span><span class="o">.</span><span class="n">nroots</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">solver_s</span> <span class="o">=</span> <span class="n">fix_spin</span><span class="p">(</span><span class="n">solver_s</span><span class="p">,</span> <span class="n">ss</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="c1"># All four states are weighted equally.</span>
+<span class="n">mc_mix</span> <span class="o">=</span> <span class="n">state_average_mix</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="p">[</span><span class="n">solver_t</span><span class="p">,</span> <span class="n">solver_s</span><span class="p">],</span> <span class="n">weights</span><span class="o">=</span><span class="p">[</span><span class="mf">0.25</span><span class="p">]</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">mo_guess</span> <span class="o">=</span> <span class="n">mc</span><span class="o">.</span><span class="n">sort_mo</span><span class="p">(</span><span class="n">active_space</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">active_space</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span> <span class="n">base</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">_</span> <span class="o">=</span> <span class="n">mc_mix</span><span class="o">.</span><span class="n">kernel</span><span class="p">(</span><span class="n">mo_coeff</span><span class="o">=</span><span class="n">mo_guess</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>The main parameter controlling the size of the selected space is the entropy threshold, controlled via the parameter <code class="docutils literal notranslate"><span class="pre">entropy_threshold</span></code> of the <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> functions.</p>
+<p>If you know the size of the desired active space and only need to select the correct orbitals, it is possible to do so via the functions <code class="docutils literal notranslate"><span class="pre">sized_space_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">sized_space_from_scf</span></code>. The only difference between the two functions is that the former performs an SCF calculation, while the latter expects an object with an SCF solution as its input. These wrapper functions currently support only one electronic state at a time.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">sized_space_from_mol</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">sized_space_from_scf</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>It is possible to specify the size of an active space either via the number of orbitals by providing an integer, or by providing both the number of active electrons and orbitals as a tuple <code class="docutils literal notranslate"><span class="pre">(electrons,</span> <span class="pre">orbitals)</span></code>. If only the number of orbitals is provided, the number of electrons is determined by the active space finder.</p>
+<p>For example, the following function call constrains the number of active orbitals to four and chooses an active space with a suitable number of electrons, resulting in a (6, 4) space:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sized_space_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Likewise, it is possible to specify six electrons and four orbitals explicitly:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sized_space_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Note that the <code class="docutils literal notranslate"><span class="pre">sized_space</span></code> functions attempt to choose active spaces from a set of sensible suggestions determined internally. In consequence, if the user requests an active space size that is not considered sensible, the function will raise an <code class="docutils literal notranslate"><span class="pre">ActiveSpaceSelectionError</span></code> exception.</p>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../../examples.html" class="btn btn-neutral float-left" title="Examples" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../pbenzyne/pbenzyne.html" class="btn btn-neutral float-right" title="Suggest multiple active spaces" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

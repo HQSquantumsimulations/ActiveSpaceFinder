@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Search with fallback mode &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+      <link rel="stylesheet" type="text/css" href="../../_static/theme_mod.css?v=76ade2d8" />
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+        <script src="../../_static/jquery.js?v=5d32c60e"></script>
+        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+        <script src="../../_static/documentation_options.js?v=dead5247"></script>
+        <script src="../../_static/doctools.js?v=9a2dae69"></script>
+        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script src="../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Code documentation" href="../../modules.html" />
+    <link rel="prev" title="Suggest multiple active spaces" href="../pbenzyne/pbenzyne.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: white" >
+
+          
+          
+          <a href="../../index.html" class="icon icon-home">
+            Active Space Finder
+              <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
+          </a>
+              <div class="version">
+                0.0.1.dev1+gc2b82c8
+              </div>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Home</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../background.html">Background</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../../examples.html">Examples</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../oxygen/oxygen.html">Simple functions for ground and excited states</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../pbenzyne/pbenzyne.html">Suggest multiple active spaces</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Search with fallback mode</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#Example-1:-Hexaaqua-Iron(III)-cation">Example 1: Hexaaqua-Iron(III) cation</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#1.1.-Setting-up-the-molecular-system">1.1. Setting up the molecular system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#1.2.-Initializing-the-ASF-class">1.2. Initializing the ASF class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#1.3.-Searching-for-multiple-spaces">1.3. Searching for multiple spaces</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#1.4.-Searching-for-a-single-active-space">1.4. Searching for a single active space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#1.5.-Visualizing-the-results">1.5. Visualizing the results</a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="#Example-2:-Hydroxyl-radical">Example 2: Hydroxyl radical</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#2.1.-Setting-up-the-molecular-system">2.1. Setting up the molecular system</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.2.-Initializing-the-ASF-class">2.2. Initializing the ASF class</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.3.-Searching-for-a-single-active-space">2.3. Searching for a single active space</a></li>
+<li class="toctree-l4"><a class="reference internal" href="#2.4.-Visualizing-the-results">2.4. Visualizing the results</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../modules.html">Code documentation</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: white" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">Active Space Finder</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../examples.html">Examples</a></li>
+      <li class="breadcrumb-item active">Search with fallback mode</li>
+      <li class="wy-breadcrumbs-aside">
+            <a href="../../_sources/notebooks/open_shell/open_shell.ipynb.txt" rel="nofollow"> View page source</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="Search-with-fallback-mode">
+<h1>Search with fallback mode<a class="headerlink" href="#Search-with-fallback-mode" title="Link to this heading"></a></h1>
+<p>Active space selection with the ASF package is largely based on pair information criteria derived from the two-electron cumulant, augmented with single-orbital entropies. We designed procedures to select active spaces that are likely to converge in CASSCF calculations. To fulfill the latter criterion, it helps to omit weakly entangled orbitals from the active space. For some systems, however, correlation of relevant orbitals may be relatively weak; in particular, if those systems lack any
+pronounced static correlation. The following examples show how to obtain a reasonable active space by controlling and relaxing the search criteria via fallback modes.</p>
+<p>The example covers: - searching an active space using <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> with varying fallback modes - searching active spaces using <code class="docutils literal notranslate"><span class="pre">find_many</span></code> with a fallback option - visualizing results with Jmol</p>
+<p>Before turning to the example calculations, we briefly review the selection process of <code class="docutils literal notranslate"><span class="pre">find_many</span></code>, <code class="docutils literal notranslate"><span class="pre">find_one_sized</span></code>, and <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code>. The ASF classes are able to generate a large set of candidate spaces (“unfiltered spaces”); only a subset of those will converge at all in a CASSCF calculation, and only a tiny subset will converge to a solution that is consistent with the guess (which is the desirable outcome). Procedures in the ASF aim to identify such a tiny subset. Search
+functions, such as <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> or <code class="docutils literal notranslate"><span class="pre">find_many</span></code>, first narrow down the large unfiltered set to a collection of reasonable spaces by applying the following three criteria:</p>
+<ol class="arabic simple">
+<li><p>Removing any orbital from the active space lowers the amount of correlation in the active space more strongly than adding any orbital to the active space increases it. This is quantified by the smallest decrement <code class="docutils literal notranslate"><span class="pre">min_decrement</span></code> exceeding the largest increment <code class="docutils literal notranslate"><span class="pre">max_increment</span></code> (to within a comparison tolerance).</p></li>
+<li><p>It is not possible to increase the amount of correlation contained in an active space by swapping out an active orbital for an inactive orbital (while keeping the number of active orbitals and electrons constant). Numerically, for each group of active spaces (N, M) with the same number of active orbitals and active electrons, a space from that group is kept if it includes the orbitals with the largest node weight to within a comparison tolerance. The considered node weight may be the minimal
+single-orbital entropy, the minimal edge sum (minimal sum of all edge values associated with an orbital node), or no node weight (<code class="docutils literal notranslate"><span class="pre">&quot;none&quot;</span></code>) which is equivalent of disabling this criterion.</p></li>
+<li><p>Too weakly correlated orbitals are omitted from the active space. The associated requirement is that the minimal entropy of any orbital must be above the given minimal entropy threshold (default: 0.07).</p></li>
+</ol>
+<p>We make a further distinction between orbitals that are members of a minimal space always needed to accommodate unpaired electrons, and further (“exchangeable”) MOs. The reason for this is that orbitals needed to host unpaired electrons may be weakly correlated in some systems, but they always have to be included in the active space; and despite being weakly correlated, they are unable to rotate out of the active space in CASSCF calculations as a consequence of hosting the spin density.
+Generally, the selection criteria set out above are applied to “exchangeable” MOs that are not needed to accomodate unpaired electrons. Minimal space MOs that are identified as hosting the unpaired electrons are exempt. An exception from this exception is the minimal space itself, which has a dedicated flag and contains the actual values, not the values determined for the exchangeable MOs only.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">find_one</span></code> variants then apply additional criteria to select a single space, while <code class="docutils literal notranslate"><span class="pre">find_many</span></code> returns the collection of reasonable spaces directly.</p>
+<section id="Example-1:-Hexaaqua-Iron(III)-cation">
+<h2>Example 1: Hexaaqua-Iron(III) cation<a class="headerlink" href="#Example-1:-Hexaaqua-Iron(III)-cation" title="Link to this heading"></a></h2>
+<p>The first example is the hexaaqua-iron(III) complex in its sextet ground state using a molecular structure taken from <em>Phys. Chem. Chem. Phys. 21</em>, 4854-4870, (<strong>2019</strong>) <a class="reference external" href="https://doi.org/10.1039/C9CP00105K">[doi:10.1039/C9CP00105K]</a>, which was optimized in the gas phase for the sextet ground state at the BP86-D3/def2-TZVP level of theory. The complex has ideal octahedral symmetry with all Fe-O distances measuring 2.06 Å.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress PySCF warning...</span>
+<span class="kn">import</span> <span class="nn">pyscf</span>
+<span class="n">pyscf</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">B3LYP_WITH_VWN5</span> <span class="o">=</span> <span class="kc">False</span>
+</pre></div>
+</div>
+</div>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asf.asfbase</span> <span class="kn">import</span> <span class="n">print_mo_table</span>
+<span class="kn">from</span> <span class="nn">asf.filters</span> <span class="kn">import</span> <span class="n">ActiveSpaceSelectionError</span>
+<span class="kn">from</span> <span class="nn">asf.scf</span> <span class="kn">import</span> <span class="n">stable_scf</span>
+<span class="kn">from</span> <span class="nn">asf.preselection</span> <span class="kn">import</span> <span class="n">MP2PairinfoPreselection</span><span class="p">,</span> <span class="n">MP2NatorbPreselection</span>
+<span class="kn">from</span> <span class="nn">asf.utility</span> <span class="kn">import</span> <span class="n">pictures_Jmol</span><span class="p">,</span> <span class="n">show_mos_grid</span>
+<span class="kn">from</span> <span class="nn">asf</span> <span class="kn">import</span> <span class="n">ASFDMRG</span><span class="p">,</span> <span class="n">ASFCI</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span> <span class="nn">pyscf.gto</span> <span class="kn">import</span> <span class="n">M</span>
+</pre></div>
+</div>
+</div>
+<section id="1.1.-Setting-up-the-molecular-system">
+<h3>1.1. Setting up the molecular system<a class="headerlink" href="#1.1.-Setting-up-the-molecular-system" title="Link to this heading"></a></h3>
+<p>The ASF package assumes that molecular systems are represented as PySCF Mole objects. The first step is therefore to initialize the hexaaqua-iron(III) complex as follows:</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">M</span><span class="p">(</span>
+    <span class="n">atom</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    Fe   -0.0000000    0.0000000    0.0000000</span>
+<span class="s2">    O     0.0000000    2.0622910    0.0000000</span>
+<span class="s2">    H     0.7919274    2.6471973    0.0000000</span>
+<span class="s2">    H    -0.7919274    2.6471973    0.0000000</span>
+<span class="s2">    O    -0.0000000    0.0000000    2.0622910</span>
+<span class="s2">    H    -0.0000000    0.7919274    2.6471973</span>
+<span class="s2">    H     0.0000000   -0.7919274    2.6471973</span>
+<span class="s2">    O     2.0622910   -0.0000000   -0.0000000</span>
+<span class="s2">    H     2.6471973   -0.0000000    0.7919274</span>
+<span class="s2">    H     2.6471973   -0.0000000   -0.7919274</span>
+<span class="s2">    O    -0.0000000   -2.0622910    0.0000000</span>
+<span class="s2">    H    -0.7919274   -2.6471973   -0.0000000</span>
+<span class="s2">    H     0.7919274   -2.6471973   -0.0000000</span>
+<span class="s2">    O     0.0000000    0.0000000   -2.0622910</span>
+<span class="s2">    H     0.0000000   -0.7919274   -2.6471973</span>
+<span class="s2">    H    -0.0000000    0.7919274   -2.6471973</span>
+<span class="s2">    O    -2.0622910    0.0000000    0.0000000</span>
+<span class="s2">    H    -2.6471973    0.0000000   -0.7919274</span>
+<span class="s2">    H    -2.6471973    0.0000000    0.7919274</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">charge</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span>
+    <span class="n">spin</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s2">&quot;def2-svp&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="1.2.-Initializing-the-ASF-class">
+<h3>1.2. Initializing the ASF class<a class="headerlink" href="#1.2.-Initializing-the-ASF-class" title="Link to this heading"></a></h3>
+<p>Next, we prepare an ASF class instance that will later compute the single-orbital entropies and pair information based on an approximate DMRG-CI calculation. We start with an unrestricted Hartree-Fock calculation using the convenient <code class="docutils literal notranslate"><span class="pre">stable_scf</span></code> function from the <code class="docutils literal notranslate"><span class="pre">asf.scf</span></code> module. Using the <code class="docutils literal notranslate"><span class="pre">from_preselection</span></code> method, the selection of the initial space and instantiation of the <code class="docutils literal notranslate"><span class="pre">ASFDMRG</span></code> is carried out with one function call.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span> <span class="o">=</span> <span class="n">stable_scf</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
+<span class="n">sf</span> <span class="o">=</span> <span class="n">ASFDMRG</span><span class="o">.</span><span class="n">from_preselection</span><span class="p">(</span><span class="n">MP2NatorbPreselection</span><span class="p">(</span><span class="n">mf</span><span class="p">),</span> <span class="n">maxM</span><span class="o">=</span><span class="mi">150</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Selected an initial space of </span><span class="si">{</span><span class="n">sf</span><span class="o">.</span><span class="n">nel</span><span class="si">}</span><span class="s2"> electrons and </span><span class="si">{</span><span class="n">sf</span><span class="o">.</span><span class="n">norb</span><span class="si">}</span><span class="s2"> orbitals.&quot;</span><span class="p">)</span>
+<span class="n">sf</span><span class="o">.</span><span class="n">calculate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>Inspecting the single-orbital densities (w) and single-orbital entropy (S) for the initial space, we notice that <em>all</em> orbitals display very low entropies. For comparison, the default entropy threshold applied by <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> is ca. 0.139 and the minimal threshold applied to select the reasonable set of spaces is 0.07. We can therefore expect that at least one of the three criteria mentioned above is not met and the collection of reasonable spaces is empty.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_mo_table</span><span class="p">(</span><span class="n">orbital_densities</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">one_orbital_density</span><span class="p">(),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_list</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">selections</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;initial&quot;</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">mo_list</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="1.3.-Searching-for-multiple-spaces">
+<h3>1.3. Searching for multiple spaces<a class="headerlink" href="#1.3.-Searching-for-multiple-spaces" title="Link to this heading"></a></h3>
+<p>Following the explanations outlined above, it is unsurprising if <code class="docutils literal notranslate"><span class="pre">find_many</span></code> does not suggest any non-trivial active space. Indeed, this is the case if we strictly apply the three criteria mentioned above without exemption for the minimal space, i.e. with <code class="docutils literal notranslate"><span class="pre">keep_minimal=False</span></code>.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spaces_strict</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_many</span><span class="p">(</span><span class="n">keep_minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Active spaces matching criteria 1) - 3): </span><span class="si">{</span><span class="n">spaces_strict</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Running <code class="docutils literal notranslate"><span class="pre">find_many</span></code> with the default settings, i.e. <code class="docutils literal notranslate"><span class="pre">keep_minimal=True</span></code>, the minimal space is exempt from the criteria 1) to 3) outlined previously. For open-shell systems with <em>N</em> unpaired electrons it is always possible to construct an <em>(N, N)</em> minimal space, containing <em>N</em> electrons in <em>N</em> orbitals: using it to perform a CASSCF calculation is, effectively, equivalent with restricted open-shell Hartree-Fock (ROHF). Therefore, the default behavior of <code class="docutils literal notranslate"><span class="pre">find_many</span></code> is to preserve this <em>(N,
+N)</em> space.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spaces_minimal</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_many</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Active spaces matching criteria 1) - 3) including minimal space:&quot;</span><span class="p">)</span>
+<span class="n">pprint</span><span class="p">(</span><span class="n">spaces_minimal</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="1.4.-Searching-for-a-single-active-space">
+<h3>1.4. Searching for a single active space<a class="headerlink" href="#1.4.-Searching-for-a-single-active-space" title="Link to this heading"></a></h3>
+<p>The method <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> invokes the same procedure to extract sensible spaces from the initial unfiltered collection as <code class="docutils literal notranslate"><span class="pre">find_many</span></code>, so no active space is suggested if the search criteria are applied in a strict manner. To obtain a reasonable alternative in such cases, <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> provides several fallback modes with slightly altered search parameters. These fallback criteria follow a hierarchy outlined below:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;strict&quot;</span></code> applies the original search criteria: among the set of reasonable spaces containing only MOs with entropies above a threshold (0.139 by default), it selects the one that maximizes the pair information sum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;below_threshold&quot;</span></code> chooses among spaces that were discarded with the strict entropy threshold. Among the collection of discarded but otherwise sensible spaces, it identifies the one where the lowest entropy of any MO is as large as possible. If multiple spaces have identical values of the minimal entropy, it selects the one among them that maximizes the pair information sum.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;minimal&quot;</span></code> always includes the minimal space in set of reasonable spaces; criterion <code class="docutils literal notranslate"><span class="pre">&quot;below_threshold&quot;</span></code> excludes the minimal space, unless it satisfies the criteria for filtering of sensible spaces.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">&quot;unfiltered&quot;</span></code> extends the search to the large set of unfiltered spaces if the selection attempt with the reasonable spaces was unsuccessful. Similarly to options 1)-3) in this enumeration, it will first try to select an unfiltered space with a minimal entropy above the given threshold that maximizes the pair information sum and if it fails, then attempts to find the unfiltered space with the highest minimal entropy below the entropy threshold.</p></li>
+</ol>
+<p>The <code class="docutils literal notranslate"><span class="pre">fallback_mode</span></code> argument determines to which point this sequence should be executed if the “strict” search does not yield a result. By default it is set to “minimal”, i.e. at most the “minimal” fallback search is run before an exception is thrown. <code class="docutils literal notranslate"><span class="pre">&quot;unfiltered&quot;</span></code> is an expert option that is disabled by default, as the active spaces returned thereby are not at all likely to lead to converging CASSCF calculations.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;strict&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_one_entropy</span><span class="p">(</span><span class="n">fallback_mode</span><span class="o">=</span><span class="n">FALLBACK_MODE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ActiveSpaceSelectionError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Could not determine active space with </span><span class="si">{</span><span class="n">FALLBACK_MODE</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Since the collection of reasonable spaces is empty, also the subsequent fallback search below the entropy threshold does not yield a result.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;below_threshold&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_one_entropy</span><span class="p">(</span><span class="n">fallback_mode</span><span class="o">=</span><span class="n">FALLBACK_MODE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ActiveSpaceSelectionError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Could not determine active space with </span><span class="si">{</span><span class="n">FALLBACK_MODE</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>Once the “minimal” fallback mode is activated, the set of reasonable spaces has one member, the minimal space, which is returned as the result.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;minimal&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_one_entropy</span><span class="p">(</span><span class="n">fallback_mode</span><span class="o">=</span><span class="n">FALLBACK_MODE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ActiveSpaceSelectionError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;-&gt; Could not determine active space with </span><span class="si">{</span><span class="n">FALLBACK_MODE</span><span class="si">=}</span><span class="s2">.&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="1.5.-Visualizing-the-results">
+<h3>1.5. Visualizing the results<a class="headerlink" href="#1.5.-Visualizing-the-results" title="Link to this heading"></a></h3>
+<p>To visualize the suggested (5, 5) space, we generate molecular orbital images with <a class="reference external" href="https://chemapps.stolaf.edu/jmol/">Jmol</a> via the <code class="docutils literal notranslate"><span class="pre">pictures_Jmol</span></code> utility function.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If plots have been generated in a previous run of the Notebook, they will be reused here.</span>
+<span class="c1"># Set redo_plots = True, if new orbital images should be created regardless of existing files.</span>
+<span class="n">redo_plots</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">def</span> <span class="nf">mo_images</span><span class="p">(</span><span class="n">name_glob</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mo_*.png&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the list of all MO images in this directory.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">name_glob</span><span class="p">))</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">mo_images</span><span class="p">()</span> <span class="ow">or</span> <span class="n">redo_plots</span><span class="p">:</span>
+    <span class="n">pictures_Jmol</span><span class="p">(</span>
+        <span class="n">mol</span><span class="o">=</span><span class="n">mol</span><span class="p">,</span>
+        <span class="n">mo_coeff</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span>
+        <span class="n">mo_list</span><span class="o">=</span><span class="n">selected</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span>
+        <span class="n">rotate</span><span class="o">=</span><span class="p">(</span><span class="mi">60</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
+        <span class="n">mo_index_title</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="n">zoom</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">show_mos_grid</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="n">mo_images</span><span class="p">(),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">selected</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+<section id="Example-2:-Hydroxyl-radical">
+<h2>Example 2: Hydroxyl radical<a class="headerlink" href="#Example-2:-Hydroxyl-radical" title="Link to this heading"></a></h2>
+<p>The hydroxyl radical is another case where the strict application entropy-based search criteria does not lead to an active space suggestion. It serves as an example why the ASF applies not one but several fallback modes for <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code>.</p>
+<section id="2.1.-Setting-up-the-molecular-system">
+<h3>2.1. Setting up the molecular system<a class="headerlink" href="#2.1.-Setting-up-the-molecular-system" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol2</span> <span class="o">=</span> <span class="n">M</span><span class="p">(</span>
+    <span class="n">atom</span><span class="o">=</span><span class="s2">&quot;&quot;&quot;</span>
+<span class="s2">    O     0.0000000    0.0000000    0.0000000</span>
+<span class="s2">    H     0.0000000    0.0000000    0.9700000</span>
+<span class="s2">    &quot;&quot;&quot;</span><span class="p">,</span>
+    <span class="n">charge</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+    <span class="n">spin</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">basis</span><span class="o">=</span><span class="s2">&quot;def2-svp&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.2.-Initializing-the-ASF-class">
+<h3>2.2. Initializing the ASF class<a class="headerlink" href="#2.2.-Initializing-the-ASF-class" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf2</span> <span class="o">=</span> <span class="n">stable_scf</span><span class="p">(</span><span class="n">mol2</span><span class="p">)</span>
+<span class="n">sf2</span> <span class="o">=</span> <span class="n">ASFCI</span><span class="o">.</span><span class="n">from_preselection</span><span class="p">(</span><span class="n">MP2PairinfoPreselection</span><span class="p">(</span><span class="n">mf2</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Selected an initial space of </span><span class="si">{</span><span class="n">sf2</span><span class="o">.</span><span class="n">nel</span><span class="si">}</span><span class="s2"> electrons and </span><span class="si">{</span><span class="n">sf2</span><span class="o">.</span><span class="n">norb</span><span class="si">}</span><span class="s2"> orbitals.&quot;</span><span class="p">)</span>
+<span class="n">sf2</span><span class="o">.</span><span class="n">calculate</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<p>From the single-orbital densities and single-orbital entropy associated with the initial space, we notice that no entropy is above the default threshold (0.139) but most entropies are above the minimal entropy threshold used to select the sensible spaces.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_mo_table</span><span class="p">(</span><span class="n">orbital_densities</span><span class="o">=</span><span class="n">sf2</span><span class="o">.</span><span class="n">one_orbital_density</span><span class="p">(),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">sf2</span><span class="o">.</span><span class="n">mo_list</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">selections</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;initial&quot;</span><span class="p">:</span> <span class="n">sf2</span><span class="o">.</span><span class="n">mo_list</span><span class="p">})</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.3.-Searching-for-a-single-active-space">
+<h3>2.3. Searching for a single active space<a class="headerlink" href="#2.3.-Searching-for-a-single-active-space" title="Link to this heading"></a></h3>
+<p>As expected, applying the search criteria without a fallback does not yield a suggestion for an active space.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;strict&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">selected2</span> <span class="o">=</span> <span class="n">sf2</span><span class="o">.</span><span class="n">find_one_entropy</span><span class="p">(</span><span class="n">fallback_mode</span><span class="o">=</span><span class="n">FALLBACK_MODE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">selected2</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ActiveSpaceSelectionError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Could not determine active space with </span><span class="si">{</span><span class="n">FALLBACK_MODE</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>With the subsequent fallback mode, <code class="docutils literal notranslate"><span class="pre">&quot;below_threshold&quot;</span></code>, there are two possible spaces to choose from (note that <code class="docutils literal notranslate"><span class="pre">find_many</span></code> is called here to show the sensible spaces below the entropy threshold):</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">sf2</span><span class="o">.</span><span class="n">find_many</span><span class="p">(</span><span class="n">keep_minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<p>Since this fallback option selects a space below the threshold where the lowest entropy of any MO is largest (as opposed to maximizing the pair information above the threshold), we obtain the (3, 3) space.</p>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;below_threshold&quot;</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">selected2</span> <span class="o">=</span> <span class="n">sf2</span><span class="o">.</span><span class="n">find_one_entropy</span><span class="p">(</span><span class="n">fallback_mode</span><span class="o">=</span><span class="n">FALLBACK_MODE</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">selected2</span><span class="p">)</span>
+<span class="k">except</span> <span class="n">ActiveSpaceSelectionError</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot; - Could not determine active space with </span><span class="si">{</span><span class="n">FALLBACK_MODE</span><span class="si">=}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+<section id="2.4.-Visualizing-the-results">
+<h3>2.4. Visualizing the results<a class="headerlink" href="#2.4.-Visualizing-the-results" title="Link to this heading"></a></h3>
+<div class="nbinput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+</pre></div>
+</div>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">redo_plots</span> <span class="o">=</span> <span class="kc">True</span>
+
+<span class="k">if</span> <span class="ow">not</span> <span class="n">mo_images</span><span class="p">(</span><span class="s2">&quot;oh_mo_*.png&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">redo_plots</span><span class="p">:</span>
+    <span class="n">pictures_Jmol</span><span class="p">(</span>
+        <span class="n">mol</span><span class="o">=</span><span class="n">mol2</span><span class="p">,</span>
+        <span class="n">mo_coeff</span><span class="o">=</span><span class="n">sf2</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span>
+        <span class="n">mo_list</span><span class="o">=</span><span class="n">selected2</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span>
+        <span class="n">rotate</span><span class="o">=</span><span class="p">(</span><span class="mi">90</span><span class="p">,</span> <span class="mi">45</span><span class="p">,</span> <span class="mi">90</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;oh_mo&quot;</span><span class="p">,</span>
+        <span class="n">mo_index_title</span><span class="o">=</span><span class="s2">&quot; &quot;</span><span class="p">,</span>
+        <span class="n">zoom</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">show_mos_grid</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="n">mo_images</span><span class="p">(</span><span class="s2">&quot;oh_mo_*.png&quot;</span><span class="p">),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">selected2</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">image_regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;oh_mo_(\d+)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="../pbenzyne/pbenzyne.html" class="btn btn-neutral float-left" title="Suggest multiple active spaces" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+        <a href="../../modules.html" class="btn btn-neutral float-right" title="Code documentation" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright Copyright © 2020-2024 HQS Quantum Simulations GmbH. All Rights Reserved..</p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
