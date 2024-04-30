@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search with fallback mode &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+  <title>Search with fallback mode &mdash; Active Space Finder 0.0.1.dev1+gda924f1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=dead5247"></script>
+        <script src="../../_static/documentation_options.js?v=c64fc65f"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -43,7 +43,7 @@
               <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0.1.dev1+gc2b82c8
+                0.0.1.dev1+gda924f1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -129,7 +129,7 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 <h2>Example 1: Hexaaqua-Iron(III) cation<a class="headerlink" href="#Example-1:-Hexaaqua-Iron(III)-cation" title="Link to this heading"></a></h2>
 <p>The first example is the hexaaqua-iron(III) complex in its sextet ground state using a molecular structure taken from <em>Phys. Chem. Chem. Phys. 21</em>, 4854-4870, (<strong>2019</strong>) <a class="reference external" href="https://doi.org/10.1039/C9CP00105K">[doi:10.1039/C9CP00105K]</a>, which was optimized in the gas phase for the sextet ground state at the BP86-D3/def2-TZVP level of theory. The complex has ideal octahedral symmetry with all Fe-O distances measuring 2.06 Å.</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress PySCF warning...</span>
@@ -139,7 +139,7 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asf.asfbase</span> <span class="kn">import</span> <span class="n">print_mo_table</span>
@@ -158,7 +158,7 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 <h3>1.1. Setting up the molecular system<a class="headerlink" href="#1.1.-Setting-up-the-molecular-system" title="Link to this heading"></a></h3>
 <p>The ASF package assumes that molecular systems are represented as PySCF Mole objects. The first step is therefore to initialize the hexaaqua-iron(III) complex as follows:</p>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">M</span><span class="p">(</span>
@@ -194,8 +194,8 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 <section id="1.2.-Initializing-the-ASF-class">
 <h3>1.2. Initializing the ASF class<a class="headerlink" href="#1.2.-Initializing-the-ASF-class" title="Link to this heading"></a></h3>
 <p>Next, we prepare an ASF class instance that will later compute the single-orbital entropies and pair information based on an approximate DMRG-CI calculation. We start with an unrestricted Hartree-Fock calculation using the convenient <code class="docutils literal notranslate"><span class="pre">stable_scf</span></code> function from the <code class="docutils literal notranslate"><span class="pre">asf.scf</span></code> module. Using the <code class="docutils literal notranslate"><span class="pre">from_preselection</span></code> method, the selection of the initial space and instantiation of the <code class="docutils literal notranslate"><span class="pre">ASFDMRG</span></code> is carried out with one function call.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf</span> <span class="o">=</span> <span class="n">stable_scf</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
@@ -205,21 +205,73 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-&gt; Initiating a UHF calculation.
+converged SCF energy = -1717.17935339354  &lt;S^2&gt; = 8.7538697  2S+1 = 6.0012898
+&lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
+-&gt; The calculated SCF solution is converged and stable.
+-&gt; Selected an initial space of 29 electrons and 30 orbitals.
+CASCI E = -1717.36168588841  E(CI) = -138.313507713937  S^2 = 8.7500000
+</pre></div></div>
+</div>
 <p>Inspecting the single-orbital densities (w) and single-orbital entropy (S) for the initial space, we notice that <em>all</em> orbitals display very low entropies. For comparison, the default entropy threshold applied by <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> is ca. 0.139 and the minimal threshold applied to select the reasonable set of spaces is 0.07. We can therefore expect that at least one of the three criteria mentioned above is not met and the collection of reasonable spaces is empty.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_mo_table</span><span class="p">(</span><span class="n">orbital_densities</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">one_orbital_density</span><span class="p">(),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">sf</span><span class="o">.</span><span class="n">mo_list</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">selections</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;initial&quot;</span><span class="p">:</span> <span class="n">sf</span><span class="o">.</span><span class="n">mo_list</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+ 27   0.000   0.004   0.004   0.992   0.053  initial
+ 28   0.001   0.005   0.005   0.990   0.066  initial
+ 29   0.001   0.005   0.004   0.990   0.065  initial
+ 30   0.001   0.004   0.004   0.991   0.061  initial
+ 31   0.002   0.004   0.004   0.990   0.065  initial
+ 32   0.002   0.004   0.004   0.990   0.064  initial
+ 33   0.002   0.004   0.004   0.989   0.070  initial
+ 34   0.001   0.005   0.004   0.990   0.065  initial
+ 35   0.001   0.004   0.004   0.990   0.063  initial
+ 36   0.001   0.005   0.005   0.989   0.073  initial
+ 37   0.001   0.005   0.004   0.991   0.062  initial
+ 38   0.001   0.005   0.005   0.990   0.068  initial
+ 39   0.001   0.998   0.000   0.001   0.016  initial
+ 40   0.001   0.998   0.000   0.001   0.016  initial
+ 41   0.000   1.000   0.000   0.000   0.001  initial
+ 42   0.000   1.000   0.000   0.000   0.001  initial
+ 43   0.000   1.000   0.000   0.000   0.001  initial
+ 44   0.988   0.006   0.005   0.001   0.078  initial
+ 45   0.991   0.004   0.004   0.001   0.059  initial
+ 46   0.991   0.004   0.004   0.001   0.061  initial
+ 47   0.991   0.004   0.004   0.001   0.061  initial
+ 48   0.990   0.004   0.004   0.002   0.068  initial
+ 49   0.990   0.004   0.004   0.002   0.064  initial
+ 50   0.990   0.004   0.004   0.002   0.064  initial
+ 51   0.991   0.004   0.004   0.001   0.060  initial
+ 52   0.990   0.004   0.004   0.001   0.063  initial
+ 53   0.991   0.004   0.004   0.001   0.062  initial
+ 54   0.991   0.004   0.004   0.001   0.057  initial
+ 55   0.992   0.004   0.004   0.000   0.052  initial
+ 56   0.996   0.002   0.002   0.000   0.030  initial
+
+</pre></div></div>
+</div>
 </section>
 <section id="1.3.-Searching-for-multiple-spaces">
 <h3>1.3. Searching for multiple spaces<a class="headerlink" href="#1.3.-Searching-for-multiple-spaces" title="Link to this heading"></a></h3>
 <p>Following the explanations outlined above, it is unsurprising if <code class="docutils literal notranslate"><span class="pre">find_many</span></code> does not suggest any non-trivial active space. Indeed, this is the case if we strictly apply the three criteria mentioned above without exemption for the minimal space, i.e. with <code class="docutils literal notranslate"><span class="pre">keep_minimal=False</span></code>.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spaces_strict</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_many</span><span class="p">(</span><span class="n">keep_minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
@@ -227,10 +279,18 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Active spaces matching criteria 1) - 3): {}
+</pre></div></div>
+</div>
 <p>Running <code class="docutils literal notranslate"><span class="pre">find_many</span></code> with the default settings, i.e. <code class="docutils literal notranslate"><span class="pre">keep_minimal=True</span></code>, the minimal space is exempt from the criteria 1) to 3) outlined previously. For open-shell systems with <em>N</em> unpaired electrons it is always possible to construct an <em>(N, N)</em> minimal space, containing <em>N</em> electrons in <em>N</em> orbitals: using it to perform a CASSCF calculation is, effectively, equivalent with restricted open-shell Hartree-Fock (ROHF). Therefore, the default behavior of <code class="docutils literal notranslate"><span class="pre">find_many</span></code> is to preserve this <em>(N,
 N)</em> space.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">spaces_minimal</span> <span class="o">=</span> <span class="n">sf</span><span class="o">.</span><span class="n">find_many</span><span class="p">()</span>
@@ -238,6 +298,22 @@ N)</em> space.</p>
 <span class="n">pprint</span><span class="p">(</span><span class="n">spaces_minimal</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Active spaces matching criteria 1) - 3) including minimal space:
+{(5, 5): [MOListInfo(mo_list=[39, 40, 41, 42, 43],
+                     nel=5,
+                     minimal=True,
+                     pairinfo_sum=-0.00010668105447022536,
+                     max_increment=0.0005160499019355715,
+                     min_decrement=-0.00028700342817654953,
+                     min_entropy=0.0008159031440486565,
+                     min_edge_sum=5.051198487799289e-05)]}
+</pre></div></div>
 </div>
 </section>
 <section id="1.4.-Searching-for-a-single-active-space">
@@ -250,8 +326,8 @@ N)</em> space.</p>
 <li><p><code class="docutils literal notranslate"><span class="pre">&quot;unfiltered&quot;</span></code> extends the search to the large set of unfiltered spaces if the selection attempt with the reasonable spaces was unsuccessful. Similarly to options 1)-3) in this enumeration, it will first try to select an unfiltered space with a minimal entropy above the given threshold that maximizes the pair information sum and if it fails, then attempts to find the unfiltered space with the highest minimal entropy below the entropy threshold.</p></li>
 </ol>
 <p>The <code class="docutils literal notranslate"><span class="pre">fallback_mode</span></code> argument determines to which point this sequence should be executed if the “strict” search does not yield a result. By default it is set to “minimal”, i.e. at most the “minimal” fallback search is run before an exception is thrown. <code class="docutils literal notranslate"><span class="pre">&quot;unfiltered&quot;</span></code> is an expert option that is disabled by default, as the active spaces returned thereby are not at all likely to lead to converging CASSCF calculations.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;strict&quot;</span>
@@ -264,9 +340,17 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-&gt; Could not determine active space with FALLBACK_MODE=&#39;strict&#39;.
+</pre></div></div>
+</div>
 <p>Since the collection of reasonable spaces is empty, also the subsequent fallback search below the entropy threshold does not yield a result.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;below_threshold&quot;</span>
@@ -279,9 +363,17 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-&gt; Could not determine active space with FALLBACK_MODE=&#39;below_threshold&#39;.
+</pre></div></div>
+</div>
 <p>Once the “minimal” fallback mode is activated, the set of reasonable spaces has one member, the minimal space, which is returned as the result.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;minimal&quot;</span>
@@ -294,12 +386,21 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ActiveSpace: 5 electrons in 5 orbitals
+  active MO indices: [39, 40, 41, 42, 43]
+</pre></div></div>
+</div>
 </section>
 <section id="1.5.-Visualizing-the-results">
 <h3>1.5. Visualizing the results<a class="headerlink" href="#1.5.-Visualizing-the-results" title="Link to this heading"></a></h3>
 <p>To visualize the suggested (5, 5) space, we generate molecular orbital images with <a class="reference external" href="https://chemapps.stolaf.edu/jmol/">Jmol</a> via the <code class="docutils literal notranslate"><span class="pre">pictures_Jmol</span></code> utility function.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># If plots have been generated in a previous run of the Notebook, they will be reused here.</span>
@@ -323,6 +424,13 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_open_shell_open_shell_20_0.png" src="../../_images/notebooks_open_shell_open_shell_20_0.png" />
+</div>
+</div>
 </section>
 </section>
 <section id="Example-2:-Hydroxyl-radical">
@@ -331,7 +439,7 @@ N)</em> space.</p>
 <section id="2.1.-Setting-up-the-molecular-system">
 <h3>2.1. Setting up the molecular system<a class="headerlink" href="#2.1.-Setting-up-the-molecular-system" title="Link to this heading"></a></h3>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol2</span> <span class="o">=</span> <span class="n">M</span><span class="p">(</span>
@@ -349,8 +457,8 @@ N)</em> space.</p>
 </section>
 <section id="2.2.-Initializing-the-ASF-class">
 <h3>2.2. Initializing the ASF class<a class="headerlink" href="#2.2.-Initializing-the-ASF-class" title="Link to this heading"></a></h3>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mf2</span> <span class="o">=</span> <span class="n">stable_scf</span><span class="p">(</span><span class="n">mol2</span><span class="p">)</span>
@@ -360,21 +468,51 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+-&gt; Initiating a UHF calculation.
+converged SCF energy = -75.3251000879719  &lt;S^2&gt; = 0.75481361  2S+1 = 2.0048078
+&lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
+-&gt; The calculated SCF solution is converged and stable.
+Selected an initial space of 7 electrons and 8 orbitals.
+CASCI E = -75.4134819010619  E(CI) = -19.6073402951632  S^2 = 0.7500000
+</pre></div></div>
+</div>
 <p>From the single-orbital densities and single-orbital entropy associated with the initial space, we notice that no entropy is above the default threshold (0.139) but most entropies are above the minimal entropy threshold used to select the sensible spaces.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">print_mo_table</span><span class="p">(</span><span class="n">orbital_densities</span><span class="o">=</span><span class="n">sf2</span><span class="o">.</span><span class="n">one_orbital_density</span><span class="p">(),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">sf2</span><span class="o">.</span><span class="n">mo_list</span><span class="o">.</span><span class="n">tolist</span><span class="p">(),</span> <span class="n">selections</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;initial&quot;</span><span class="p">:</span> <span class="n">sf2</span><span class="o">.</span><span class="n">mo_list</span><span class="p">})</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  1   0.002   0.005   0.003   0.990   0.065  initial
+  2   0.004   0.006   0.005   0.986   0.089  initial
+  3   0.008   0.006   0.005   0.982   0.111  initial
+  4   0.006   0.992   0.001   0.001   0.054  initial
+  5   0.982   0.006   0.005   0.008   0.111  initial
+  6   0.986   0.005   0.005   0.003   0.087  initial
+  7   0.991   0.004   0.004   0.001   0.061  initial
+  8   0.993   0.006   0.000   0.000   0.044  initial
+
+</pre></div></div>
+</div>
 </section>
 <section id="2.3.-Searching-for-a-single-active-space">
 <h3>2.3. Searching for a single active space<a class="headerlink" href="#2.3.-Searching-for-a-single-active-space" title="Link to this heading"></a></h3>
 <p>As expected, applying the search criteria without a fallback does not yield a suggestion for an active space.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;strict&quot;</span>
@@ -387,18 +525,49 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ - Could not determine active space with FALLBACK_MODE=&#39;strict&#39;
+</pre></div></div>
+</div>
 <p>With the subsequent fallback mode, <code class="docutils literal notranslate"><span class="pre">&quot;below_threshold&quot;</span></code>, there are two possible spaces to choose from (note that <code class="docutils literal notranslate"><span class="pre">find_many</span></code> is called here to show the sensible spaces below the entropy threshold):</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pprint</span><span class="p">(</span><span class="n">sf2</span><span class="o">.</span><span class="n">find_many</span><span class="p">(</span><span class="n">keep_minimal</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+{(3, 3): [MOListInfo(mo_list=[3, 4, 5],
+                     nel=3,
+                     minimal=False,
+                     pairinfo_sum=0.049605184211571146,
+                     max_increment=0.01161009638630002,
+                     min_decrement=0.05675525149820802,
+                     min_entropy=0.11114300331610966,
+                     min_edge_sum=0.025155391886761906)],
+ (5, 5): [MOListInfo(mo_list=[2, 3, 4, 5, 6],
+                     nel=5,
+                     minimal=False,
+                     pairinfo_sum=0.08238531870552537,
+                     max_increment=0.011971120285746428,
+                     min_decrement=0.033731576276164014,
+                     min_entropy=0.08664494471001796,
+                     min_edge_sum=0.016453630596191718)]}
+</pre></div></div>
+</div>
 <p>Since this fallback option selects a space below the threshold where the lowest entropy of any MO is largest (as opposed to maximizing the pair information above the threshold), we obtain the (3, 3) space.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[17]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">FALLBACK_MODE</span> <span class="o">=</span> <span class="s2">&quot;below_threshold&quot;</span>
@@ -411,11 +580,20 @@ N)</em> space.</p>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ActiveSpace: 3 electrons in 3 orbitals
+  active MO indices: [3, 4, 5]
+</pre></div></div>
+</div>
 </section>
 <section id="2.4.-Visualizing-the-results">
 <h3>2.4. Visualizing the results<a class="headerlink" href="#2.4.-Visualizing-the-results" title="Link to this heading"></a></h3>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[18]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">redo_plots</span> <span class="o">=</span> <span class="kc">True</span>
@@ -432,6 +610,13 @@ N)</em> space.</p>
     <span class="p">)</span>
 <span class="n">show_mos_grid</span><span class="p">(</span><span class="n">images</span><span class="o">=</span><span class="n">mo_images</span><span class="p">(</span><span class="s2">&quot;oh_mo_*.png&quot;</span><span class="p">),</span> <span class="n">mo_list</span><span class="o">=</span><span class="n">selected2</span><span class="o">.</span><span class="n">mo_list</span><span class="p">,</span> <span class="n">columns</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">image_regex</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;oh_mo_(\d+)&quot;</span><span class="p">)</span>
 </pre></div>
+</div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_open_shell_open_shell_34_0.png" src="../../_images/notebooks_open_shell_open_shell_34_0.png" />
 </div>
 </div>
 </section>

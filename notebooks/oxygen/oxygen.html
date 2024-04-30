@@ -4,7 +4,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Simple functions for ground and excited states &mdash; Active Space Finder 0.0.1.dev1+gc2b82c8 documentation</title>
+  <title>Simple functions for ground and excited states &mdash; Active Space Finder 0.0.1.dev1+gda924f1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
       <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
@@ -17,7 +17,7 @@
   
         <script src="../../_static/jquery.js?v=5d32c60e"></script>
         <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=dead5247"></script>
+        <script src="../../_static/documentation_options.js?v=c64fc65f"></script>
         <script src="../../_static/doctools.js?v=9a2dae69"></script>
         <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
         <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
@@ -43,7 +43,7 @@
               <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
           </a>
               <div class="version">
-                0.0.1.dev1+gc2b82c8
+                0.0.1.dev1+gda924f1
               </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
@@ -108,7 +108,7 @@
 <li><p>Using suitable wrapper functions to choose active spaces of a specific size defined by the user.</p></li>
 </ul>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[1]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress PySCF warning...</span>
@@ -118,7 +118,7 @@
 </div>
 </div>
 <div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -144,25 +144,129 @@
 </div>
 <p>There are two variants of the wrapper function to find general active spaces: <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code>. The former accepts a <code class="docutils literal notranslate"><span class="pre">Mole</span></code> objects containing a molecular definition and performs the entire active space selection, including an SCF calculation. It is usually performed as a UHF calculation even if the molecule does not have any unpaired electrons. Stability analysis is used to help the UHF calculation converge to a broken-symmetry solution, which helps with the initial
 active space selection. It is also possible to start from a converged RHF or UHF solution directly using <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code>, which carries out the same steps as <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> with the exception of the SCF calculation itself.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[3]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">find_from_mol</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function find_from_mol in module asf.wrapper:
+
+find_from_mol(mol: pyscf.gto.mole.Mole, max_norb: Optional[int] = None, min_norb: Optional[int] = None, entropy_threshold: float = 0.13862943611198905, max_scf_restarts: int = 5, scf_kwargs: Optional[dict[str, Any]] = None, verbose: bool = True, **kwargs) -&gt; asf.asfbase.ActiveSpace
+    Select an active space with an entropy threshold, starting from a Molecule.
+
+    This function attempts to calculate a stable UHF solution for the Mole object provided.
+    Subsequently, find_from_scf(...) is called to calculate MP2 natural orbitals, and to
+    select an active space from those.
+
+    For more details, please refer to find_from_scf(...).
+
+    Args:
+        mol:                Mole instance containing the molecular data.
+        max_norb:           Maximum number of active orbitals per root.
+        min_norb:           Minimum number of active orbitals per root.
+        entropy_threshold:  Entropy threshold to select a single active space. Among all reasonable
+                            active spaces, a space with the lowest entropy above this threshold and
+                            with maximal pair information sum is selected as the final choice.
+        max_scf_restarts:   Maximal number of times to restart when an unconverged or unstable
+                            solution is found.
+        scf_kwargs:         Dictionary of options to be set for the SCF object.
+                            Note: this function deviates from PySCF defaults for a few settings.
+        stability_analysis: Perform a stability analysis of the SCF solution if True.
+                            Re-start the SCF calculation once of the solution is unstable.
+        verbose:            Print information if set to True.
+        **kwargs:           Keyword arguments to be passed to find_from_scf(...).
+
+    Returns:
+        Active space suggestion as provided by find_from_scf(...).
+
+    Raises:
+        SCFError: SCF calculation failed to converge or is unstable.
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[4]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">find_from_scf</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function find_from_scf in module asf.wrapper:
+
+find_from_scf(mf: pyscf.scf.hf.SCF, max_norb: Optional[int] = None, min_norb: Optional[int] = None, entropy_threshold: float = 0.13862943611198905, states: Union[int, list[tuple[int, int]], NoneType] = None, sort_mos: bool = False, mp2_kwargs: Optional[dict[str, Any]] = None, switch_dmrg: int = 12, dmrg_kwargs: Optional[dict[str, Any]] = None, fci_kwargs: Optional[dict[str, Any]] = None, verbose: bool = True, ci_nroots: int = 1) -&gt; asf.asfbase.ActiveSpace
+    Select an active space with an entropy threshold, starting from an SCF calculation.
+
+    The function executes the following steps:
+        1)  Calculate MP2 natural orbitals using the SCF object provided in the input.
+        2)  Select an initial set of MP2 natural orbitals based on their eigenvalues.
+        3)  Perform a DMRGCI or CASCI calculation (depending on the number of active orbitals in
+            the initial space) using the previously determined orbital subset.
+        4)  Among all sensible active spaces, select a solution such that the entropies of all
+            active orbitals are above the entropy threshold, and simultaneously the pair
+            information sum is maximized.
+
+    The output of the function is an ActiveSpace instance that contains:
+        - the number of active electrons,
+        - the list of MP2 natural orbitals selected for the active space,
+        - and the MO coefficient matrix containing all (active and inactive) MP2 natural orbitals.
+
+    The columns representing the inactive orbitals in the MO coefficient matrix are ordered
+    according to the convention of PySCF: occupied MOs to the left and virtual MOs to the right.
+    By default, the original ordering of the MP2 natural orbitals is preserved. This can be
+    changed by setting sort_mos to True: then, the columns of the MO coefficients are reordered
+    such that they can be passed directly to CASCI/CASSCF without any further sorting.
+
+    This function does not provide active spaces for individual excited electronic states.
+    However, it can be used to obtain active space suggestions for state-averaged calculations.
+    If a value is provided for &#39;states&#39;, the function performs active space selections for all spin
+    and electronic states, and returns a representation of the combined active space.
+
+    Args:
+        mf:                 RHF or UHF object containing converged orbitals.
+        max_norb:           Maximum number of active orbitals per root.
+        min_norb:           Minimum number of active orbitals per root.
+        entropy_threshold:  Entropy threshold to select a single active space. Among all reasonable
+                            active spaces, a space with the lowest entropy above this threshold and
+                            with maximal pair information sum is selected as the final choice.
+        states:             Electronic states to construct the active space for.
+                            None (default): Ground state for the same spin as in mf.
+                            Integer n: lowest n electronic states, same spin as in mf.
+                            List of Tuples [(s, n)]: lowest n electronic states for each spin s.
+        sort_mos:           If True, reorder the MO columns as occupied, active, virtual.
+        mp2_kwargs:         Keyword arguments for MP2 orbital selection (see
+                            &#39;MP2NatorbPreselection&#39;).
+        switch_dmrg:        Number of orbitals to switch between the regular FCI solver and DMRG.
+        dmrg_kwargs:        Further keyword arguments to be passed to the DMRG fcisolver.
+        fci_kwargs:         Further keyword arguments to be passed to CASCI.fcisolver.
+        verbose:            Print information if set to True.
+        ci_nroots:          Number of CI roots to use in CI/DMRG calculation. When several roots
+                            are requested the CI solver may occasionally converge on the wrong
+                            eigenvector. Use this option to solve for more roots to improve
+                            convergence. This option has no direct consequence for the active space
+                            selection.
+
+    Returns:
+        Active space including MO indices of active orbitals and MO coefficients
+
+</pre></div></div>
+</div>
 <p>We start with a molecule definition of oxygen in its (triplet) ground state.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mol</span> <span class="o">=</span> <span class="n">Mole</span><span class="p">()</span>
@@ -176,27 +280,99 @@ active space selection. It is also possible to start from a converged RHF or UHF
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[5]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+&lt;pyscf.gto.mole.Mole at 0x7f093b097dd0&gt;
+</pre></div></div>
+</div>
 <p>All that is required now for an active space selection is one function call:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[6]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">active_space</span> <span class="o">=</span> <span class="n">find_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--------------------------------------------------------------------------------
+Calculating UHF orbitals
+--------------------------------------------------------------------------------
+
+-&gt; Initiating a UHF calculation.
+converged SCF energy = -149.49029917455  &lt;S^2&gt; = 2.0338703  2S+1 = 3.0224958
+&lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
+-&gt; The calculated SCF solution is converged and stable.
+
+--------------------------------------------------------------------------------
+Calculating MP2 natural orbitals
+--------------------------------------------------------------------------------
+
+
+-&gt; Selected initial orbital window of 12 electrons in 11 MP2 natural orbitals.
+
+--------------------------------------------------------------------------------
+Running calculation
+--------------------------------------------------------------------------------
+
+spin = 2, number of roots = 1
+total number of roots calculated = 1
+
+CASCI E = -149.643455131932  E(CI) = -47.2494800504790  S^2 = 2.0000000
+
+Orbital selection for state 0:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.000   0.002   0.001   0.996   0.027
+  3   0.001   0.004   0.003   0.992   0.055
+  4   0.001   0.034   0.002   0.963   0.173    a
+  5   0.001   0.034   0.002   0.963   0.173    a
+  6   0.007   0.012   0.015   0.967   0.180    a
+  7   0.004   0.963   0.004   0.030   0.180    a
+  8   0.004   0.963   0.004   0.030   0.180    a
+  9   0.964   0.017   0.011   0.008   0.192    a
+ 10   0.988   0.009   0.002   0.001   0.072
+ 11   0.988   0.009   0.002   0.001   0.072
+ 12   0.992   0.004   0.004   0.001   0.055
+
+
+--------------------------------------------------------------------------------
+Active space selection finished
+--------------------------------------------------------------------------------
+
+-&gt; Selected an active space of 8 electrons in 6 orbitals.
+</pre></div></div>
+</div>
 <p>The returned object contains the number of active MOs and electrons, the matrix of MO coeffients and a list of active orbital indices referring to the aforementioned matrix.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[7]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">active_space</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ActiveSpace: 8 electrons in 6 orbitals
+  active MO indices: [4, 5, 6, 7, 8, 9]
+</pre></div></div>
+</div>
 <p>Below, we plot the active orbitals that were found.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[8]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pictures_Jmol</span><span class="p">(</span>
@@ -210,9 +386,16 @@ active space selection. It is also possible to start from a converged RHF or UHF
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<img alt="../../_images/notebooks_oxygen_oxygen_13_0.png" src="../../_images/notebooks_oxygen_oxygen_13_0.png" />
+</div>
+</div>
 <p>The selected active space can be used to set up a CASSCF calculation. Note that it is important to use the orbitals returned by the ASF in the object <code class="docutils literal notranslate"><span class="pre">active_space</span></code> - not the orbitals obtained from SCF or elsewhere!</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[9]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">CASSCF</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">ncas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">norb</span><span class="p">,</span> <span class="n">nelecas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">nel</span><span class="p">)</span>
@@ -224,33 +407,167 @@ active space selection. It is also possible to start from a converged RHF or UHF
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CASSCF energy = -149.570669531984
+CASCI E = -149.570669531984  E(CI) = -21.8747875720197  S^2 = 2.0000000
+</pre></div></div>
+</div>
 <p>A CASSCF calculation converging in a small number of iterations is often a good sign. In general, it is advisable to inspect converged CASSCF orbitals visually in order to verify that they indeed form the expected active space. In our case, that would mean comparing them to the guess orbitals determined by the active space finder.</p>
 <p>Here, however, we will employ a simple numerical criterion by performing a singular value decomposition of the overlap matrix between the guess and the converged active orbitals. The following function reports the smallest singular value - if it is close to one, that is a good sign. A value close to zero indicates that an orbital may have rotated out, while intermediate values indicate some degree of mixing.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">compare_active_spaces</span><span class="p">(</span><span class="n">mc</span><span class="p">,</span> <span class="n">active_space</span><span class="o">.</span><span class="n">mo_coeff</span><span class="p">,</span> <span class="n">active_space</span><span class="o">.</span><span class="n">mo_list</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[10]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+0.9962126627975154
+</pre></div></div>
+</div>
 <p>The functions <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> / <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> can also be employed to find active spaces for state-averaged CASSCF calculations of multiple electronic states. This functionality is relatively simple, determining active spaces for each electronic state in isolation, and then forming the union of the MO sets. States can be specified in one of two ways:</p>
 <ol class="arabic simple">
 <li><p>Using <code class="docutils literal notranslate"><span class="pre">states:</span> <span class="pre">int</span></code>. in that case, the active space will be determined for a number <code class="docutils literal notranslate"><span class="pre">states</span></code> of states with the multiplicity inferred from the Mole or SCF object.</p></li>
 <li><p>Using <code class="docutils literal notranslate"><span class="pre">states:</span> <span class="pre">list[tuple[int,</span> <span class="pre">int]]</span></code>. the first integer in each tuple specifies the number of electrons (<code class="docutils literal notranslate"><span class="pre">spin</span></code> in PySCF conventions), the second integer the number of electronic states of that spin. In this case, the union is formed over the active spaces for all states of all spin multiplicities requested. Below this will be demonstrated for one triplet and three singlet states of oxygen:</p></li>
 </ol>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[11]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">active_space</span> <span class="o">=</span> <span class="n">find_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">states</span><span class="o">=</span><span class="p">[(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)])</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--------------------------------------------------------------------------------
+Calculating UHF orbitals
+--------------------------------------------------------------------------------
+
+-&gt; Initiating a UHF calculation.
+converged SCF energy = -149.49029917455  &lt;S^2&gt; = 2.0338703  2S+1 = 3.0224958
+&lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
+-&gt; The calculated SCF solution is converged and stable.
+
+--------------------------------------------------------------------------------
+Calculating MP2 natural orbitals
+--------------------------------------------------------------------------------
+
+
+-&gt; Selected initial orbital window of 12 electrons in 11 MP2 natural orbitals.
+
+--------------------------------------------------------------------------------
+Running calculation
+--------------------------------------------------------------------------------
+
+spin = 0, number of roots = 3
+total number of roots calculated = 3
+
+
+WARN: Mulitple states found in CASCI solver. First state is used to compute the Fock matrix and natural orbitals in active space.
+
+CASCI state   0  E = -149.599227710433  E(CI) = -47.2052526289797  S^2 = 0.0000000
+CASCI state   1  E = -149.599227710068  E(CI) = -47.2052526286144  S^2 = 0.0000000
+CASCI state   2  E = -149.577342732763  E(CI) = -47.1833676513098  S^2 = 0.0000000
+
+Orbital selection for state 0:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.000   0.001   0.001   0.997   0.025
+  3   0.001   0.003   0.003   0.994   0.045
+  4   0.021   0.008   0.008   0.964   0.192    a
+  5   0.021   0.008   0.008   0.964   0.192    a
+  6   0.007   0.012   0.012   0.969   0.170    a
+  7   0.067   0.410   0.410   0.114   1.159    a
+  8   0.067   0.410   0.410   0.114   1.159    a
+  9   0.968   0.012   0.012   0.008   0.176    a
+ 10   0.991   0.004   0.004   0.001   0.062
+ 11   0.991   0.004   0.004   0.001   0.062
+ 12   0.993   0.003   0.003   0.001   0.051
+
+
+Orbital selection for state 1:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.000   0.001   0.001   0.997   0.025
+  3   0.001   0.003   0.003   0.994   0.045
+  4   0.002   0.027   0.027   0.945   0.258    a
+  5   0.002   0.027   0.027   0.945   0.258    a
+  6   0.007   0.012   0.012   0.969   0.170    a
+  7   0.404   0.073   0.073   0.451   1.107    a
+  8   0.404   0.073   0.073   0.451   1.107    a
+  9   0.968   0.012   0.012   0.008   0.176    a
+ 10   0.991   0.004   0.004   0.001   0.063
+ 11   0.991   0.004   0.004   0.001   0.063
+ 12   0.993   0.003   0.003   0.001   0.051
+
+
+Orbital selection for state 2:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.001   0.002   0.002   0.995   0.040
+  3   0.006   0.003   0.003   0.987   0.083
+  4   0.028   0.006   0.006   0.959   0.204    a
+  5   0.028   0.006   0.006   0.959   0.204    a
+  6   0.008   0.012   0.012   0.969   0.173    a
+  7   0.459   0.008   0.008   0.525   0.771    a
+  8   0.459   0.008   0.008   0.525   0.771    a
+  9   0.968   0.011   0.011   0.009   0.177    a
+ 10   0.991   0.004   0.004   0.001   0.058
+ 11   0.991   0.004   0.004   0.001   0.058
+ 12   0.992   0.003   0.003   0.001   0.052
+
+
+--------------------------------------------------------------------------------
+Running calculation
+--------------------------------------------------------------------------------
+
+spin = 2, number of roots = 1
+total number of roots calculated = 1
+
+CASCI E = -149.643455131954  E(CI) = -47.2494800505006  S^2 = 2.0000000
+
+Orbital selection for state 0:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.000   0.002   0.001   0.996   0.027
+  3   0.001   0.004   0.003   0.992   0.055
+  4   0.001   0.034   0.002   0.963   0.173    a
+  5   0.001   0.034   0.002   0.963   0.173    a
+  6   0.007   0.012   0.015   0.967   0.180    a
+  7   0.004   0.963   0.004   0.030   0.180    a
+  8   0.004   0.963   0.004   0.030   0.180    a
+  9   0.964   0.017   0.011   0.008   0.192    a
+ 10   0.988   0.009   0.002   0.001   0.072
+ 11   0.988   0.009   0.002   0.001   0.072
+ 12   0.992   0.004   0.004   0.001   0.055
+
+
+--------------------------------------------------------------------------------
+Active space selection finished
+--------------------------------------------------------------------------------
+
+-&gt; Selected an active space of 8 electrons in 6 orbitals.
+</pre></div></div>
+</div>
 <p>The recommended active space is the same as for triplet oxygen; note that the table printed by the wrapper can be inspected for the orbital occupations in each state.</p>
 <p>Below, a state-averaged CASSCF calculation is performed with four states: the triplet, the two doubly degenerate lowest singlet states, and the third singlet state.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[12]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">mc</span> <span class="o">=</span> <span class="n">CASSCF</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">ncas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">norb</span><span class="p">,</span> <span class="n">nelecas</span><span class="o">=</span><span class="n">active_space</span><span class="o">.</span><span class="n">nel</span><span class="p">)</span>
@@ -269,42 +586,280 @@ active space selection. It is also possible to start from a converged RHF or UHF
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+CASSCF energy = -149.538540696948
+CASCI E = -149.538540696948  E(CI) = -21.9089593706585  S^2 = 0.5000000
+CASCI state-averaged energy = -149.538540696948
+CASCI energy for each state
+  State 0 weight 0.25  E = -149.570469324468 S^2 = 2.0000000
+  State 1 weight 0.25  E = -149.537342839017 S^2 = 0.0000000
+  State 2 weight 0.25  E = -149.537342839002 S^2 = 0.0000000
+  State 3 weight 0.25  E = -149.509007785306 S^2 = 0.0000000
+</pre></div></div>
+</div>
 <p>The main parameter controlling the size of the selected space is the entropy threshold, controlled via the parameter <code class="docutils literal notranslate"><span class="pre">entropy_threshold</span></code> of the <code class="docutils literal notranslate"><span class="pre">find_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">find_from_scf</span></code> functions.</p>
 <p>If you know the size of the desired active space and only need to select the correct orbitals, it is possible to do so via the functions <code class="docutils literal notranslate"><span class="pre">sized_space_from_mol</span></code> and <code class="docutils literal notranslate"><span class="pre">sized_space_from_scf</span></code>. The only difference between the two functions is that the former performs an SCF calculation, while the latter expects an object with an SCF solution as its input. These wrapper functions currently support only one electronic state at a time.</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[13]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">sized_space_from_mol</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function sized_space_from_mol in module asf.wrapper:
+
+sized_space_from_mol(mol: pyscf.gto.mole.Mole, size: Union[int, tuple[int, int]], max_scf_restarts: int = 5, scf_kwargs: Optional[dict[str, Any]] = None, verbose: bool = True, **kwargs) -&gt; asf.asfbase.ActiveSpace
+    Select an active space of certain size starting from a molecule.
+
+    This function attempts to calculate a stable UHF solution for the Mole object provided.
+    Subsequently, sized_space_from_scf(...) is called to calculate MP2 natural orbitals, and to
+    select an active space from those.
+
+    For more details, please refer to sized_space_from_scf(...).
+
+    Args:
+        mol:                Mole instance containing the molecular data.
+        size:               Requested number of active orbitals M, or number of active electrons N
+                            and number of active orbitals as a CAS tuple (N, M).
+        max_scf_restarts:   Maximal number of times to restart when an unconverged or unstable
+                            solution is found.
+        scf_kwargs:         Dictionary of options to be set for the SCF object.
+                            Note: this function deviates from PySCF defaults for a few settings.
+        stability_analysis: Perform a stability analysis of the SCF solution if True.
+                            Re-start the SCF calculation once of the solution is unstable.
+        verbose:            Print information if set to True.
+        **kwargs:           Keyword arguments to be passed to sized_space_from_scf(...).
+
+    Returns:
+        Active space suggestion as provided by sized_space_from_scf(...).
+
+    Raises:
+        SCFError: SCF calculation failed to converge or is unstable.
+
+</pre></div></div>
+</div>
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[14]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">help</span><span class="p">(</span><span class="n">sized_space_from_scf</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput nblast docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+Help on function sized_space_from_scf in module asf.wrapper:
+
+sized_space_from_scf(mf: pyscf.scf.hf.SCF, size: Union[int, tuple[int, int]], state: Union[int, tuple[int, int], NoneType] = None, sort_mos: bool = False, mp2_kwargs: Optional[dict[str, Any]] = None, switch_dmrg: int = 12, dmrg_kwargs: Optional[dict[str, Any]] = None, fci_kwargs: Optional[dict[str, Any]] = None, verbose: bool = True, ci_nroots: int = 1) -&gt; asf.asfbase.ActiveSpace
+    Select an active space of certain size starting from an SCF calculation.
+
+    The function executes the following steps:
+        1)  Calculate MP2 natural orbitals using the SCF object provided in the input.
+        2)  Select an initial set of MP2 natural orbitals based on their eigenvalues.
+        3)  Perform a DMRGCI or CASCI calculation (depending on the number of active orbitals in
+            the initial space) using the previously determined orbital subset.
+        4)  Select the final active space based on the pair information.
+
+    The output of the function is an ActiveSpace instance that contains:
+        - the number of active electrons,
+        - the list of MP2 natural orbitals selected for the active space,
+        - and the MO coefficient matrix containing all (active and inactive) MP2 natural orbitals.
+
+    The columns representing the inactive orbitals in the MO coefficient matrix are ordered
+    according to the convention of PySCF: occupied MOs to the left and virtual MOs to the right.
+    By default, the original ordering of the MP2 natural orbitals is preserved. This can be
+    changed by setting reorder_mos to True: then, the columns of the MO coefficients are reordered
+    such that they can be passed directly to CASCI/CASSCF without any further sorting.
+
+    This function does not provide active spaces suggestions for state-averaged calculations, but
+    for individual (excited) electronic states only. By default an active space is suggested for
+    the ground state in the same spin configuration as the given SCF calculation. If a value is
+    provided for &#39;state&#39;, the function performs an active space selection for the specific spin and
+    electronic state.
+
+    Args:
+        mf:                 RHF or UHF object containing converged orbitals.
+        size:               Requested number of active orbitals M, or number of active electrons N
+                            and number of active orbitals as a CAS tuple (N, M).
+        state:              Electronic state to construct the active space for.
+                            None (default): Ground state for the same spin as in mf.
+                            Integer n: electronic state n (indexed from 0), same spin as in mf.
+                            Tuple (s, n): electronic state n (indexed from 0) for spin s.
+        sort_mos:           If True, reorder the MO columns as occupied, active, virtual.
+        mp2_kwargs:         Keyword arguments for MP2 orbital selection (see
+                            &#39;MP2NatorbPreselection&#39;).
+        switch_dmrg:        Number of orbitals to switch between the regular FCI solver and DMRG.
+        dmrg_kwargs:        Further keyword arguments to be passed to the DMRG fcisolver.
+        fci_kwargs:         Further keyword arguments to be passed to CASCI.fcisolver.
+        verbose:            Print information if set to True.
+        ci_nroots:          Number of CI roots to use in CI/DMRG calculation. When several roots
+                            are requested the CI solver may occasionally converge on the wrong
+                            eigenvector. Use this option to solve for more roots to improve
+                            convergence. This option has no direct consequence for the active space
+                            selection.
+
+    Returns:
+        Active space including MO indices of active orbitals and MO coefficients
+
+</pre></div></div>
+</div>
 <p>It is possible to specify the size of an active space either via the number of orbitals by providing an integer, or by providing both the number of active electrons and orbitals as a tuple <code class="docutils literal notranslate"><span class="pre">(electrons,</span> <span class="pre">orbitals)</span></code>. If only the number of orbitals is provided, the number of electrons is determined by the active space finder.</p>
 <p>For example, the following function call constrains the number of active orbitals to four and chooses an active space with a suitable number of electrons, resulting in a (6, 4) space:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sized_space_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--------------------------------------------------------------------------------
+Calculating UHF orbitals
+--------------------------------------------------------------------------------
+
+-&gt; Initiating a UHF calculation.
+converged SCF energy = -149.49029917455  &lt;S^2&gt; = 2.0338703  2S+1 = 3.0224958
+&lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
+-&gt; The calculated SCF solution is converged and stable.
+
+--------------------------------------------------------------------------------
+Calculating MP2 natural orbitals
+--------------------------------------------------------------------------------
+
+
+-&gt; Selected initial orbital window of 12 electrons in 11 MP2 natural orbitals.
+
+--------------------------------------------------------------------------------
+Running calculation
+--------------------------------------------------------------------------------
+
+spin = 2, requested root = 0
+total number of roots calculated = 1
+
+CASCI E = -149.643455131926  E(CI) = -47.2494800504734  S^2 = 2.0000000
+
+Orbital selection for state 0:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.000   0.002   0.001   0.996   0.027
+  3   0.001   0.004   0.003   0.992   0.055
+  4   0.001   0.034   0.002   0.963   0.173    a
+  5   0.001   0.034   0.002   0.963   0.173    a
+  6   0.007   0.012   0.015   0.967   0.180
+  7   0.004   0.963   0.004   0.030   0.180    a
+  8   0.004   0.963   0.004   0.030   0.180    a
+  9   0.964   0.017   0.011   0.008   0.192
+ 10   0.988   0.009   0.002   0.001   0.072
+ 11   0.988   0.009   0.002   0.001   0.072
+ 12   0.992   0.004   0.004   0.001   0.055
+
+
+--------------------------------------------------------------------------------
+Active space selection finished
+--------------------------------------------------------------------------------
+
+-&gt; Selected an active space of 6 electrons in 4 orbitals.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[15]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ActiveSpace(nel=6, mo_list=[4, 5, 7, 8], mo_coeff=...)
+</pre></div></div>
+</div>
 <p>Likewise, it is possible to specify six electrons and four orbitals explicitly:</p>
-<div class="nbinput nblast docutils container">
-<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[ ]:
+<div class="nbinput docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sized_space_from_mol</span><span class="p">(</span><span class="n">mol</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">6</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>
 </pre></div>
 </div>
+</div>
+<div class="nboutput docutils container">
+<div class="prompt empty docutils container">
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+
+--------------------------------------------------------------------------------
+Calculating UHF orbitals
+--------------------------------------------------------------------------------
+
+-&gt; Initiating a UHF calculation.
+converged SCF energy = -149.49029917455  &lt;S^2&gt; = 2.0338703  2S+1 = 3.0224958
+&lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
+-&gt; The calculated SCF solution is converged and stable.
+
+--------------------------------------------------------------------------------
+Calculating MP2 natural orbitals
+--------------------------------------------------------------------------------
+
+
+-&gt; Selected initial orbital window of 12 electrons in 11 MP2 natural orbitals.
+
+--------------------------------------------------------------------------------
+Running calculation
+--------------------------------------------------------------------------------
+
+spin = 2, requested root = 0
+total number of roots calculated = 1
+
+CASCI E = -149.643455130938  E(CI) = -47.2494800494852  S^2 = 2.0000000
+
+Orbital selection for state 0:
+
+ MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
+  2   0.000   0.002   0.001   0.996   0.027
+  3   0.001   0.004   0.003   0.992   0.055
+  4   0.001   0.034   0.002   0.963   0.173    a
+  5   0.001   0.034   0.002   0.963   0.173    a
+  6   0.007   0.012   0.015   0.967   0.180
+  7   0.004   0.963   0.004   0.030   0.180    a
+  8   0.004   0.963   0.004   0.030   0.180    a
+  9   0.964   0.017   0.011   0.008   0.192
+ 10   0.988   0.009   0.002   0.001   0.072
+ 11   0.988   0.009   0.002   0.001   0.072
+ 12   0.992   0.004   0.004   0.001   0.055
+
+
+--------------------------------------------------------------------------------
+Active space selection finished
+--------------------------------------------------------------------------------
+
+-&gt; Selected an active space of 6 electrons in 4 orbitals.
+</pre></div></div>
+</div>
+<div class="nboutput nblast docutils container">
+<div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[16]:
+</pre></div>
+</div>
+<div class="output_area docutils container">
+<div class="highlight"><pre>
+ActiveSpace(nel=6, mo_list=[4, 5, 7, 8], mo_coeff=...)
+</pre></div></div>
 </div>
 <p>Note that the <code class="docutils literal notranslate"><span class="pre">sized_space</span></code> functions attempt to choose active spaces from a set of sensible suggestions determined internally. In consequence, if the user requests an active space size that is not considered sensible, the function will raise an <code class="docutils literal notranslate"><span class="pre">ActiveSpaceSelectionError</span></code> exception.</p>
 </section>
