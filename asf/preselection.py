@@ -105,7 +105,7 @@ class MP2NatorbPreselection(Preselection):
         elif self.scf_type == SCFtype.UHF:
             natocc, natorb = DFUMP2(self.scf).make_natorbs()
 
-        if np.any(np.diff(natocc > 0.0)):
+        if np.any(np.diff(natocc) > 0.0):
             raise ValueError("Natural occupation numbers are not in descending order.")
         return natocc, natorb
 

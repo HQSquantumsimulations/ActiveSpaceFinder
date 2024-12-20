@@ -105,6 +105,8 @@ Afterwards, the built documentation is contained under `doc/_build/html/index.ht
 
 ## Funding
 
+This work was performed in collaboration with Covestro Deutschland AG.
+
 This work was partly supported by the German Federal Ministry for Economic Affairs and Climate
 Action through project "PlanQK" (01MK20005H) and by the German Federal Ministry of Education and
 Research through projects "MANIQU" (13N15576) and "PhoQuant" (13N16107).

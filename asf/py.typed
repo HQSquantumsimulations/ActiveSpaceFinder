@@ -1,0 +1,4 @@
+# Without this file mypy (or other type checkers) will import all the definitions from here
+# as Any. The warning for this behavior is also masked by using `ignore_missing_imports = true`
+# in mypy settings.
+PEP-561 marker.
