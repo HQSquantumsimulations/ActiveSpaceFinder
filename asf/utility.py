@@ -195,10 +195,10 @@ def pictures_Jmol(
             stdout = subprocess.STDOUT
             stderr = subprocess.STDOUT
 
-        subprocess.run(
+        subprocess.run(  # noqa: S603 # nosec B603
             runargs,
             check=False,
-            shell=False,  # noqa: S603 # nosec B603
+            shell=False,
             stdout=stdout,
             stderr=stderr,
         )

@@ -78,7 +78,9 @@ source = ["asf", "src", "**/site-packages"]
 line-length = 99        # same as black
 target-version = "py39"
 show-fixes = true
-show-source = true
+output-format = "full"
+
+[tool.ruff.lint]
 # activate the following checks
 select = [
     "A",   # builtins
@@ -115,28 +117,59 @@ ignore = [
 ]
 # Allow autofix for all enabled rules (when `--fix`) is provided.
 fixable = [
-    "A", "B", "C", "D", "E", "F", "G", "I", "N", "Q", "S", "T", "W",
-    "ANN", "ARG", "BLE", "COM", "DJ", "DTZ", "EM", "ERA", "EXE", "FBT",
-    "ICN", "INP", "ISC", "NPY", "PD", "PGH", "PIE", "PL", "PT", "PTH", "PYI",
-    "RET", "RSE", "RUF", "SIM", "SLF", "TCH", "TID", "TRY", "UP", "YTT"
+    "A",
+    "B",
+    "C",
+    "D",
+    "E",
+    "F",
+    "G",
+    "I",
+    "N",
+    "Q",
+    "S",
+    "T",
+    "W",
+    "ANN",
+    "ARG",
+    "BLE",
+    "COM",
+    "DJ",
+    "DTZ",
+    "EM",
+    "ERA",
+    "EXE",
+    "FBT",
+    "ICN",
+    "INP",
+    "ISC",
+    "NPY",
+    "PD",
+    "PGH",
+    "PIE",
+    "PL",
+    "PT",
+    "PTH",
+    "PYI",
+    "RET",
+    "RSE",
+    "RUF",
+    "SIM",
+    "SLF",
+    "TCH",
+    "TID",
+    "TRY",
+    "UP",
+    "YTT",
 ]
 unfixable = []
-# exclude the following patterns from linting
-exclude = [
-    ".git",
-    "__pycache__",
-    "doc/conf.py",
-    "old",
-    "build",
-    "dist",
-    "test_*",
-]
 
-[tool.ruff.mccabe]
+[tool.ruff.lint.mccabe]
+# Flag errors ('C901') whenever complexity level exceeds max-complexity
 max-complexity = 20 # 5 higher than sonarqube
 
-[tool.ruff.pydocstyle]
+[tool.ruff.lint.pydocstyle]
 convention = "google"
 
-[tool.ruff.per-file-ignores]
+[tool.ruff.lint.per-file-ignores]
 "__init__.py" = ["F401"]
