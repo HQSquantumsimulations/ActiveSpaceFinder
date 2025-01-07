@@ -24,7 +24,6 @@ jobs:
             auto-update-conda: true
             environment-file: dev/environment.yml
             activate-environment: asf_docenv
-            miniforge-variant: Mambaforge
             use-mamba: true
             miniforge-version: latest
             python-version: 3.11
