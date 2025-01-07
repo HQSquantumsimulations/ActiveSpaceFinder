@@ -1,28 +1,26 @@
+
+
 <!DOCTYPE html>
 <html class="writer-html5" lang="en" data-content_root="../../">
 <head>
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Search with fallback mode &mdash; Active Space Finder 2.0.0 documentation</title>
-      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=80d5e7a1" />
-      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=19f00094" />
-      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css" />
+  <title>Search with fallback mode &mdash; Active Space Finder 0.0.1.dev1+g37c2e92 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=e59714d7" />
+      <link rel="stylesheet" type="text/css" href="../../_static/nbsphinx-code-cells.css?v=2aa19091" />
       <link rel="stylesheet" type="text/css" href="../../_static/theme_mod.css?v=76ade2d8" />
 
   
-  <!--[if lt IE 9]>
-    <script src="../../_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
-        <script src="../../_static/jquery.js?v=5d32c60e"></script>
-        <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-        <script src="../../_static/documentation_options.js?v=51b770b3"></script>
-        <script src="../../_static/doctools.js?v=9a2dae69"></script>
-        <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
-        <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
-        <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
-        <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+      <script src="../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../_static/documentation_options.js?v=a19344fd"></script>
+      <script src="../../_static/doctools.js?v=9bcbadda"></script>
+      <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+      <script crossorigin="anonymous" integrity="sha256-Ae2Vz/4ePdIu6ZyI/5ZGsYnb+m0JlOmKPjt6XZ9JJkA=" src="https://cdnjs.cloudflare.com/ajax/libs/require.js/2.3.4/require.min.js"></script>
+      <script>window.MathJax = {"tex": {"inlineMath": [["$", "$"], ["\\(", "\\)"]], "processEscapes": true}, "options": {"ignoreHtmlClass": "tex2jax_ignore|mathjax_ignore|document", "processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+      <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
     <script src="../../_static/js/theme.js"></script>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
@@ -42,9 +40,6 @@
             Active Space Finder
               <img src="../../_static/HQS.jpg" class="logo" alt="Logo"/>
           </a>
-              <div class="version">
-                2.0.0
-              </div>
 <div role="search">
   <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
     <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
@@ -113,7 +108,12 @@
 <h1>Search with fallback mode<a class="headerlink" href="#Search-with-fallback-mode" title="Link to this heading"></a></h1>
 <p>Active space selection with the ASF package is largely based on pair information criteria derived from the two-electron cumulant, augmented with single-orbital entropies. We designed procedures to select active spaces that are likely to converge in CASSCF calculations. To fulfill the latter criterion, it helps to omit weakly entangled orbitals from the active space. For some systems, however, correlation of relevant orbitals may be relatively weak; in particular, if those systems lack any
 pronounced static correlation. The following examples show how to obtain a reasonable active space by controlling and relaxing the search criteria via fallback modes.</p>
-<p>The example covers: - searching an active space using <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> with varying fallback modes - searching active spaces using <code class="docutils literal notranslate"><span class="pre">find_many</span></code> with a fallback option - visualizing results with Jmol</p>
+<p>The example covers:</p>
+<ul class="simple">
+<li><p>searching an active space using <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> with varying fallback modes</p></li>
+<li><p>searching active spaces using <code class="docutils literal notranslate"><span class="pre">find_many</span></code> with a fallback option</p></li>
+<li><p>visualizing results with Jmol</p></li>
+</ul>
 <p>Before turning to the example calculations, we briefly review the selection process of <code class="docutils literal notranslate"><span class="pre">find_many</span></code>, <code class="docutils literal notranslate"><span class="pre">find_one_sized</span></code>, and <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code>. The ASF classes are able to generate a large set of candidate spaces (“unfiltered spaces”); only a subset of those will converge at all in a CASSCF calculation, and only a tiny subset will converge to a solution that is consistent with the guess (which is the desirable outcome). Procedures in the ASF aim to identify such a tiny subset. Search
 functions, such as <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> or <code class="docutils literal notranslate"><span class="pre">find_many</span></code>, first narrow down the large unfiltered set to a collection of reasonable spaces by applying the following three criteria:</p>
 <ol class="arabic simple">
@@ -133,7 +133,7 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 </pre></div>
 </div>
 <div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Suppress PySCF warning...</span>
-<span class="kn">import</span> <span class="nn">pyscf</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pyscf</span>
 <span class="n">pyscf</span><span class="o">.</span><span class="n">__config__</span><span class="o">.</span><span class="n">B3LYP_WITH_VWN5</span> <span class="o">=</span> <span class="kc">False</span>
 </pre></div>
 </div>
@@ -142,15 +142,15 @@ Generally, the selection criteria set out above are applied to “exchangeable�
 <div class="prompt highlight-none notranslate"><div class="highlight"><pre><span></span>[2]:
 </pre></div>
 </div>
-<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">asf.asfbase</span> <span class="kn">import</span> <span class="n">print_mo_table</span>
-<span class="kn">from</span> <span class="nn">asf.filters</span> <span class="kn">import</span> <span class="n">ActiveSpaceSelectionError</span>
-<span class="kn">from</span> <span class="nn">asf.scf</span> <span class="kn">import</span> <span class="n">stable_scf</span>
-<span class="kn">from</span> <span class="nn">asf.preselection</span> <span class="kn">import</span> <span class="n">MP2PairinfoPreselection</span><span class="p">,</span> <span class="n">MP2NatorbPreselection</span>
-<span class="kn">from</span> <span class="nn">asf.utility</span> <span class="kn">import</span> <span class="n">pictures_Jmol</span><span class="p">,</span> <span class="n">show_mos_grid</span>
-<span class="kn">from</span> <span class="nn">asf</span> <span class="kn">import</span> <span class="n">ASFDMRG</span><span class="p">,</span> <span class="n">ASFCI</span>
-<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
-<span class="kn">from</span> <span class="nn">pprint</span> <span class="kn">import</span> <span class="n">pprint</span>
-<span class="kn">from</span> <span class="nn">pyscf.gto</span> <span class="kn">import</span> <span class="n">M</span>
+<div class="input_area highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">asf.asfbase</span><span class="w"> </span><span class="kn">import</span> <span class="n">print_mo_table</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">asf.filters</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActiveSpaceSelectionError</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">asf.scf</span><span class="w"> </span><span class="kn">import</span> <span class="n">stable_scf</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">asf.preselection</span><span class="w"> </span><span class="kn">import</span> <span class="n">MP2PairinfoPreselection</span><span class="p">,</span> <span class="n">MP2NatorbPreselection</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">asf.utility</span><span class="w"> </span><span class="kn">import</span> <span class="n">pictures_Jmol</span><span class="p">,</span> <span class="n">show_mos_grid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">asf</span><span class="w"> </span><span class="kn">import</span> <span class="n">ASFDMRG</span><span class="p">,</span> <span class="n">ASFCI</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pprint</span><span class="w"> </span><span class="kn">import</span> <span class="n">pprint</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pyscf.gto</span><span class="w"> </span><span class="kn">import</span> <span class="n">M</span>
 </pre></div>
 </div>
 </div>
@@ -215,7 +215,7 @@ converged SCF energy = -1717.17935339353  &lt;S^2&gt; = 8.7538697  2S+1 = 6.0012
 &lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
 -&gt; The calculated SCF solution is converged and stable.
 -&gt; Selected an initial space of 29 electrons and 30 orbitals.
-CASCI E = -1717.36174240055  E(CI) = -138.313564051225  S^2 = 8.7500000
+CASCI E = -1717.36170911608  E(CI) = -138.313532026990  S^2 = 8.7500000
 </pre></div></div>
 </div>
 <p>Inspecting the single-orbital densities (w) and single-orbital entropy (S) for the initial space, we notice that <em>all</em> orbitals display very low entropies. For comparison, the default entropy threshold applied by <code class="docutils literal notranslate"><span class="pre">find_one_entropy</span></code> is ca. 0.139 and the minimal threshold applied to select the reasonable set of spaces is 0.07. We can therefore expect that at least one of the three criteria mentioned above is not met and the collection of reasonable spaces is empty.</p>
@@ -235,33 +235,33 @@ CASCI E = -1717.36174240055  E(CI) = -138.313564051225  S^2 = 8.7500000
  MO    w( )    w(↑)    w(↓)    w(⇅)       S  sel
  27   0.000   0.004   0.004   0.992   0.053  initial
  28   0.001   0.005   0.005   0.990   0.066  initial
- 29   0.001   0.004   0.004   0.991   0.061  initial
- 30   0.001   0.005   0.004   0.990   0.065  initial
- 31   0.002   0.004   0.004   0.990   0.065  initial
+ 29   0.001   0.005   0.004   0.990   0.065  initial
+ 30   0.001   0.004   0.004   0.991   0.061  initial
+ 31   0.002   0.004   0.004   0.990   0.064  initial
  32   0.002   0.004   0.004   0.990   0.064  initial
  33   0.002   0.004   0.004   0.989   0.070  initial
- 34   0.001   0.005   0.005   0.989   0.073  initial
- 35   0.001   0.004   0.004   0.990   0.063  initial
- 36   0.001   0.005   0.004   0.990   0.065  initial
- 37   0.001   0.005   0.005   0.989   0.069  initial
- 38   0.001   0.005   0.004   0.991   0.061  initial
+ 34   0.001   0.005   0.004   0.990   0.065  initial
+ 35   0.001   0.005   0.005   0.989   0.073  initial
+ 36   0.001   0.004   0.004   0.990   0.063  initial
+ 37   0.001   0.005   0.004   0.990   0.064  initial
+ 38   0.001   0.005   0.004   0.990   0.066  initial
  39   0.001   0.998   0.000   0.001   0.015  initial
  40   0.001   0.998   0.000   0.001   0.016  initial
  41   0.000   1.000   0.000   0.000   0.001  initial
  42   0.000   1.000   0.000   0.000   0.001  initial
  43   0.000   1.000   0.000   0.000   0.001  initial
  44   0.988   0.006   0.005   0.001   0.078  initial
- 45   0.991   0.004   0.004   0.001   0.061  initial
- 46   0.991   0.004   0.004   0.001   0.059  initial
+ 45   0.991   0.004   0.004   0.001   0.059  initial
+ 46   0.991   0.004   0.004   0.001   0.061  initial
  47   0.991   0.004   0.004   0.001   0.061  initial
  48   0.990   0.004   0.004   0.002   0.068  initial
  49   0.990   0.004   0.004   0.002   0.064  initial
  50   0.990   0.004   0.004   0.002   0.064  initial
- 51   0.991   0.004   0.004   0.001   0.062  initial
- 52   0.991   0.004   0.004   0.001   0.060  initial
- 53   0.990   0.004   0.004   0.001   0.063  initial
- 54   0.992   0.004   0.004   0.001   0.055  initial
- 55   0.992   0.004   0.004   0.001   0.054  initial
+ 51   0.991   0.004   0.004   0.001   0.060  initial
+ 52   0.991   0.004   0.004   0.001   0.062  initial
+ 53   0.990   0.004   0.004   0.001   0.062  initial
+ 54   0.991   0.004   0.004   0.001   0.057  initial
+ 55   0.992   0.004   0.004   0.000   0.052  initial
  56   0.996   0.002   0.002   0.000   0.030  initial
 
 </pre></div></div>
@@ -308,11 +308,11 @@ Active spaces matching criteria 1) - 3) including minimal space:
 {(5, 5): [MOListInfo(mo_list=[39, 40, 41, 42, 43],
                      nel=5,
                      minimal=True,
-                     pairinfo_sum=-0.00011278939761172644,
-                     max_increment=0.0005150988951822943,
-                     min_decrement=-0.00028616387167591643,
-                     min_entropy=0.0007744287431486563,
-                     min_edge_sum=4.845742241260232e-05)]}
+                     pairinfo_sum=-0.00011890723416273279,
+                     max_increment=0.00046372349764690093,
+                     min_decrement=-0.00028883121346695757,
+                     min_entropy=0.000701003484426627,
+                     min_edge_sum=4.124903473604789e-05)]}
 </pre></div></div>
 </div>
 </section>
@@ -407,7 +407,7 @@ ActiveSpace: 5 electrons in 5 orbitals
 <span class="c1"># Set redo_plots = True, if new orbital images should be created regardless of existing files.</span>
 <span class="n">redo_plots</span> <span class="o">=</span> <span class="kc">True</span>
 
-<span class="k">def</span> <span class="nf">mo_images</span><span class="p">(</span><span class="n">name_glob</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mo_*.png&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mo_images</span><span class="p">(</span><span class="n">name_glob</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;mo_*.png&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the list of all MO images in this directory.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">Path</span><span class="o">.</span><span class="n">cwd</span><span class="p">()</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">name_glob</span><span class="p">))</span>
 
@@ -478,7 +478,7 @@ converged SCF energy = -75.3251000879719  &lt;S^2&gt; = 0.75481361  2S+1 = 2.004
 &lt;class &#39;pyscf.scf.uhf.UHF&#39;&gt; wavefunction is stable in the internal stability analysis
 -&gt; The calculated SCF solution is converged and stable.
 Selected an initial space of 7 electrons and 8 orbitals.
-CASCI E = -75.4134819010618  E(CI) = -19.6073402951632  S^2 = 0.7500000
+CASCI E = -75.4134819010619  E(CI) = -19.6073402951632  S^2 = 0.7500000
 </pre></div></div>
 </div>
 <p>From the single-orbital densities and single-orbital entropy associated with the initial space, we notice that no entropy is above the default threshold (0.139) but most entropies are above the minimal entropy threshold used to select the sensible spaces.</p>
@@ -550,19 +550,19 @@ CASCI E = -75.4134819010618  E(CI) = -19.6073402951632  S^2 = 0.7500000
 {(3, 3): [MOListInfo(mo_list=[3, 4, 5],
                      nel=3,
                      minimal=False,
-                     pairinfo_sum=0.049605184211580514,
-                     max_increment=0.01161009638629968,
-                     min_decrement=0.05675525149821779,
-                     min_entropy=0.11114300331610832,
-                     min_edge_sum=0.025155391886772342)],
+                     pairinfo_sum=0.04960518421157367,
+                     max_increment=0.011610096386300076,
+                     min_decrement=0.05675525149821072,
+                     min_entropy=0.11114300331611075,
+                     min_edge_sum=0.025155391886765223)],
  (5, 5): [MOListInfo(mo_list=[2, 3, 4, 5, 6],
                      nel=5,
                      minimal=False,
-                     pairinfo_sum=0.0823853187055371,
-                     max_increment=0.011971120285746109,
-                     min_decrement=0.03373157627616688,
-                     min_entropy=0.08664494471001997,
-                     min_edge_sum=0.016453630596192134)]}
+                     pairinfo_sum=0.08238531870553084,
+                     max_increment=0.011971120285746498,
+                     min_decrement=0.033731576276167,
+                     min_entropy=0.08664494471001824,
+                     min_edge_sum=0.016453630596191787)]}
 </pre></div></div>
 </div>
 <p>Since this fallback option selects a space below the threshold where the lowest entropy of any MO is largest (as opposed to maximizing the pair information above the threshold), we obtain the (3, 3) space.</p>
